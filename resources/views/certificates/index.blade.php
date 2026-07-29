@@ -182,72 +182,100 @@
                         </div>
                     </section>
 
-                    <!-- SECTION 2: Printable Academic Transcript Preview -->
-                    <section id="certificate-section" class="bg-white p-10 mx-auto w-full max-w-[210mm] shadow-xl border border-gray-300 min-h-[297mm]">
-                        
-                        <!-- Header -->
-                        <div class="text-center mb-8 border-b-2 border-[#0a3a60] pb-4">
-                            <h1 class="font-serif text-3xl font-black text-[#072740] uppercase tracking-widest mb-1">Dhaka Global University</h1>
-                            <p class="text-xs text-gray-700 font-medium">Purbachal Model Town, Uttara, Dhaka, Bangladesh</p>
-                            <div class="mt-6 mb-2">
-                                <span id="preview-title" class="bg-[#0a3a60] text-white font-serif font-bold text-xl px-6 py-2 rounded-sm uppercase tracking-widest shadow-sm">Academic Transcript</span>
-                            </div>
+                    <!-- SECTION 2: Printable Academic Transcript Preview (A4 exact design) -->
+                    @php
+                        $previewLogo   = ($setting->logo ?? null) ? asset($setting->logo) : null;
+                        $previewName   = $setting->name    ?? 'Dhaka Global University';
+                        $previewAddr   = $setting->address ?? 'Purbachal Model Town, Uttara, Dhaka, Bangladesh';
+                        $previewEmail  = collect($setting->contacts ?? [])->firstWhere('type','Email')['value'] ?? 'contact@dhakaglobal.university';
+                        $previewWeb    = collect($setting->social_medias ?? [])->firstWhere('platform','Website')['url']
+                                        ?? collect($setting->social_medias ?? [])->first()['url']
+                                        ?? 'https://dhakaglobal.university';
+                    @endphp
+                    <div id="certificate-section"
+                         class="bg-white relative mx-auto overflow-hidden shadow-xl"
+                         style="width:210mm; min-height:297mm; padding:10mm 15mm; font-family:'Times New Roman',Times,serif; box-sizing:border-box;">
+
+                        {{-- Watermark --}}
+                        <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity:0.08;">
+                            @if($previewLogo)
+                                <img src="{{ $previewLogo }}" alt="Watermark" style="width:500px;height:auto;">
+                            @else
+                                <span style="font-size:120px;font-weight:900;color:#0a3a60;transform:rotate(-30deg);display:block;">🎓</span>
+                            @endif
                         </div>
 
-                        <!-- Student Information Grid -->
-                        <div class="grid grid-cols-2 gap-x-12 gap-y-3 mb-8 text-xs text-gray-800">
-                            <div class="flex"><span class="w-40 font-bold">Student's Name</span> <span id="preview-name" class="font-semibold">: MD SHAHEEN</span></div>
-                            <div class="flex"><span class="w-40 font-bold">Registration No - Session</span> <span id="preview-reg">: 48236683-2021-2022</span></div>
-                            
-                            <div class="flex"><span class="w-40 font-bold">Father's Name</span> <span id="preview-father">: MOHAMMED BELAL</span></div>
-                            <div class="flex"><span class="w-40 font-bold">Subject / Department</span> <span id="preview-dept">: Computer Science and Engineering</span></div>
-                            
-                            <div class="flex"><span class="w-40 font-bold">Mother's Name</span> <span id="preview-mother">: RAHENA AKTER</span></div>
-                            <div class="flex"><span class="w-40 font-bold">Credit (Completed/Total)</span> <span id="preview-credit">: 216/216</span></div>
-                            
-                            <div class="flex"><span class="w-40 font-bold">Name of Course</span> <span id="preview-course">: Diploma Programme</span></div>
-                            <div class="flex"><span class="w-40 font-bold">Exam. Roll</span> <span id="preview-roll">: 46437</span></div>
-                            
-                            <div class="col-span-2 mt-2 pt-2 border-t border-gray-200">
-                                <span class="font-bold">Final Result: </span> <span id="preview-result" class="font-bold text-sm">3.96 Out Of 4.00</span>
-                            </div>
-                        </div>
-
-                        <!-- Grades Table -->
-                        <table class="w-full text-xs border-collapse border border-gray-800 text-left mb-12 print-border">
-                            <thead>
-                                <tr class="bg-gray-100 print-border">
-                                    <th class="border border-gray-800 px-3 py-2 text-center w-20">SEMESTER</th>
-                                    <th class="border border-gray-800 px-3 py-2 w-24">COURSE CODE</th>
-                                    <th class="border border-gray-800 px-3 py-2">COURSE TITLE</th>
-                                    <th class="border border-gray-800 px-3 py-2 text-center w-16">CREDIT</th>
-                                    <th class="border border-gray-800 px-3 py-2 text-center w-16">GRADE</th>
-                                    <th class="border border-gray-800 px-3 py-2 text-center w-16">GPA</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transcript-table-body" class="align-middle">
-                                <!-- Dynamic Rows Generated via JavaScript -->
-                            </tbody>
-                        </table>
-
-                        <!-- Signatures & Footer -->
-                        <div class="mt-20 grid grid-cols-3 gap-8 text-center text-xs font-medium">
+                        {{-- Document body --}}
+                        <div class="relative z-10 text-black flex flex-col justify-between" style="min-height:277mm;">
                             <div>
-                                <div class="border-t border-gray-800 pt-2 mx-6 print-border">Prepared by</div>
-                            </div>
-                            <div>
-                                <div class="border-t border-gray-800 pt-2 mx-6 print-border">Compared by</div>
-                            </div>
-                            <div>
-                                <div class="border-t border-gray-800 pt-2 mx-6 print-border">Controller of Examinations</div>
-                            </div>
-                        </div>
+                                {{-- University Header --}}
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="w-20">
+                                        @if($previewLogo)
+                                            <img src="{{ $previewLogo }}" alt="Logo" style="width:72px;height:auto;">
+                                        @else
+                                            <div style="width:72px;height:72px;display:flex;align-items:center;justify-content:center;background:#0a3a60;color:white;font-size:28px;border-radius:4px;">🎓</div>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1 text-center">
+                                        <h1 class="text-[24px] font-bold leading-tight mb-0.5" style="font-family:'Times New Roman',Times,serif;">{{ $previewName }}</h1>
+                                        <p class="text-[12px] font-bold leading-tight mb-0.5">{{ $previewAddr }}</p>
+                                        <h2 class="text-[14px] font-bold underline underline-offset-2 mt-1">ACADEMIC TRANSCRIPT</h2>
+                                    </div>
+                                    <div class="w-20"></div>
+                                </div>
 
-                        <div class="mt-16 text-center text-[10px] text-gray-500 border-t border-gray-300 pt-4 print-border">
-                            <p>Address: Purbachal Model Town, Dhaka, Bangladesh</p>
-                            <p>E-mail: contact@dhakaglobal.university | Web: https://dhakaglobal.university</p>
+                                {{-- Student Information --}}
+                                <div class="mb-3 text-[12px] leading-[1.3] w-[85%]">
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Student's Name</div><div class="w-4 font-bold">:</div><div id="preview-name" class="font-bold uppercase">MD SHAHEEN</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Father's Name</div><div class="w-4 font-bold">:</div><div id="preview-father" class="font-bold uppercase">MOHAMMED BELAL</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Mother's Name</div><div class="w-4 font-bold">:</div><div id="preview-mother" class="font-bold uppercase">RAHENA AKTER</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Name of Course</div><div class="w-4 font-bold">:</div><div id="preview-course" class="font-bold">Diploma Programme</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Exam. Roll</div><div class="w-4 font-bold">:</div><div id="preview-roll" class="font-bold">46437</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Registration No - Session</div><div class="w-4 font-bold">:</div><div id="preview-reg" class="font-bold">48236683 - 2021-2022</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Subject/Department Name</div><div class="w-4 font-bold">:</div><div id="preview-dept" class="font-bold">Computer Science and Engineering</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Credit (Completed/Total)</div><div class="w-4 font-bold">:</div><div id="preview-credit" class="font-bold">216/216</div></div>
+                                    <div class="flex mb-[1px]"><div class="w-48 font-bold">Result</div><div class="w-4 font-bold">:</div><div id="preview-result" class="font-bold">3.96 Out Of 4.00</div></div>
+                                </div>
+
+                                {{-- Grades Table --}}
+                                <table class="w-full border-collapse border border-black text-[10px] mb-3 print-border" style="line-height:1.15;">
+                                    <thead>
+                                        <tr class="bg-gray-50">
+                                            <th class="border border-black py-1 px-1 font-bold text-center w-14">SEMESTER</th>
+                                            <th class="border border-black py-1 px-1 font-bold text-center w-20">COURSE CODE</th>
+                                            <th class="border border-black py-1 px-2 font-bold text-left">COURSE TITLE</th>
+                                            <th class="border border-black py-1 px-1 font-bold text-center w-14">CREDIT</th>
+                                            <th class="border border-black py-1 px-1 font-bold text-center w-14">GRADE</th>
+                                            <th class="border border-black py-1 px-1 font-bold text-center w-16">GPA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transcript-table-body">
+                                        <!-- Dynamic Rows Generated via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Signatures & Footer --}}
+                            <div>
+                                <div class="flex justify-between items-end mt-4 pt-4">
+                                    <div class="text-center w-36 relative">
+                                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Prepared by</div>
+                                    </div>
+                                    <div class="text-center w-36 relative">
+                                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Compared by</div>
+                                    </div>
+                                    <div class="text-center w-48 relative">
+                                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Controller of Examinations</div>
+                                    </div>
+                                </div>
+                                <div class="text-center text-[10px] mt-2 border-t border-black pt-1 font-bold">
+                                    Address: {{ $previewAddr }}<br>
+                                    E-mail: {{ $previewEmail }}, Web: {{ $previewWeb }}
+                                </div>
+                            </div>
                         </div>
-                    </section>
+                    </div>
                 </form>
 
                 <!-- Add Semester Modal -->
@@ -338,16 +366,15 @@
                     }
 
                     function updateTranscriptPreview() {
-                        document.getElementById('preview-title').textContent = document.getElementById('input-title').value || 'Academic Transcript';
-                        document.getElementById('preview-dept').textContent = ': ' + (document.getElementById('input-dept').value || '');
-                        document.getElementById('preview-name').textContent = ': ' + (document.getElementById('input-student-name').value || '');
-                        document.getElementById('preview-father').textContent = ': ' + (document.getElementById('input-father').value || '');
-                        document.getElementById('preview-mother').textContent = ': ' + (document.getElementById('input-mother').value || '');
-                        document.getElementById('preview-course').textContent = ': ' + (document.getElementById('input-course').value || '');
-                        document.getElementById('preview-roll').textContent = ': ' + (document.getElementById('input-roll').value || '');
-                        document.getElementById('preview-reg').textContent = ': ' + (document.getElementById('input-reg').value || '');
-                        document.getElementById('preview-credit').textContent = ': ' + (document.getElementById('input-credit').value || '');
-                        document.getElementById('preview-result').textContent = (document.getElementById('input-result').value || '');
+                        document.getElementById('preview-name').textContent = (document.getElementById('input-student-name').value || '').toUpperCase();
+                        document.getElementById('preview-father').textContent = (document.getElementById('input-father').value || '').toUpperCase();
+                        document.getElementById('preview-mother').textContent = (document.getElementById('input-mother').value || '').toUpperCase();
+                        document.getElementById('preview-course').textContent = document.getElementById('input-course').value || '';
+                        document.getElementById('preview-roll').textContent = document.getElementById('input-roll').value || '';
+                        document.getElementById('preview-reg').textContent = document.getElementById('input-reg').value || '';
+                        document.getElementById('preview-dept').textContent = document.getElementById('input-dept').value || '';
+                        document.getElementById('preview-credit').textContent = document.getElementById('input-credit').value || '';
+                        document.getElementById('preview-result').textContent = document.getElementById('input-result').value || '';
                     }
 
                     function renderSemesters() {
@@ -386,27 +413,28 @@
                                 if (index === 0) {
                                     trHTML = `
                                         <tr>
-                                            <td rowspan="${rowCount}" class="border border-gray-800 px-3 py-2 text-center font-bold font-serif uppercase">${sem.name}</td>
-                                            <td class="border border-gray-800 px-3 py-1">${course.code}</td>
-                                            <td class="border border-gray-800 px-3 py-1">${course.title}</td>
-                                            <td class="border border-gray-800 px-3 py-1 text-center">${course.credit}</td>
-                                            <td class="border border-gray-800 px-3 py-1 text-center">${course.grade}</td>
-                                            <td rowspan="${rowCount}" class="border border-gray-800 px-3 py-2 text-center font-bold">${sem.gpa}</td>
+                                            <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.name}</td>
+                                            <td class="border border-black text-center" style="padding:1.5px 4px;">${course.code}</td>
+                                            <td class="border border-black" style="padding:1.5px 8px;">${course.title}</td>
+                                            <td class="border border-black text-center" style="padding:1.5px 4px;">${course.credit}</td>
+                                            <td class="border border-black text-center font-bold" style="padding:1.5px 4px;">${course.grade}</td>
+                                            <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.gpa}</td>
                                         </tr>
                                     `;
                                 } else {
                                     trHTML = `
                                         <tr>
-                                            <td class="border border-gray-800 px-3 py-1">${course.code}</td>
-                                            <td class="border border-gray-800 px-3 py-1">${course.title}</td>
-                                            <td class="border border-gray-800 px-3 py-1 text-center">${course.credit}</td>
-                                            <td class="border border-gray-800 px-3 py-1 text-center">${course.grade}</td>
+                                            <td class="border border-black text-center" style="padding:1.5px 4px;">${course.code}</td>
+                                            <td class="border border-black" style="padding:1.5px 8px;">${course.title}</td>
+                                            <td class="border border-black text-center" style="padding:1.5px 4px;">${course.credit}</td>
+                                            <td class="border border-black text-center font-bold" style="padding:1.5px 4px;">${course.grade}</td>
                                         </tr>
                                     `;
                                 }
                                 tbody.insertAdjacentHTML('beforeend', trHTML);
                             });
                         });
+
                     }
 
                     function removeSemester(index) {
