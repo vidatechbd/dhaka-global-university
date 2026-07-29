@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\UniversitySettingController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -42,7 +43,13 @@ Route::middleware('auth')->group(function () {
 
     // News Management
     Route::middleware(['permission:manage news'])->group(function () {
-        Route::resource('admin/news', \App\Http\Controllers\Admin\NewsController::class)->names('admin.news');
+        Route::resource('admin/news', NewsController::class)->names('admin.news');
+    });
+
+    // University Settings
+    Route::middleware(['role:Principal'])->group(function () {
+        Route::get('admin/settings', [UniversitySettingController::class, 'index'])->name('admin.settings.index');
+        Route::post('admin/settings', [UniversitySettingController::class, 'update'])->name('admin.settings.update');
     });
 });
 
