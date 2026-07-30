@@ -20,19 +20,19 @@ class User extends Authenticatable
     use HasFactory, HasRoles, Notifiable;
 
     /**
-     * Get the certificates for the student.
+     * Get the marksheets for the student.
      */
-    public function certificates(): HasMany
+    public function marksheets(): HasMany
     {
-        return $this->hasMany(Certificate::class, 'student_id');
+        return $this->hasMany(Marksheet::class, 'student_id');
     }
 
     /**
-     * Get the certificates created by this teacher/principal.
+     * Get the marksheets created by this teacher/principal.
      */
-    public function createdCertificates(): HasMany
+    public function createdMarksheets(): HasMany
     {
-        return $this->hasMany(Certificate::class, 'created_by');
+        return $this->hasMany(Marksheet::class, 'created_by');
     }
 
     /**

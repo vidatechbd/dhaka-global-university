@@ -1,5 +1,5 @@
 @php
-    $semestersData = $certificate->semesters ?: [];
+    $semestersData = $marksheet->semesters ?: [];
     $uniName    = $setting->name    ?? 'Dhaka Global University';
     $uniAddress = $setting->address ?? 'Purbachal Model Town, Uttara, Dhaka, Bangladesh';
     $logoPath   = ($setting->logo ?? null) ? asset($setting->logo) : null;
@@ -48,9 +48,9 @@
 
         {{-- ── Top Toolbar ── --}}
         <div class="flex items-center justify-between mb-6 no-print">
-            <a href="{{ route('certificates.index') }}"
+            <a href="{{ route('marksheets.index') }}"
                class="text-sm font-bold text-textclr-200 hover:text-textclr-100 flex items-center gap-1">
-                &larr; Back to Certificates
+                &larr; Back to Marksheets
             </a>
             <button onclick="window.print()"
                     class="bg-primary-300 hover:bg-primary-300/90 text-white px-5 py-2 rounded-lg font-bold transition-colors flex items-center gap-2 shadow-md text-sm">
@@ -108,51 +108,51 @@
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Student's Name</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold uppercase">{{ $certificate->student->name ?? '—' }}</div>
+                            <div class="font-bold uppercase">{{ $marksheet->student->name ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Father's Name</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold uppercase">{{ $certificate->father_name ?? '—' }}</div>
+                            <div class="font-bold uppercase">{{ $marksheet->father_name ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Mother's Name</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold uppercase">{{ $certificate->mother_name ?? '—' }}</div>
+                            <div class="font-bold uppercase">{{ $marksheet->mother_name ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Name of Course</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold">{{ $certificate->course_name ?? '—' }}</div>
+                            <div class="font-bold">{{ $marksheet->course_name ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Exam. Roll</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold">{{ $certificate->exam_roll ?? '—' }}</div>
+                            <div class="font-bold">{{ $marksheet->exam_roll ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Registration No - Session</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold">{{ $certificate->reg_no ?? '—' }}{{ $certificate->session ? ' - '.$certificate->session : '' }}</div>
+                            <div class="font-bold">{{ $marksheet->reg_no ?? '—' }}{{ $marksheet->session ? ' - '.$marksheet->session : '' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Subject/Department Name</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold">{{ $certificate->department ?? '—' }}</div>
+                            <div class="font-bold">{{ $marksheet->department ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Credit (Completed/Total)</div>
                             <div class="w-4 font-bold">:</div>
                             <div class="font-bold">
-                                @if($certificate->credit_completed || $certificate->credit_total)
-                                    {{ $certificate->credit_completed ?? '0' }}/{{ $certificate->credit_total ?? '0' }}
+                                @if($marksheet->credit_completed || $marksheet->credit_total)
+                                    {{ $marksheet->credit_completed ?? '0' }}/{{ $marksheet->credit_total ?? '0' }}
                                 @else
                                     —
                                 @endif
@@ -162,7 +162,7 @@
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Result</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold">{{ $certificate->result ?? '—' }}</div>
+                            <div class="font-bold">{{ $marksheet->result ?? '—' }}</div>
                         </div>
                     </div>
 
@@ -229,7 +229,7 @@
                     <div class="flex justify-between items-end mt-6">
                         <!-- Left: QR Code -->
                         <div class="flex flex-col items-center">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}" alt="QR Code" class="w-16 h-16 border border-gray-300 p-1 bg-white">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('marksheets.verify', $marksheet)) }}" alt="QR Code" class="w-16 h-16 border border-gray-300 p-1 bg-white">
                             <p class="text-[7px] font-bold mt-1 text-gray-500 text-center">SCAN TO VERIFY</p>
                         </div>
                         
@@ -262,7 +262,7 @@
         <script>
             window.addEventListener('DOMContentLoaded', () => {
                 const originalTitle = document.title;
-                document.title = "certificate";
+                document.title = "certificate"; // Keep "certificate" as filename as per earlier preference, or rename if preferred
                 setTimeout(() => {
                     window.print();
                     setTimeout(() => {
@@ -279,7 +279,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verify Certificate - {{ $certificate->student->name ?? '' }}</title>
+    <title>Verify Marksheet - {{ $marksheet->student->name ?? '' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -336,51 +336,51 @@
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Student's Name</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold uppercase">{{ $certificate->student->name ?? '—' }}</div>
+                        <div class="font-bold uppercase">{{ $marksheet->student->name ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Father's Name</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold uppercase">{{ $certificate->father_name ?? '—' }}</div>
+                        <div class="font-bold uppercase">{{ $marksheet->father_name ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Mother's Name</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold uppercase">{{ $certificate->mother_name ?? '—' }}</div>
+                        <div class="font-bold uppercase">{{ $marksheet->mother_name ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Name of Course</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold">{{ $certificate->course_name ?? '—' }}</div>
+                        <div class="font-bold">{{ $marksheet->course_name ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Exam. Roll</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold">{{ $certificate->exam_roll ?? '—' }}</div>
+                        <div class="font-bold">{{ $marksheet->exam_roll ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Registration No - Session</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold">{{ $certificate->reg_no ?? '—' }}{{ $certificate->session ? ' - '.$certificate->session : '' }}</div>
+                        <div class="font-bold">{{ $marksheet->reg_no ?? '—' }}{{ $marksheet->session ? ' - '.$marksheet->session : '' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Subject/Department Name</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold">{{ $certificate->department ?? '—' }}</div>
+                        <div class="font-bold">{{ $marksheet->department ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Credit (Completed/Total)</div>
                         <div class="w-4 font-bold">:</div>
                         <div class="font-bold">
-                            @if($certificate->credit_completed || $certificate->credit_total)
-                                {{ $certificate->credit_completed ?? '0' }}/{{ $certificate->credit_total ?? '0' }}
+                            @if($marksheet->credit_completed || $marksheet->credit_total)
+                                {{ $marksheet->credit_completed ?? '0' }}/{{ $marksheet->credit_total ?? '0' }}
                             @else
                                 —
                             @endif
@@ -390,7 +390,7 @@
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Result</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold">{{ $certificate->result ?? '—' }}</div>
+                        <div class="font-bold">{{ $marksheet->result ?? '—' }}</div>
                     </div>
                 </div>
 
@@ -457,7 +457,7 @@
                 <div class="flex justify-between items-end mt-6">
                     <!-- Left: QR Code -->
                     <div class="flex flex-col items-center">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}" alt="QR Code" class="w-16 h-16 border border-gray-300 p-1 bg-white">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('marksheets.verify', $marksheet)) }}" alt="QR Code" class="w-16 h-16 border border-gray-300 p-1 bg-white">
                         <p class="text-[7px] font-bold mt-1 text-gray-500 text-center">SCAN TO VERIFY</p>
                     </div>
                     

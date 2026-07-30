@@ -48,6 +48,7 @@ test('principal can create teacher account', function () {
             'name' => 'Jane Smith',
             'email' => 'jane@teacher.com',
             'password' => 'Password123!',
+            'password' => 'Password123!',
         ]);
 
     $response->assertRedirect();
@@ -56,7 +57,7 @@ test('principal can create teacher account', function () {
         ->and($teacher->hasRole('Teacher'))->toBeTrue();
 });
 
-test('teacher can issue certificate to active student', function () {
+test('teacher can issue marksheet to active student', function () {
     $teacher = User::factory()->create(['status' => 'active']);
     $teacher->assignRole('Teacher');
 
@@ -64,47 +65,47 @@ test('teacher can issue certificate to active student', function () {
     $student->assignRole('Student');
 
     $response = $this->actingAs($teacher)
-        ->post(route('certificates.store'), [
+        ->post(route('marksheets.store'), [
             'student_id' => $student->id,
             'title' => 'BSc Computer Science',
             'description' => 'First Class Honors',
         ]);
 
     $response->assertRedirect();
-    $this->assertDatabaseHas('certificates', [
+    $this->assertDatabaseHas('marksheets', [
         'student_id' => $student->id,
         'title' => 'BSc Computer Science',
         'created_by' => $teacher->id,
     ]);
 });
 
-test('teacher or principal can access certificate generation page', function () {
+test('teacher or principal can access marksheet generation page', function () {
     $teacher = User::factory()->create(['status' => 'active']);
     $teacher->assignRole('Teacher');
 
-    $response = $this->actingAs($teacher)->get(route('certificates.create'));
+    $response = $this->actingAs($teacher)->get(route('marksheets.create'));
     $response->assertStatus(200);
 });
 
-test('student cannot access certificate generation page', function () {
+test('student cannot access marksheet generation page', function () {
     $student = User::factory()->create(['status' => 'active']);
     $student->assignRole('Student');
 
-    $response = $this->actingAs($student)->get(route('certificates.create'));
+    $response = $this->actingAs($student)->get(route('marksheets.create'));
     $response->assertStatus(403);
 });
 
-test('anyone can verify a certificate via public link', function () {
+test('anyone can verify a marksheet via public link', function () {
     $student = User::factory()->create(['status' => 'active']);
     $student->assignRole('Student');
 
-    $certificate = \App\Models\Certificate::create([
+    $marksheet = \App\Models\Marksheet::create([
         'student_id' => $student->id,
         'title' => 'BSc Computer Science',
         'created_by' => $student->id,
     ]);
 
-    $response = $this->get(route('certificates.verify', $certificate));
+    $response = $this->get(route('marksheets.verify', $marksheet));
     $response->assertStatus(200);
     $response->assertSee('Verified Academic Document');
 });

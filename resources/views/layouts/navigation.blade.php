@@ -34,8 +34,8 @@
                         </x-nav-link>
                     @endcan
 
-                    <x-nav-link :href="route('certificates.index')" :active="request()->routeIs('certificates.*')">
-                        {{ __('Certificates') }}
+                    <x-nav-link :href="route('marksheets.index')" :active="request()->routeIs('marksheets.*')">
+                        {{ __('Marksheets') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -111,8 +111,8 @@
                 </x-responsive-nav-link>
             @endcan
 
-            <x-responsive-nav-link :href="route('certificates.index')" :active="request()->routeIs('certificates.*')">
-                {{ __('Certificates') }}
+            <x-responsive-nav-link :href="route('marksheets.index')" :active="request()->routeIs('marksheets.*')">
+                {{ __('Marksheets') }}
             </x-responsive-nav-link>
         </div>
 

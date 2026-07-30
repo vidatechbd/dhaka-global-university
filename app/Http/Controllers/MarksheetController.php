@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Certificate;
+use App\Models\Marksheet;
 use App\Models\UniversitySetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class CertificateController extends Controller
+class MarksheetController extends Controller
 {
     public function index()
     {
@@ -19,17 +19,17 @@ class CertificateController extends Controller
         ]);
 
         if ($user->hasRole('Student')) {
-            $certificates = $user->certificates;
+            $marksheets = $user->marksheets;
         } else {
-            $certificates = Certificate::with(['student', 'creator'])->latest()->get();
+            $marksheets = Marksheet::with(['student', 'creator'])->latest()->get();
         }
 
-        return view('certificates.index', compact('certificates', 'setting'));
+        return view('marksheets.index', compact('marksheets', 'setting'));
     }
 
     public function create()
     {
-        if (! auth()->user()->can('create certificate')) {
+        if (! auth()->user()->can('create marksheet')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -41,12 +41,12 @@ class CertificateController extends Controller
 
         $students = User::role('Student')->where('status', 'active')->get();
 
-        return view('certificates.create', compact('students', 'setting'));
+        return view('marksheets.create', compact('students', 'setting'));
     }
 
     public function store(Request $request)
     {
-        if (! auth()->user()->can('create certificate')) {
+        if (! auth()->user()->can('create marksheet')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -78,12 +78,12 @@ class CertificateController extends Controller
 
         $validated['created_by'] = auth()->id();
 
-        Certificate::create($validated);
+        Marksheet::create($validated);
 
-        return redirect()->route('certificates.index')->with('success', 'Academic transcript/certificate created successfully.');
+        return redirect()->route('marksheets.index')->with('success', 'Academic transcript/marksheet created successfully.');
     }
 
-    public function show(Certificate $certificate)
+    public function show(Marksheet $marksheet)
     {
         $user = auth()->user();
         $setting = UniversitySetting::first() ?? new UniversitySetting([
@@ -92,14 +92,14 @@ class CertificateController extends Controller
             'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
         ]);
 
-        if ($user->hasRole('Student') && $certificate->student_id !== $user->id) {
-            abort(403, 'Unauthorized access to certificate.');
+        if ($user->hasRole('Student') && $marksheet->student_id !== $user->id) {
+            abort(403, 'Unauthorized access to marksheet.');
         }
 
-        return view('certificates.show', compact('certificate', 'setting'));
+        return view('marksheets.show', compact('marksheet', 'setting'));
     }
 
-    public function verify(Certificate $certificate)
+    public function verify(Marksheet $marksheet)
     {
         $setting = UniversitySetting::first() ?? new UniversitySetting([
             'name' => 'Dhaka Global University',
@@ -107,17 +107,17 @@ class CertificateController extends Controller
             'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
         ]);
 
-        return view('certificates.show', compact('certificate', 'setting'));
+        return view('marksheets.show', compact('marksheet', 'setting'));
     }
 
-    public function destroy(Certificate $certificate)
+    public function destroy(Marksheet $marksheet)
     {
         if (! auth()->user()->hasAnyRole(['Principal', 'Teacher'])) {
             abort(403, 'Unauthorized action.');
         }
 
-        $certificate->delete();
+        $marksheet->delete();
 
-        return redirect()->route('certificates.index')->with('success', 'Certificate/Transcript deleted successfully.');
+        return redirect()->route('marksheets.index')->with('success', 'Marksheet/Transcript deleted successfully.');
     }
 }

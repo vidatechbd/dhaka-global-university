@@ -23,8 +23,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage roles',
             'manage teachers',
             'manage students',
-            'create certificate',
-            'view certificate',
+            'create marksheet',
+            'view marksheet',
             'manage news',
             'create news',
             'edit news',
@@ -43,8 +43,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $teacherRole = Role::firstOrCreate(['name' => 'Teacher']);
         $teacherRole->syncPermissions([
             'manage students',
-            'create certificate',
-            'view certificate',
+            'create marksheet',
+            'view marksheet',
             'manage news',
             'create news',
             'edit news',
@@ -54,7 +54,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $studentRole = Role::firstOrCreate(['name' => 'Student']);
         $studentRole->syncPermissions([
-            'view certificate',
+            'view marksheet',
             'view news',
         ]);
 

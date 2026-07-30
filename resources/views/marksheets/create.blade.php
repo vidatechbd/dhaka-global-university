@@ -38,7 +38,7 @@
         @endif
 
         <!-- Dynamic Academic Transcript & Certificate Creation Form -->
-        <form id="certificate-form" method="POST" action="{{ route('certificates.store') }}" class="space-y-8">
+        <form id="marksheet-form" method="POST" action="{{ route('marksheets.store') }}" class="space-y-8">
             @csrf
             <input type="hidden" name="semesters" id="semesters-json" value="[]">
 
@@ -46,7 +46,7 @@
             <section id="form-section" class="bg-bgclr-200 border border-bgclr-300 p-8 rounded-3xl shadow-sm no-print">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-bgclr-300">
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('certificates.index') }}" class="text-textclr-200 hover:text-textclr-100 transition font-bold text-sm">
+                        <a href="{{ route('marksheets.index') }}" class="text-textclr-200 hover:text-textclr-100 transition font-bold text-sm">
                             &larr; Back
                         </a>
                         <h2 class="text-xl font-bold text-textclr-100 border-l-4 border-primary-300 pl-3">Generate Academic Transcript</h2>

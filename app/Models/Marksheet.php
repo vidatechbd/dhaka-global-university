@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'result',
     'semesters',
 ])]
-class Certificate extends Model
+class Marksheet extends Model
 {
     /**
      * Get the attributes that should be cast.
@@ -37,7 +37,7 @@ class Certificate extends Model
         ];
     }
     /**
-     * Get the student that owns the certificate.
+     * Get the student that owns the marksheet.
      */
     public function student(): BelongsTo
     {
@@ -45,7 +45,7 @@ class Certificate extends Model
     }
 
     /**
-     * Get the teacher/principal who created the certificate.
+     * Get the teacher/principal who created the marksheet.
      */
     public function creator(): BelongsTo
     {

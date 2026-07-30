@@ -6,9 +6,9 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UniversitySettingController;
-use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MarksheetController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,7 +20,7 @@ Route::get('/pending-approval', function () {
 Route::get('/dashboard', function () {
     $totalStudents = \App\Models\User::role('Student')->count();
     $totalTeachers = \App\Models\User::role('Teacher')->count();
-    $totalCertificates = \App\Models\Certificate::count();
+    $totalCertificates = \App\Models\Marksheet::count(); // Total marksheets generated
     $pendingStudents = \App\Models\User::role('Student')->where('status', 'pending')->count();
 
     // 1. Enrollment trend (last 6 months registrations)
@@ -39,7 +39,7 @@ Route::get('/dashboard', function () {
     }
 
     // 2. Department distribution
-    $departmentCounts = \App\Models\Certificate::select('department', \DB::raw('count(*) as total'))
+    $departmentCounts = \App\Models\Marksheet::select('department', \DB::raw('count(*) as total'))
         ->whereNotNull('department')
         ->where('department', '<>', '')
         ->groupBy('department')
@@ -57,7 +57,7 @@ Route::get('/dashboard', function () {
     ));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/certificates/{certificate}/verify', [\App\Http\Controllers\CertificateController::class, 'verify'])->name('certificates.verify');
+Route::get('/marksheets/{marksheet}/verify', [\App\Http\Controllers\MarksheetController::class, 'verify'])->name('marksheets.verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -76,8 +76,8 @@ Route::middleware('auth')->group(function () {
         Route::patch('admin/students/{student}/approve', [StudentController::class, 'approve'])->name('admin.students.approve');
     });
 
-    // Certificates
-    Route::resource('certificates', CertificateController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+    // Marksheets
+    Route::resource('marksheets', MarksheetController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 
     // News Management
     Route::middleware(['permission:manage news'])->group(function () {

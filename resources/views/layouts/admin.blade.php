@@ -115,33 +115,33 @@
                     </a>
                 </li>
 
-                <!-- Nav Item: Certificates (WITH SUBMENU) -->
+                <!-- Nav Item: Marksheets (WITH SUBMENU) -->
                 <li>
-                    <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('certificates.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
+                    <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('marksheets.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
                         <div class="flex items-center">
-                            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('certificates.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('marksheets.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
-                            <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Certificates</span>
+                            <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Marksheets</span>
                         </div>
                         <!-- Chevron Icon -->
-                        <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('certificates.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('marksheets.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     
                     <!-- Submenu Wrapper -->
                     <div class="sidebar-text transition-opacity duration-200">
-                        <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('certificates.*') ? '' : 'hidden' }}">
+                        <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('marksheets.*') ? '' : 'hidden' }}">
                             <li>
-                                <a href="{{ route('certificates.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('certificates.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
-                                    All certificates
+                                <a href="{{ route('marksheets.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('marksheets.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                    All marksheets
                                 </a>
                             </li>
-                            @can('create certificate')
+                            @can('create marksheet')
                                 <li>
-                                    <a href="{{ route('certificates.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('certificates.create') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
-                                        Generate certificate
+                                    <a href="{{ route('marksheets.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('marksheets.create') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        Generate marksheet
                                     </a>
                                 </li>
                             @endcan
