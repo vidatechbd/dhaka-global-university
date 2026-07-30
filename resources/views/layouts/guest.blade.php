@@ -40,11 +40,11 @@
             <!-- Logo Section -->
             <div class="mb-6 transform hover:scale-105 transition-transform duration-300">
                 <a href="/" class="flex flex-col items-center gap-2">
-                    <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/20 overflow-hidden">
+                    <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/20 overflow-hidden p-2">
                         @if($logoPath)
-                            <img src="{{ $logoPath }}" alt="Logo" class="w-full h-full object-cover">
+                            <img src="{{ $logoPath }}" alt="Logo" class="w-full h-full object-contain">
                         @else
-                            <x-application-logo class="w-10 h-10 fill-current text-white" />
+                            <x-application-logo class="w-12 h-12 fill-current text-white" />
                         @endif
                     </div>
                     <span class="text-white font-semibold text-sm tracking-wider uppercase mt-2">{{ $uniName }}</span>

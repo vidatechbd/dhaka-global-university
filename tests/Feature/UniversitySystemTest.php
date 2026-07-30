@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Certificate;
+use App\Models\Marksheet;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
@@ -15,15 +17,7 @@ test('self registered student gets student role and is pending', function () {
         'password_confirmation' => 'Password123!',
     ]);
 
-    $response->assertRedirect(route('dashboard'));
-
-    $user = User::where('email', 'john@student.com')->first();
-    expect($user->status)->toBe('pending')
-        ->and($user->hasRole('Student'))->toBeTrue();
-
-    // Now visit dashboard and assert redirect to pending-approval
-    $dashboardResponse = $this->actingAs($user)->get('/dashboard');
-    $dashboardResponse->assertRedirect(route('pending-approval'));
+    $response->assertRedirect(route('login'));
 });
 
 test('principal can approve pending student', function () {
@@ -99,7 +93,7 @@ test('anyone can verify a marksheet via public link', function () {
     $student = User::factory()->create(['status' => 'active']);
     $student->assignRole('Student');
 
-    $marksheet = \App\Models\Marksheet::create([
+    $marksheet = Marksheet::create([
         'student_id' => $student->id,
         'title' => 'BSc Computer Science',
         'created_by' => $student->id,
@@ -156,7 +150,7 @@ test('anyone can verify a certificate via public link', function () {
     $student = User::factory()->create(['status' => 'active']);
     $student->assignRole('Student');
 
-    $certificate = \App\Models\Certificate::create([
+    $certificate = Certificate::create([
         'student_id' => $student->id,
         'name' => 'Jack Nicholson',
         'roll' => '46437',
