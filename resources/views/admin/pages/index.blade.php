@@ -37,7 +37,9 @@
                 <thead>
                     <tr class="bg-gray-100 border-b border-gray-300 text-gray-700 text-[10px] uppercase font-bold tracking-wider">
                         <th class="px-6 py-3 border-r border-gray-300 last:border-r-0">{{ __('Title') }}</th>
+                        <th class="px-6 py-3 border-r border-gray-300 last:border-r-0">{{ __('Parent Page') }}</th>
                         <th class="px-6 py-3 border-r border-gray-300 last:border-r-0">{{ __('Slug') }}</th>
+                        <th class="px-6 py-3 border-r border-gray-300 last:border-r-0">{{ __('Sort Order') }}</th>
                         <th class="px-6 py-3 border-r border-gray-300 last:border-r-0">{{ __('Created At') }}</th>
                         <th class="px-6 py-3 text-right">{{ __('Actions') }}</th>
                     </tr>
@@ -56,9 +58,21 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 border-r border-gray-300 last:border-r-0">
+                                @if($page->parent)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-800 border border-blue-200">
+                                        {{ $page->parent->title }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400 italic">{{ __('None (Top Level)') }}</span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 border-r border-gray-300 last:border-r-0">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-mono font-medium bg-gray-100 text-gray-700 border border-gray-300">
                                     {{ $page->slug }}
                                 </span>
+                            </td>
+                            <td class="px-6 py-4 font-mono font-semibold text-gray-700 border-r border-gray-300 last:border-r-0">
+                                {{ $page->sort_order }}
                             </td>
                             <td class="px-6 py-4 text-gray-500 border-r border-gray-300 last:border-r-0">
                                 {{ $page->created_at->format('M d, Y h:i A') }}

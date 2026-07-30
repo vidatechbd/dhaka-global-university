@@ -16,7 +16,7 @@ class PageController extends Controller
      */
     public function index(): View
     {
-        $pages = Page::latest()->paginate(10);
+        $pages = Page::with('parent')->orderBy('sort_order')->orderBy('title')->paginate(10);
 
         return view('admin.pages.index', compact('pages'));
     }
@@ -26,7 +26,9 @@ class PageController extends Controller
      */
     public function create(): View
     {
-        return view('admin.pages.create');
+        $parentPages = Page::orderBy('title')->get();
+
+        return view('admin.pages.create', compact('parentPages'));
     }
 
     /**
@@ -42,6 +44,8 @@ class PageController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:pages,slug'],
             'content' => ['required', 'string'],
+            'parent_id' => ['nullable', 'exists:pages,id'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         Page::create($validated);
@@ -55,7 +59,9 @@ class PageController extends Controller
      */
     public function edit(Page $page): View
     {
-        return view('admin.pages.edit', compact('page'));
+        $parentPages = Page::where('id', '!=', $page->id)->orderBy('title')->get();
+
+        return view('admin.pages.edit', compact('page', 'parentPages'));
     }
 
     /**
@@ -71,6 +77,8 @@ class PageController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:pages,slug,'.$page->id],
             'content' => ['required', 'string'],
+            'parent_id' => ['nullable', 'exists:pages,id', 'different:id'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $page->update($validated);

@@ -19,7 +19,7 @@
                     🎓 University Branding & Details
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <x-input-label for="name" :value="__('University Name')" />
                         <x-text-input id="name" class="block mt-1 w-full text-xs" type="text" name="name" :value="old('name', $setting->name)" required />
@@ -36,6 +36,18 @@
                         @endif
                         <input id="logo" type="file" name="logo" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 text-xs focus:border-blue-500 focus:ring-blue-500 shadow-sm" accept="image/*">
                         <x-input-error :messages="$errors->get('logo')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="favicon" :value="__('Favicon (ICO or PNG)')" />
+                        @if($setting->favicon)
+                            <div class="mt-2 mb-2 flex items-center gap-3">
+                                <img src="{{ asset($setting->favicon) }}" alt="Favicon" class="w-8 h-8 object-contain p-1 border border-gray-200 rounded-lg">
+                                <span class="text-xs text-gray-400">Current Favicon</span>
+                            </div>
+                        @endif
+                        <input id="favicon" type="file" name="favicon" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 text-xs focus:border-blue-500 focus:ring-blue-500 shadow-sm" accept="image/*,.ico">
+                        <x-input-error :messages="$errors->get('favicon')" class="mt-2" />
                     </div>
                 </div>
 
@@ -137,6 +149,39 @@
                             </div>
                         </div>
                     @endforelse
+                </div>
+            </div>
+
+            <!-- Card 4: SEO Settings -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
+                <h2 class="text-base font-bold text-[#072740] border-b border-gray-100 pb-3 flex items-center gap-2">
+                    🔍 SEO & Meta Settings
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <x-input-label for="meta_title" :value="__('Meta Title')" />
+                        <x-text-input id="meta_title" class="block mt-1 w-full text-xs" type="text" name="meta_title" :value="old('meta_title', $setting->meta_title)" placeholder="e.g. Dhaka Global University | Center for Learning" />
+                        <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="meta_author" :value="__('Meta Author')" />
+                        <x-text-input id="meta_author" class="block mt-1 w-full text-xs" type="text" name="meta_author" :value="old('meta_author', $setting->meta_author)" placeholder="e.g. Dhaka Global University" />
+                        <x-input-error :messages="$errors->get('meta_author')" class="mt-2" />
+                    </div>
+                </div>
+
+                <div>
+                    <x-input-label for="meta_keywords" :value="__('Meta Keywords (Comma separated)')" />
+                    <x-text-input id="meta_keywords" class="block mt-1 w-full text-xs" type="text" name="meta_keywords" :value="old('meta_keywords', $setting->meta_keywords)" placeholder="e.g. education, university, dhaka global university, admission" />
+                    <x-input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="meta_description" :value="__('Meta Description')" />
+                    <textarea id="meta_description" name="meta_description" rows="3" class="mt-1 block w-full border border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm text-xs" placeholder="Describe your university for search engines...">{{ old('meta_description', $setting->meta_description) }}</textarea>
+                    <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
                 </div>
             </div>
 

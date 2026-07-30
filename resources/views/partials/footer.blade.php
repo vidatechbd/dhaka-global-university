@@ -94,29 +94,7 @@
             });
         }
 
-        // Desktop Search Toggle functionality
-        const searchBtn = document.getElementById('desktop-search-btn');
-        const searchInput = document.getElementById('desktop-search-input');
-        
-        if (searchBtn && searchInput) {
-            searchBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                searchInput.classList.toggle('w-0');
-                searchInput.classList.toggle('w-56');
-                searchInput.classList.toggle('opacity-0');
-                searchInput.classList.toggle('opacity-100');
-                searchInput.classList.toggle('pointer-events-none');
-                
-                if (!searchInput.classList.contains('w-0')) {
-                    searchInput.focus();
-                    searchBtn.innerHTML = '<i class="ph ph-x text-xl"></i>';
-                } else {
-                    searchBtn.innerHTML = '<i class="ph ph-magnifying-glass text-xl"></i>';
-                    searchInput.value = '';
-                }
-            });
-        }
+
 
         // Swiper Initialization
         const swiperEl = document.querySelector('.heroSwiper');

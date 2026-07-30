@@ -1,22 +1,33 @@
 <?php
 
+use App\Http\Controllers\Admin\HomepageSettingController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SidebarController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UniversitySettingController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarksheetController;
+use App\Http\Controllers\NewsController as PublicNewsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Models\Marksheet;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/news', [PublicNewsController::class, 'index'])->name('news.index');
+Route::get('/news/{news}', [PublicNewsController::class, 'show'])->name('news.show');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+Route::get('/page/{slug}', [HomeController::class, 'showPage'])->name('page.show');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/pending-approval', function () {
     return view('auth.pending-approval');
@@ -93,15 +104,23 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/news', NewsController::class)->names('admin.news');
     });
 
+    // Events Management
+    Route::middleware(['permission:manage events'])->group(function () {
+        Route::resource('admin/events', App\Http\Controllers\Admin\EventController::class)->names('admin.events');
+    });
+
     // Pages Management
     Route::middleware(['permission:manage pages'])->group(function () {
         Route::resource('admin/pages', PageController::class)->names('admin.pages');
+        Route::resource('admin/sidebars', SidebarController::class)->names('admin.sidebars');
     });
 
     // University Settings
     Route::middleware(['role:Principal'])->group(function () {
         Route::get('admin/settings', [UniversitySettingController::class, 'index'])->name('admin.settings.index');
         Route::post('admin/settings', [UniversitySettingController::class, 'update'])->name('admin.settings.update');
+        Route::get('admin/homepage-settings', [HomepageSettingController::class, 'index'])->name('admin.homepage-settings.index');
+        Route::post('admin/homepage-settings', [HomepageSettingController::class, 'update'])->name('admin.homepage-settings.update');
     });
 });
 

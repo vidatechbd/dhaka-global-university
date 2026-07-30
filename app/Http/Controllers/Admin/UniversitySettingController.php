@@ -51,6 +51,11 @@ class UniversitySettingController extends Controller
             'contacts' => ['nullable', 'array'],
             'social_medias' => ['nullable', 'array'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_description' => ['nullable', 'string'],
+            'meta_keywords' => ['nullable', 'string', 'max:500'],
+            'meta_author' => ['nullable', 'string', 'max:255'],
+            'favicon' => ['nullable', 'file', 'mimes:ico,png,jpg,jpeg,gif,webp', 'max:1024'],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -77,6 +82,23 @@ class UniversitySettingController extends Controller
                 $file->move($targetDir, $filename);
                 $validated['logo'] = 'uploads/settings/'.$filename;
             }
+        }
+
+        if ($request->hasFile('favicon')) {
+            if ($setting->favicon && File::exists(public_path($setting->favicon))) {
+                File::delete(public_path($setting->favicon));
+            }
+
+            $file = $request->file('favicon');
+            $filename = 'favicon_'.time().'.'.$file->getClientOriginalExtension();
+            $targetDir = public_path('uploads/settings');
+
+            if (! File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $file->move($targetDir, $filename);
+            $validated['favicon'] = 'uploads/settings/'.$filename;
         }
 
         $setting->update($validated);

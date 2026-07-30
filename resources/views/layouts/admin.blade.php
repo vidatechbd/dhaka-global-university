@@ -1,3 +1,6 @@
+@php
+    $uniSetting = \App\Models\UniversitySetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -5,7 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Dhaka Global University') }}</title>
+    @if($uniSetting && $uniSetting->favicon)
+        <link rel="shortcut icon" href="{{ asset($uniSetting->favicon) }}" type="image/x-icon">
+        <link rel="icon" href="{{ asset($uniSetting->favicon) }}" type="image/x-icon">
+    @endif
+
+    <title>{{ $uniSetting->name ?? config('app.name', 'Dhaka Global University') }} - Admin Portal</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
@@ -80,10 +88,14 @@
         <div id="sidebar-header" class="h-16 flex items-center justify-between px-4 border-b border-bgclr-300 shrink-0 transition-all duration-300">
             <!-- Brand / Logo -->
             <div class="flex items-center gap-3 sidebar-text overflow-hidden transition-opacity duration-200">
-                <div class="w-8 h-8 bg-primary-200 rounded-lg flex items-center justify-center shrink-0 shadow-md shadow-primary-200/20">
-                    <span class="text-white text-base">🎓</span>
-                </div>
-                <span class="font-bold text-sm whitespace-nowrap tracking-tight text-textclr-100 font-sans">Dhaka Global Uni</span>
+                @if($uniSetting && $uniSetting->logo)
+                    <img src="{{ asset($uniSetting->logo) }}" alt="Logo" class="w-8 h-8 object-contain shrink-0">
+                @else
+                    <div class="w-8 h-8 bg-primary-200 rounded-lg flex items-center justify-center shrink-0 shadow-md shadow-primary-200/20">
+                        <span class="text-white text-base">🎓</span>
+                    </div>
+                @endif
+                <span class="font-bold text-sm whitespace-nowrap tracking-tight text-textclr-100 font-sans">{{ $uniSetting->name ?? 'Dhaka Global Uni' }}</span>
             </div>
             
             <!-- Toggle Button -->
@@ -328,25 +340,59 @@
                     </li>
                 @endcan
 
-                <!-- Pages Management (WITH SUBMENU - Principal/Teacher only) -->
-                @can('manage pages')
+                <!-- Events Management (WITH SUBMENU - Principal/Teacher only) -->
+                @can('manage events')
                     <li>
-                        <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('admin.pages.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
+                        <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('admin.events.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
                             <div class="flex items-center">
-                                <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('admin.pages.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('admin.events.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Pages</span>
+                                <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Events</span>
                             </div>
                             <!-- Chevron Icon -->
-                            <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('admin.pages.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('admin.events.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                         
                         <!-- Submenu Wrapper -->
                         <div class="sidebar-text transition-opacity duration-200">
-                            <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('admin.pages.*') ? '' : 'hidden' }}">
+                            <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('admin.events.*') ? '' : 'hidden' }}">
+                                <li>
+                                    <a href="{{ route('admin.events.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.events.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        All events
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.events.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.events.create') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        Create event
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endcan
+
+                <!-- Pages Management (WITH SUBMENU - Principal/Teacher only) -->
+                @can('manage pages')
+                    <li>
+                        <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.sidebars.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.sidebars.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                                <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Pages & Sidebars</span>
+                            </div>
+                            <!-- Chevron Icon -->
+                            <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.sidebars.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Submenu Wrapper -->
+                        <div class="sidebar-text transition-opacity duration-200">
+                            <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('admin.pages.*') || request()->routeIs('admin.sidebars.*') ? '' : 'hidden' }}">
                                 <li>
                                     <a href="{{ route('admin.pages.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.pages.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
                                         All pages
@@ -357,6 +403,16 @@
                                         Create page
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('admin.sidebars.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.sidebars.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        All sidebars
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.sidebars.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.sidebars.create') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        Create sidebar
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -365,16 +421,35 @@
                 <!-- Settings (Principal only) -->
                 @role('Principal')
                     <li>
-                        <a href="{{ route('admin.settings.index') }}" class="nav-link flex items-center px-3 py-2.5 rounded-xl group transition-all duration-200 relative {{ request()->routeIs('admin.settings.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
-                            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('admin.settings.*') ? 'text-white' : 'text-textclr-200 group-hover:text-textclr-100' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('admin.settings.*') || request()->routeIs('admin.homepage-settings.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('admin.settings.*') || request()->routeIs('admin.homepage-settings.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Settings</span>
+                            </div>
+                            <!-- Chevron Icon -->
+                            <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('admin.settings.*') || request()->routeIs('admin.homepage-settings.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
-                            <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">University Settings</span>
-                            @if(request()->routeIs('admin.settings.*'))
-                                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary-300 rounded-r-full"></div>
-                            @endif
-                        </a>
+                        </button>
+                        
+                        <!-- Submenu Wrapper -->
+                        <div class="sidebar-text transition-opacity duration-200">
+                            <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('admin.settings.*') || request()->routeIs('admin.homepage-settings.*') ? '' : 'hidden' }}">
+                                <li>
+                                    <a href="{{ route('admin.settings.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.settings.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        University Settings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.homepage-settings.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('admin.homepage-settings.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        Home Settings
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 @endrole
             </ul>

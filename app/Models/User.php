@@ -60,6 +60,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the events authored by the user.
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

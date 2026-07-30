@@ -22,6 +22,10 @@ test('principal can view and update university settings', function () {
             'social_medias' => [
                 ['platform' => 'Facebook', 'url' => 'https://facebook.com/feniglobal'],
             ],
+            'meta_title' => 'Feni Global University SEO Title',
+            'meta_description' => 'Feni Global University description content',
+            'meta_keywords' => 'feni, global, university',
+            'meta_author' => 'Author Name',
         ]);
 
     $response->assertRedirect(route('admin.settings.index'));
@@ -29,5 +33,9 @@ test('principal can view and update university settings', function () {
     $this->assertDatabaseHas('university_settings', [
         'name' => 'Feni Global University',
         'address' => 'Station Road, Feni, Bangladesh',
+        'meta_title' => 'Feni Global University SEO Title',
+        'meta_description' => 'Feni Global University description content',
+        'meta_keywords' => 'feni, global, university',
+        'meta_author' => 'Author Name',
     ]);
 });

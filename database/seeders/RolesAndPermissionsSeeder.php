@@ -38,6 +38,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'edit pages',
             'delete pages',
             'view pages',
+            'manage events',
+            'create events',
+            'edit events',
+            'delete events',
+            'view events',
         ];
 
         foreach ($permissions as $permission) {
@@ -65,6 +70,11 @@ class RolesAndPermissionsSeeder extends Seeder
             'edit pages',
             'delete pages',
             'view pages',
+            'manage events',
+            'create events',
+            'edit events',
+            'delete events',
+            'view events',
         ]);
 
         $studentRole = Role::firstOrCreate(['name' => 'Student']);

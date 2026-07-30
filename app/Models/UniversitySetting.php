@@ -17,6 +17,11 @@ class UniversitySetting extends Model
         'contacts',
         'social_medias',
         'logo',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'meta_author',
+        'favicon',
     ];
 
     /**

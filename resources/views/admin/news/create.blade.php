@@ -2,9 +2,6 @@
     <!-- Summernote Lite Assets -->
     <x-slot name="header">
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.news.index') }}" class="text-gray-500 hover:text-gray-800">
-                &larr; Back
-            </a>
             <h1 class="text-xl font-bold text-gray-800">{{ __('Create News Article') }}</h1>
         </div>
     </x-slot>
@@ -37,7 +34,7 @@
                 <!-- Status -->
                 <div>
                     <x-input-label for="status" :value="__('Status')" />
-                    <select id="status" name="status" class="mt-1 block w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm">
+                    <select id="status" name="status" class="mt-1 block w-full border border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm px-3 py-2 text-sm bg-white">
                         <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
                         <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
                     </select>

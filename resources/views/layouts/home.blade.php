@@ -1,3 +1,6 @@
+@php
+    $uniSetting = \App\Models\UniversitySetting::first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
@@ -5,7 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Feni University | Center for Learning') }}</title>
+    @if($uniSetting)
+        @if($uniSetting->meta_description)
+            <meta name="description" content="{{ $uniSetting->meta_description }}">
+        @endif
+        @if($uniSetting->meta_keywords)
+            <meta name="keywords" content="{{ $uniSetting->meta_keywords }}">
+        @endif
+        @if($uniSetting->meta_author)
+            <meta name="author" content="{{ $uniSetting->meta_author }}">
+        @endif
+        @if($uniSetting->favicon)
+            <link rel="shortcut icon" href="{{ asset($uniSetting->favicon) }}" type="image/x-icon">
+            <link rel="icon" href="{{ asset($uniSetting->favicon) }}" type="image/x-icon">
+        @endif
+    @endif
+
+    <title>{{ $uniSetting->meta_title ?? $uniSetting->name ?? config('app.name', 'Dhaka Global University') }}</title>
     
     <!-- Fonts: Serif for academic authority, Sans for readability -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

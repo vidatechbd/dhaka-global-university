@@ -13,5 +13,17 @@ class Page extends Model
         'title',
         'slug',
         'content',
+        'parent_id',
+        'sort_order',
     ];
+
+    public function parent()
+    {
+        return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Page::class, 'parent_id');
+    }
 }

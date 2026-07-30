@@ -2,9 +2,6 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h1 class="text-xl font-bold text-gray-800">{{ __('Create Page') }}</h1>
-            <a href="{{ route('admin.pages.index') }}" class="px-4 py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded-md hover:bg-gray-50 transition">
-                &larr; Back to List
-            </a>
         </div>
     </x-slot>
 
@@ -29,6 +26,27 @@
                 <x-input-label for="slug" :value="__('Slug (Leave empty to generate automatically)')" />
                 <x-text-input id="slug" class="block mt-1 w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2" type="text" name="slug" :value="old('slug')" placeholder="e.g. terms-of-service" />
                 <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+            </div>
+
+            <!-- Parent Page & Sort Order Selector -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <x-input-label for="parent_id" :value="__('Parent Page')" />
+                    <select id="parent_id" name="parent_id" class="block mt-1 w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 text-sm bg-white">
+                        <option value="">{{ __('None (Top Level)') }}</option>
+                        @foreach($parentPages as $parentPage)
+                            <option value="{{ $parentPage->id }}" {{ old('parent_id') == $parentPage->id ? 'selected' : '' }}>
+                                {{ $parentPage->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('parent_id')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="sort_order" :value="__('Sort Order (Lower numbers show first)')" />
+                    <x-text-input id="sort_order" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2" type="number" name="sort_order" :value="old('sort_order', 0)" min="0" required />
+                    <x-input-error :messages="$errors->get('sort_order')" class="mt-2" />
+                </div>
             </div>
 
             <!-- Content (Summernote) -->
