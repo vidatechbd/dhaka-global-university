@@ -11,6 +11,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -96,4 +97,18 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+
+Route::get('clear', function () {
+    Artisan::call('optimize:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('event:clear');
+
+    return response()->json([
+        'success' => true,
+        'message' => 'All caches cleared successfully.',
+    ]);
+});
 require __DIR__.'/auth.php';
