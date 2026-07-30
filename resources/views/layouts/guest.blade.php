@@ -11,18 +11,30 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Alpine.js CDN -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <body class="font-sans text-gray-900 antialiased bg-gradient-to-tr from-slate-900 via-slate-800 to-sky-950 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+        <!-- Floating decorative glowing background blobs -->
+        <div class="absolute top-10 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-sky-600 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse" style="animation-delay: 4s;"></div>
+
+        <div class="w-full max-w-md z-10 flex flex-col items-center">
+            <!-- Logo Section -->
+            <div class="mb-6 transform hover:scale-105 transition-transform duration-300">
+                <a href="/" class="flex flex-col items-center gap-2">
+                    <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/20">
+                        <x-application-logo class="w-10 h-10 fill-current text-white" />
+                    </div>
+                    <span class="text-white font-semibold text-sm tracking-wider uppercase mt-2">Dhaka Global University</span>
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <!-- Card Section -->
+            <div class="w-full bg-white/95 backdrop-blur-lg shadow-2xl border border-white/20 rounded-2xl p-8 transition-all duration-300">
                 {{ $slot }}
             </div>
         </div>
