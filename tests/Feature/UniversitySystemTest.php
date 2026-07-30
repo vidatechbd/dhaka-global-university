@@ -93,3 +93,18 @@ test('student cannot access certificate generation page', function () {
     $response = $this->actingAs($student)->get(route('certificates.create'));
     $response->assertStatus(403);
 });
+
+test('anyone can verify a certificate via public link', function () {
+    $student = User::factory()->create(['status' => 'active']);
+    $student->assignRole('Student');
+
+    $certificate = \App\Models\Certificate::create([
+        'student_id' => $student->id,
+        'title' => 'BSc Computer Science',
+        'created_by' => $student->id,
+    ]);
+
+    $response = $this->get(route('certificates.verify', $certificate));
+    $response->assertStatus(200);
+    $response->assertSee('Verified Academic Document');
+});

@@ -27,12 +27,12 @@
 
     <div class="flex flex-col gap-6 w-full">
         @if(session('success'))
-            <div class="p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-xs font-medium rounded-r-lg shadow-sm">
+            <div class="p-4 bg-primary-100 border-l-4 border-primary-300 text-primary-300 text-xs font-semibold rounded-r-lg shadow-sm">
                 {{ session('success') }}
             </div>
         @endif
         @if(session('error'))
-            <div class="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-xs font-medium rounded-r-lg shadow-sm">
+            <div class="p-4 bg-accent-100/30 border-l-4 border-accent-200 text-accent-200 text-xs font-semibold rounded-r-lg shadow-sm">
                 {{ session('error') }}
             </div>
         @endif
@@ -43,20 +43,20 @@
             <input type="hidden" name="semesters" id="semesters-json" value="[]">
 
             <!-- SECTION 1: Student Details Form -->
-            <section id="form-section" class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 no-print">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+            <section id="form-section" class="bg-bgclr-200 border border-bgclr-300 p-8 rounded-3xl shadow-sm no-print">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-bgclr-300">
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('certificates.index') }}" class="text-gray-500 hover:text-gray-800">
+                        <a href="{{ route('certificates.index') }}" class="text-textclr-200 hover:text-textclr-100 transition font-bold text-sm">
                             &larr; Back
                         </a>
-                        <h2 class="text-xl font-bold text-[#072740] border-l-4 border-[#f7941d] pl-3">Generate Academic Transcript</h2>
+                        <h2 class="text-xl font-bold text-textclr-100 border-l-4 border-primary-300 pl-3">Generate Academic Transcript</h2>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="window.print()" class="bg-[#0a3a60] hover:bg-[#072740] text-white px-5 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md shadow-[#0a3a60]/20 text-xs">
+                        <button type="button" onclick="window.print()" class="bg-bgclr-300/40 hover:bg-bgclr-300/80 text-textclr-100 px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs border border-bgclr-300/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                             Print / Save as PDF
                         </button>
-                        <button type="submit" class="bg-[#00875a] hover:bg-[#006644] text-white px-5 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-md text-xs">
+                        <button type="submit" class="bg-primary-300 hover:bg-primary-300/90 text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs">
                             ✓ Save to Database
                         </button>
                     </div>
@@ -64,71 +64,71 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Select Student</label>
-                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none focus:border-[#0a3a60] text-xs" required>
-                            <option value="">-- Select Student --</option>
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Select Student</label>
+                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
+                            <option value="" class="bg-bgclr-100">-- Select Student --</option>
                             @foreach($students as $student)
-                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" data-email="{{ $student->email }}">{{ $student->name }} ({{ $student->email }})</option>
+                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" data-email="{{ $student->email }}" class="bg-bgclr-100">{{ $student->name }} ({{ $student->email }})</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Certificate Title</label>
-                        <input type="text" name="title" value="Academic Transcript" oninput="updateTranscriptPreview()" id="input-title" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none focus:border-[#0a3a60] text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Certificate Title</label>
+                        <input type="text" name="title" value="Academic Transcript" oninput="updateTranscriptPreview()" id="input-title" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-bold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Department</label>
-                        <input type="text" name="department" value="Computer Science and Engineering" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none focus:border-[#0a3a60] text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Department</label>
+                        <input type="text" name="department" value="Computer Science and Engineering" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" id="input-student-name" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none font-semibold text-[#072740] text-xs" readonly>
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Student's Name</label>
+                        <input type="text" id="input-student-name" class="w-full bg-bgclr-100 border border-bgclr-300 text-primary-300 rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" readonly>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Father's Name</label>
-                        <input type="text" name="father_name" value="MOHAMMED BELAL" oninput="updateTranscriptPreview()" id="input-father" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Father's Name</label>
+                        <input type="text" name="father_name" value="MOHAMMED BELAL" oninput="updateTranscriptPreview()" id="input-father" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Mother's Name</label>
-                        <input type="text" name="mother_name" value="RAHENA AKTER" oninput="updateTranscriptPreview()" id="input-mother" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Mother's Name</label>
+                        <input type="text" name="mother_name" value="RAHENA AKTER" oninput="updateTranscriptPreview()" id="input-mother" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Name of Course</label>
-                        <input type="text" name="course_name" value="Diploma Programme" oninput="updateTranscriptPreview()" id="input-course" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Name of Course</label>
+                        <input type="text" name="course_name" value="Diploma Programme" oninput="updateTranscriptPreview()" id="input-course" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="text" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Exam. Roll</label>
+                        <input type="text" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Registration No - Session</label>
-                        <input type="text" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Registration No - Session</label>
+                        <input type="text" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
-                        <input type="text" name="credit_completed" value="216/216" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
+                        <input type="text" name="credit_completed" value="216/216" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Final Result / CGPA</label>
-                        <input type="text" name="result" value="3.96 Out Of 4.00" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-green-50 border border-green-200 text-green-700 font-bold rounded-lg px-4 py-2.5 outline-none text-xs">
+                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Final Result / CGPA</label>
+                        <input type="text" name="result" value="3.96 Out Of 4.00" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-bgclr-100 border border-bgclr-300 text-accent-200 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-bold">
                     </div>
                 </div>
 
                 <!-- Academic Semesters List (Summary) -->
                 <div class="mt-8">
-                    <div class="flex justify-between items-center border-b pb-2 mb-4">
-                        <h3 class="text-sm font-bold text-gray-700">Academic Semesters & Subjects Breakdown</h3>
-                        <button type="button" onclick="openSemesterModal()" class="text-xs bg-[#0a3a60]/10 text-[#0a3a60] hover:bg-[#0a3a60] hover:text-white px-3 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1 shadow-sm">
+                    <div class="flex justify-between items-center border-b border-bgclr-300 pb-2 mb-4">
+                        <h3 class="text-sm font-bold text-textclr-100">Academic Semesters & Subjects Breakdown</h3>
+                        <button type="button" onclick="openSemesterModal()" class="text-xs bg-primary-100 text-primary-300 hover:bg-primary-200 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 shadow-sm border border-primary-300/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                             Add Semester
                         </button>
@@ -150,7 +150,7 @@
                                 ?? 'https://dhakaglobal.university';
             @endphp
             <div id="certificate-section"
-                 class="bg-white relative mx-auto overflow-hidden shadow-xl"
+                 class="bg-white relative mx-auto overflow-hidden shadow-2xl"
                  style="width:210mm; min-height:297mm; padding:10mm 15mm; font-family:'Times New Roman',Times,serif; box-sizing:border-box;">
 
                 {{-- Watermark --}}
@@ -215,14 +215,25 @@
 
                     {{-- Signatures & Footer --}}
                     <div>
-                        <div class="flex justify-between items-end mt-4 pt-4">
-                            <div class="text-center w-36 relative">
+                        <div class="flex justify-between items-end mt-6">
+                            <!-- Left: QR Code -->
+                            <div class="flex flex-col items-center">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://dhakaglobal.university" alt="QR Code" class="w-16 h-16 border border-gray-300 p-1 bg-white">
+                                <p class="text-[7px] font-bold mt-1 text-gray-500 text-center">SCAN TO VERIFY</p>
+                            </div>
+                            
+                            <!-- Signature: Prepared by -->
+                            <div class="text-center w-36">
                                 <div class="border-t border-black font-bold pt-1 text-[12px] italic">Prepared by</div>
                             </div>
-                            <div class="text-center w-36 relative">
+                            
+                            <!-- Signature: Compared by -->
+                            <div class="text-center w-36">
                                 <div class="border-t border-black font-bold pt-1 text-[12px] italic">Compared by</div>
                             </div>
-                            <div class="text-center w-48 relative">
+                            
+                            <!-- Signature: Controller of Examinations -->
+                            <div class="text-center w-44">
                                 <div class="border-t border-black font-bold pt-1 text-[12px] italic">Controller of Examinations</div>
                             </div>
                         </div>
@@ -236,34 +247,34 @@
         </form>
 
         <!-- Add Semester Modal -->
-        <div id="semester-modal" class="hidden fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 no-print">
-            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="semester-modal-content">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
-                    <h3 class="text-lg font-bold text-[#072740] flex items-center gap-2">
-                        <svg class="w-5 h-5 text-[#f7941d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div id="semester-modal" class="hidden fixed inset-0 bg-bgclr-300/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 no-print">
+            <div class="bg-bgclr-200 border border-bgclr-300 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="semester-modal-content">
+                <div class="px-6 py-4 border-b border-bgclr-300 flex justify-between items-center bg-bgclr-300/30 shrink-0">
+                    <h3 class="text-lg font-bold text-textclr-100 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Add New Semester
                     </h3>
-                    <button type="button" onclick="closeSemesterModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-md hover:bg-gray-200 transition-colors">
+                    <button type="button" onclick="closeSemesterModal()" class="text-textclr-200 hover:text-textclr-100 p-1 rounded-md hover:bg-bgclr-300/40 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 
-                <div class="p-6 overflow-y-auto flex-1 bg-white">
+                <div class="p-6 overflow-y-auto flex-1 bg-bgclr-200 text-textclr-100">
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Semester Name (e.g. 1ST)</label>
-                            <input type="text" id="sem-name-input" placeholder="1ST" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-3 py-2 outline-none focus:border-[#0a3a60] font-serif uppercase text-xs">
+                            <label class="block text-xs font-bold text-textclr-200 uppercase mb-1">Semester Name (e.g. 1ST)</label>
+                            <input type="text" id="sem-name-input" placeholder="1ST" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-3 py-2 outline-none focus:border-primary-300 font-serif uppercase text-xs">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Semester GPA</label>
-                            <input type="number" step="0.01" id="sem-gpa-input" placeholder="4.00" class="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-lg px-3 py-2 outline-none focus:border-[#0a3a60] text-xs">
+                            <label class="block text-xs font-bold text-textclr-200 uppercase mb-1">Semester GPA</label>
+                            <input type="number" step="0.01" id="sem-gpa-input" placeholder="4.00" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-3 py-2 outline-none focus:border-primary-300 text-xs">
                         </div>
                     </div>
 
-                    <div class="border-t border-gray-100 pt-4">
+                    <div class="border-t border-bgclr-300 pt-4">
                         <div class="flex justify-between items-center mb-3">
-                            <h4 class="text-xs font-bold text-gray-700">Courses / Subjects</h4>
-                            <button type="button" onclick="addCourseRow()" class="text-xs text-[#0a3a60] hover:text-[#072740] font-semibold flex items-center gap-1">
+                            <h4 class="text-xs font-bold text-textclr-100">Courses / Subjects</h4>
+                            <button type="button" onclick="addCourseRow()" class="text-xs text-primary-300 hover:text-primary-300/80 font-bold flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 Add Course Row
                             </button>
@@ -274,9 +285,9 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3 shrink-0">
-                    <button type="button" onclick="closeSemesterModal()" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors">Cancel</button>
-                    <button type="button" onclick="saveSemester()" class="px-5 py-2 rounded-lg text-xs font-medium text-white bg-[#0a3a60] hover:bg-[#072740] transition-colors shadow-md flex items-center gap-2">
+                <div class="px-6 py-4 border-t border-bgclr-300 bg-bgclr-300/30 flex justify-end gap-3 shrink-0">
+                    <button type="button" onclick="closeSemesterModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-textclr-200 hover:bg-bgclr-300/40 transition">Cancel</button>
+                    <button type="button" onclick="saveSemester()" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-primary-300 hover:bg-primary-300/90 transition-colors shadow-md flex items-center gap-2">
                         Save to Transcript
                     </button>
                 </div>
@@ -344,14 +355,14 @@
                 stateSemesters.forEach((sem, semIdx) => {
                     const liHTML = sem.courses.map(c => `<li>${c.code} - ${c.title}</li>`).join('');
                     const cardHTML = `
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 relative group">
+                        <div class="bg-bgclr-100/50 border border-bgclr-300/40 rounded-2xl p-4 relative group text-textclr-100">
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-semibold text-[#072740] text-xs">${sem.name} Semester (GPA: ${sem.gpa})</h4>
-                                <button type="button" onclick="removeSemester(${semIdx})" class="text-red-400 hover:text-red-600 transition-opacity no-print" title="Remove">
+                                <h4 class="font-bold text-primary-300 text-xs">${sem.name} Semester (GPA: ${sem.gpa})</h4>
+                                <button type="button" onclick="removeSemester(${semIdx})" class="text-accent-200 hover:text-accent-200/80 transition no-print" title="Remove">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </div>
-                            <ul class="text-[11px] text-gray-600 space-y-1">
+                            <ul class="text-[11px] text-textclr-200 space-y-1">
                                 ${liHTML}
                             </ul>
                         </div>
@@ -423,40 +434,41 @@
                 }, 300);
             }
 
+            // Courses management in modal
             function addCourseRow() {
                 const container = document.getElementById('course-rows-container');
                 const rowId = Date.now() + Math.random();
                 const rowHTML = `
-                    <div class="grid grid-cols-12 gap-2 items-end bg-gray-50 p-2 rounded border border-gray-200 course-input-row" id="course-${rowId}">
+                    <div class="grid grid-cols-12 gap-2 items-end bg-bgclr-100/50 p-2 rounded border border-bgclr-300/40 course-input-row" id="course-${rowId}">
                         <div class="col-span-3">
-                            <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-0.5">Code</label>
-                            <input type="text" class="course-code w-full bg-white border border-gray-200 rounded px-2 py-1 text-xs outline-none focus:border-[#0a3a60]" placeholder="e.g. 28591">
+                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Code</label>
+                            <input type="text" class="course-code w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="e.g. 28591">
                         </div>
                         <div class="col-span-5">
-                            <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-0.5">Title</label>
-                            <input type="text" class="course-title w-full bg-white border border-gray-200 rounded px-2 py-1 text-xs outline-none focus:border-[#0a3a60]" placeholder="Course Title">
+                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Title</label>
+                            <input type="text" class="course-title w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="Course Title">
                         </div>
                         <div class="col-span-2">
-                            <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-0.5">Cr.</label>
-                            <input type="number" class="course-credit w-full bg-white border border-gray-200 rounded px-2 py-1 text-xs outline-none focus:border-[#0a3a60]" placeholder="4">
+                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Cr.</label>
+                            <input type="number" class="course-credit w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="4">
                         </div>
                         <div class="col-span-2 flex gap-1 items-end">
                             <div class="flex-1">
-                                <label class="block text-[10px] font-semibold text-gray-500 uppercase mb-0.5">Grade</label>
-                                <select class="course-grade w-full bg-white border border-gray-200 rounded px-1 py-1 text-xs outline-none focus:border-[#0a3a60]">
-                                    <option value="A+">A+</option>
-                                    <option value="A">A</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B">B</option>
-                                    <option value="B-">B-</option>
-                                    <option value="C+">C+</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                    <option value="F">F</option>
+                                <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Grade</label>
+                                <select class="course-grade w-full bg-bgclr-100 border border-bgclr-300 rounded px-1 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold">
+                                    <option value="A+" class="bg-bgclr-200">A+</option>
+                                    <option value="A" class="bg-bgclr-200">A</option>
+                                    <option value="A-" class="bg-bgclr-200">A-</option>
+                                    <option value="B+" class="bg-bgclr-200">B+</option>
+                                    <option value="B" class="bg-bgclr-200">B</option>
+                                    <option value="B-" class="bg-bgclr-200">B-</option>
+                                    <option value="C+" class="bg-bgclr-200">C+</option>
+                                    <option value="C" class="bg-bgclr-200">C</option>
+                                    <option value="D" class="bg-bgclr-200">D</option>
+                                    <option value="F" class="bg-bgclr-200">F</option>
                                 </select>
                             </div>
-                            <button type="button" onclick="document.getElementById('course-${rowId}').remove()" class="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded transition-colors" title="Remove">
+                            <button type="button" onclick="document.getElementById('course-${rowId}').remove()" class="p-1.5 text-accent-200 hover:bg-accent-100/20 rounded transition-colors" title="Remove">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>

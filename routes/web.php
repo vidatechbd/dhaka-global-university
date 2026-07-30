@@ -18,8 +18,46 @@ Route::get('/pending-approval', function () {
 })->middleware(['auth'])->name('pending-approval');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalStudents = \App\Models\User::role('Student')->count();
+    $totalTeachers = \App\Models\User::role('Teacher')->count();
+    $totalCertificates = \App\Models\Certificate::count();
+    $pendingStudents = \App\Models\User::role('Student')->where('status', 'pending')->count();
+
+    // 1. Enrollment trend (last 6 months registrations)
+    $registrationTrend = [];
+    for ($i = 5; $i >= 0; $i--) {
+        $date = now()->subMonths($i);
+        $monthName = $date->format('M');
+        $count = \App\Models\User::role('Student')
+            ->whereYear('created_at', $date->year)
+            ->whereMonth('created_at', $date->month)
+            ->count();
+        $registrationTrend[] = [
+            'month' => $monthName,
+            'count' => $count,
+        ];
+    }
+
+    // 2. Department distribution
+    $departmentCounts = \App\Models\Certificate::select('department', \DB::raw('count(*) as total'))
+        ->whereNotNull('department')
+        ->where('department', '<>', '')
+        ->groupBy('department')
+        ->get()
+        ->pluck('total', 'department')
+        ->toArray();
+
+    return view('dashboard', compact(
+        'totalStudents', 
+        'totalTeachers', 
+        'totalCertificates', 
+        'pendingStudents',
+        'registrationTrend',
+        'departmentCounts'
+    ));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/certificates/{certificate}/verify', [\App\Http\Controllers\CertificateController::class, 'verify'])->name('certificates.verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

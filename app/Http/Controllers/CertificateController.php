@@ -99,6 +99,17 @@ class CertificateController extends Controller
         return view('certificates.show', compact('certificate', 'setting'));
     }
 
+    public function verify(Certificate $certificate)
+    {
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        return view('certificates.show', compact('certificate', 'setting'));
+    }
+
     public function destroy(Certificate $certificate)
     {
         if (! auth()->user()->hasAnyRole(['Principal', 'Teacher'])) {
