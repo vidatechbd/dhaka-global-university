@@ -1,17 +1,20 @@
 <?php
 
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UniversitySettingController;
-use App\Http\Controllers\MarksheetController;
 use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MarksheetController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Marksheet;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -20,17 +23,17 @@ Route::get('/pending-approval', function () {
 })->middleware(['auth'])->name('pending-approval');
 
 Route::get('/dashboard', function () {
-    $totalStudents = \App\Models\User::role('Student')->count();
-    $totalTeachers = \App\Models\User::role('Teacher')->count();
-    $totalCertificates = \App\Models\Marksheet::count(); // Total marksheets generated
-    $pendingStudents = \App\Models\User::role('Student')->where('status', 'pending')->count();
+    $totalStudents = User::role('Student')->count();
+    $totalTeachers = User::role('Teacher')->count();
+    $totalCertificates = Marksheet::count(); // Total marksheets generated
+    $pendingStudents = User::role('Student')->where('status', 'pending')->count();
 
     // 1. Enrollment trend (last 6 months registrations)
     $registrationTrend = [];
     for ($i = 5; $i >= 0; $i--) {
         $date = now()->subMonths($i);
         $monthName = $date->format('M');
-        $count = \App\Models\User::role('Student')
+        $count = User::role('Student')
             ->whereYear('created_at', $date->year)
             ->whereMonth('created_at', $date->month)
             ->count();
@@ -41,7 +44,7 @@ Route::get('/dashboard', function () {
     }
 
     // 2. Department distribution
-    $departmentCounts = \App\Models\Marksheet::select('department', \DB::raw('count(*) as total'))
+    $departmentCounts = Marksheet::select('department', DB::raw('count(*) as total'))
         ->whereNotNull('department')
         ->where('department', '<>', '')
         ->groupBy('department')
@@ -50,17 +53,17 @@ Route::get('/dashboard', function () {
         ->toArray();
 
     return view('dashboard', compact(
-        'totalStudents', 
-        'totalTeachers', 
-        'totalCertificates', 
+        'totalStudents',
+        'totalTeachers',
+        'totalCertificates',
         'pendingStudents',
         'registrationTrend',
         'departmentCounts'
     ));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/marksheets/{marksheet}/verify', [\App\Http\Controllers\MarksheetController::class, 'verify'])->name('marksheets.verify');
-Route::get('/certificates/{certificate}/verify', [\App\Http\Controllers\CertificateController::class, 'verify'])->name('certificates.verify');
+Route::get('/marksheets/{marksheet}/verify', [MarksheetController::class, 'verify'])->name('marksheets.verify');
+Route::get('/certificates/{certificate}/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -90,13 +93,17 @@ Route::middleware('auth')->group(function () {
         Route::resource('admin/news', NewsController::class)->names('admin.news');
     });
 
+    // Pages Management
+    Route::middleware(['permission:manage pages'])->group(function () {
+        Route::resource('admin/pages', PageController::class)->names('admin.pages');
+    });
+
     // University Settings
     Route::middleware(['role:Principal'])->group(function () {
         Route::get('admin/settings', [UniversitySettingController::class, 'index'])->name('admin.settings.index');
         Route::post('admin/settings', [UniversitySettingController::class, 'update'])->name('admin.settings.update');
     });
 });
-
 
 Route::get('clear', function () {
     Artisan::call('optimize:clear');
