@@ -20,13 +20,28 @@ class CertificateController extends Controller
 
         if ($user->hasRole('Student')) {
             $certificates = $user->certificates;
-            $students = collect();
         } else {
             $certificates = Certificate::with(['student', 'creator'])->latest()->get();
-            $students = User::role('Student')->where('status', 'active')->get();
         }
 
-        return view('certificates.index', compact('certificates', 'students', 'setting'));
+        return view('certificates.index', compact('certificates', 'setting'));
+    }
+
+    public function create()
+    {
+        if (! auth()->user()->can('create certificate')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        $students = User::role('Student')->where('status', 'active')->get();
+
+        return view('certificates.create', compact('students', 'setting'));
     }
 
     public function store(Request $request)
@@ -82,5 +97,16 @@ class CertificateController extends Controller
         }
 
         return view('certificates.show', compact('certificate', 'setting'));
+    }
+
+    public function destroy(Certificate $certificate)
+    {
+        if (! auth()->user()->hasAnyRole(['Principal', 'Teacher'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $certificate->delete();
+
+        return redirect()->route('certificates.index')->with('success', 'Certificate/Transcript deleted successfully.');
     }
 }

@@ -106,13 +106,13 @@
                     <div class="sidebar-text transition-opacity duration-200">
                         <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('certificates.*') ? '' : 'hidden' }}">
                             <li>
-                                <a href="{{ route('certificates.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-medium rounded-xl transition-colors {{ request()->routeIs('certificates.index') && !request()->query('action') ? 'text-[#0a3a60] bg-[#0a3a60]/5' : 'text-gray-500 hover:text-[#0a3a60] hover:bg-[#0a3a60]/5' }}">
+                                <a href="{{ route('certificates.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-medium rounded-xl transition-colors {{ request()->routeIs('certificates.index') ? 'text-[#0a3a60] bg-[#0a3a60]/5' : 'text-gray-500 hover:text-[#0a3a60] hover:bg-[#0a3a60]/5' }}">
                                     All certificates
                                 </a>
                             </li>
                             @can('create certificate')
                                 <li>
-                                    <a href="{{ route('certificates.index') }}?action=create" class="flex items-center pl-11 pr-3 py-2 text-sm font-medium rounded-xl transition-colors {{ request()->query('action') === 'create' ? 'text-[#0a3a60] bg-[#0a3a60]/5' : 'text-gray-500 hover:text-[#0a3a60] hover:bg-[#0a3a60]/5' }}">
+                                    <a href="{{ route('certificates.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-medium rounded-xl transition-colors {{ request()->routeIs('certificates.create') ? 'text-[#0a3a60] bg-[#0a3a60]/5' : 'text-gray-500 hover:text-[#0a3a60] hover:bg-[#0a3a60]/5' }}">
                                         Generate certificate
                                     </a>
                                 </li>

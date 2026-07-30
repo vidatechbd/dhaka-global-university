@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Certificates
-    Route::resource('certificates', CertificateController::class)->only(['index', 'store', 'show']);
+    Route::resource('certificates', CertificateController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 
     // News Management
     Route::middleware(['permission:manage news'])->group(function () {

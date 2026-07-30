@@ -83,9 +83,8 @@
                     </span>
                 @endif
             </div>
-
             {{-- ── Document Body ── --}}
-            <div class="relative z-10 text-black flex flex-col justify-between h-full">
+            <div class="relative z-10 text-black flex flex-col justify-between" style="min-height: 277mm;">
                 <div>
 
                     {{-- ── University Header ── --}}
@@ -260,4 +259,14 @@
             </div>{{-- end document body --}}
         </div>{{-- end #printable-transcript --}}
     </div>
+
+    @if(request()->query('print'))
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            });
+        </script>
+    @endif
 </x-dynamic-component>

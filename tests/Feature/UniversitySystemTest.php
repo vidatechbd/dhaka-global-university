@@ -77,3 +77,19 @@ test('teacher can issue certificate to active student', function () {
         'created_by' => $teacher->id,
     ]);
 });
+
+test('teacher or principal can access certificate generation page', function () {
+    $teacher = User::factory()->create(['status' => 'active']);
+    $teacher->assignRole('Teacher');
+
+    $response = $this->actingAs($teacher)->get(route('certificates.create'));
+    $response->assertStatus(200);
+});
+
+test('student cannot access certificate generation page', function () {
+    $student = User::factory()->create(['status' => 'active']);
+    $student->assignRole('Student');
+
+    $response = $this->actingAs($student)->get(route('certificates.create'));
+    $response->assertStatus(403);
+});
