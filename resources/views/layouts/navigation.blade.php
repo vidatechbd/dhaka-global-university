@@ -34,9 +34,17 @@
                         </x-nav-link>
                     @endcan
 
+                    @can('view marksheet')
                     <x-nav-link :href="route('marksheets.index')" :active="request()->routeIs('marksheets.*')">
                         {{ __('Marksheets') }}
                     </x-nav-link>
+                    @endcan
+
+                    @can('view certificate')
+                    <x-nav-link :href="route('certificates.index')" :active="request()->routeIs('certificates.*')">
+                        {{ __('Certificates') }}
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

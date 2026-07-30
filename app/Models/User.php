@@ -36,6 +36,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the certificates for the student.
+     */
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class, 'student_id');
+    }
+
+    /**
+     * Get the certificates created by this teacher/principal.
+     */
+    public function createdCertificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class, 'created_by');
+    }
+
+    /**
      * Get the news articles authored by the user.
      */
     public function news(): HasMany

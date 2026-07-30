@@ -22,14 +22,24 @@
         <div class="absolute bottom-10 right-10 w-96 h-96 bg-sky-600 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-pulse" style="animation-delay: 2s;"></div>
         <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-pulse" style="animation-delay: 4s;"></div>
 
+        @php
+            $setting = \App\Models\UniversitySetting::first();
+            $logoPath = ($setting && $setting->logo) ? asset($setting->logo) : null;
+            $uniName = $setting->name ?? 'Dhaka Global University';
+        @endphp
+
         <div class="w-full max-w-md z-10 flex flex-col items-center">
             <!-- Logo Section -->
             <div class="mb-6 transform hover:scale-105 transition-transform duration-300">
                 <a href="/" class="flex flex-col items-center gap-2">
-                    <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/20">
-                        <x-application-logo class="w-10 h-10 fill-current text-white" />
+                    <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-lg border border-white/20 overflow-hidden">
+                        @if($logoPath)
+                            <img src="{{ $logoPath }}" alt="Logo" class="w-full h-full object-cover">
+                        @else
+                            <x-application-logo class="w-10 h-10 fill-current text-white" />
+                        @endif
                     </div>
-                    <span class="text-white font-semibold text-sm tracking-wider uppercase mt-2">Dhaka Global University</span>
+                    <span class="text-white font-semibold text-sm tracking-wider uppercase mt-2">{{ $uniName }}</span>
                 </a>
             </div>
 

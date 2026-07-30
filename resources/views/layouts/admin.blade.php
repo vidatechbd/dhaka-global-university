@@ -116,6 +116,7 @@
                 </li>
 
                 <!-- Nav Item: Marksheets (WITH SUBMENU) -->
+                @can('view marksheet')
                 <li>
                     <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('marksheets.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
                         <div class="flex items-center">
@@ -148,6 +149,43 @@
                         </ul>
                     </div>
                 </li>
+                @endcan
+
+                <!-- Nav Item: Certificates (WITH SUBMENU) -->
+                @can('view certificate')
+                <li>
+                    <button class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 submenu-toggle focus:outline-none {{ request()->routeIs('certificates.*') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:bg-bgclr-300/20 hover:text-textclr-100' }}">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 shrink-0 {{ request()->routeIs('certificates.*') ? 'text-white' : 'text-textclr-200' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            <span class="sidebar-text ml-3 font-semibold whitespace-nowrap transition-opacity duration-200">Certificates</span>
+                        </div>
+                        <!-- Chevron Icon -->
+                        <svg class="w-4 h-4 shrink-0 transition-transform duration-200 sidebar-text chevron-icon {{ request()->routeIs('certificates.*') ? 'rotate-180 text-white' : '' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Submenu Wrapper -->
+                    <div class="sidebar-text transition-opacity duration-200">
+                        <ul class="submenu-content space-y-1 mt-1 {{ request()->routeIs('certificates.*') ? '' : 'hidden' }}">
+                            <li>
+                                <a href="{{ route('certificates.index') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('certificates.index') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                    All certificates
+                                </a>
+                            </li>
+                            @can('create certificate')
+                                <li>
+                                    <a href="{{ route('certificates.create') }}" class="flex items-center pl-11 pr-3 py-2 text-sm font-semibold rounded-xl transition-colors {{ request()->routeIs('certificates.create') ? 'text-white bg-primary-300 font-semibold shadow-sm' : 'text-textclr-200 hover:text-textclr-100 hover:bg-bgclr-300/20' }}">
+                                        Generate certificate
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </div>
+                </li>
+                @endcan
 
                 <!-- Role & Permission Management (WITH SUBMENU - Principal only) -->
                 @role('Principal')

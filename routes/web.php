@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UniversitySettingController;
 use App\Http\Controllers\MarksheetController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/marksheets/{marksheet}/verify', [\App\Http\Controllers\MarksheetController::class, 'verify'])->name('marksheets.verify');
+Route::get('/certificates/{certificate}/verify', [\App\Http\Controllers\CertificateController::class, 'verify'])->name('certificates.verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -78,6 +80,9 @@ Route::middleware('auth')->group(function () {
 
     // Marksheets
     Route::resource('marksheets', MarksheetController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+
+    // Certificates
+    Route::resource('certificates', CertificateController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
 
     // News Management
     Route::middleware(['permission:manage news'])->group(function () {
