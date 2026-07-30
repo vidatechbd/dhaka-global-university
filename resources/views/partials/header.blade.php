@@ -83,16 +83,33 @@
             
             @foreach($topLevelPages as $tPage)
                 @if($tPage->children->count() > 0)
-                    <!-- Dropdown Menu -->
+                    <!-- Mega Menu Dropdown -->
                     <div class="group relative py-2">
                         <button class="hover:text-secondary transition flex items-center gap-1 uppercase tracking-wide">
                             {{ $tPage->title }} <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
                         </button>
-                        <div class="absolute top-full left-0 mt-0 w-64 bg-white border-t-4 border-primary shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col rounded-none z-50">
+                        <div class="absolute top-full left-0 lg:-left-24 mt-0 w-[550px] lg:w-[700px] bg-white border-t-4 border-secondary shadow-2xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 rounded-none opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                             @foreach($tPage->children->sortBy('sort_order')->sortBy('title') as $childPage)
-                                <a href="{{ route('page.show', $childPage->slug) }}" class="px-6 py-3 border-b border-slate-100 hover:bg-slate-50 hover:text-secondary transition text-slate-700 font-medium block">
-                                    {{ $childPage->title }}
-                                </a>
+                                <div>
+                                    <h4 class="text-primary font-serif font-bold text-sm border-b border-slate-200 pb-2 mb-4 flex items-center gap-2">
+                                        {{-- <i class="ph-bold ph-graduation-cap text-secondary text-base"></i> --}}
+                                        <a href="{{ route('page.show', $childPage->slug) }}" class="hover:text-secondary transition">
+                                            {{ $childPage->title }}
+                                        </a>
+                                    </h4>
+                                    
+                                    @if($childPage->children->count() > 0)
+                                        <ul class="space-y-3 font-normal text-xs text-slate-600">
+                                            @foreach($childPage->children->sortBy('sort_order')->sortBy('title') as $grandChildPage)
+                                                <li>
+                                                    <a href="{{ route('page.show', $grandChildPage->slug) }}" class="hover:text-secondary transition block">
+                                                        {{ $grandChildPage->title }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -111,23 +128,26 @@
                 </button>
                 <div class="absolute top-full left-0 mt-0 w-64 bg-white border-t-4 border-primary shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col rounded-none z-50">
                     <a href="{{ route('news.index') }}" class="px-6 py-3 border-b border-slate-100 hover:bg-slate-50 hover:text-secondary transition text-slate-700 font-medium block">News</a>
-                    <a href="{{ route('events.index') }}" class="px-6 py-3 hover:bg-slate-50 hover:text-secondary transition text-slate-700 font-medium block">Events</a>
-                </div>
+                    <a href="{{ route('events.index') }}" class="px-6 py-3 border-b border-slate-100 hover:bg-slate-50 hover:text-secondary transition text-slate-700 font-medium block">Events</a>
+                    <a href="{{ route('notices.index') }}" class="px-6 py-3 hover:bg-slate-50 hover:text-secondary transition text-slate-700 font-medium block">Notices</a>                </div>
             </div>
 
-            <div class="pl-4 border-l border-slate-200 flex items-center gap-4">
-                <form action="{{ route('search') }}" method="GET" class="flex items-center relative">
+            <div class="pl-4 border-l border-slate-200 flex items-center gap-4" x-data="{ open: false, query: '{{ request('q') }}' }">
+                <form action="{{ route('search') }}" method="GET" class="flex items-center relative" x-ref="searchForm">
                     <div class="relative flex items-center">
-                        <input type="text" name="q" id="desktop-search-input" 
-                               class="w-48 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs text-slate-800 placeholder-slate-400 pl-3 pr-8 py-2 rounded-full border border-slate-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-all outline-none" 
-                               placeholder="Search news & events..." 
-                               value="{{ request('q') }}">
-                        <button type="submit" class="absolute right-2.5 text-slate-400 hover:text-secondary transition flex items-center justify-center p-0.5">
-                            <i class="ph ph-magnifying-glass text-base"></i>
+                        <input type="text" name="q" x-model="query"
+                               x-show="open"
+                               x-transition
+                               x-ref="searchInput"
+                               class="w-48 bg-slate-50 focus:bg-white text-xs text-slate-800 placeholder-slate-400 pl-3 pr-8 py-2 rounded-full border border-slate-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-all outline-none mr-1" 
+                               placeholder="Search news & events...">
+                        
+                        <button type="button" @click="if (!open) { open = true; $nextTick(() => $refs.searchInput.focus()); } else if (query.trim().length > 0) { $refs.searchForm.submit(); } else { open = false; }" class="text-primary hover:text-secondary transition p-1 flex items-center justify-center">
+                            <i :class="open ? 'ph ph-x text-xl' : 'ph ph-magnifying-glass text-xl'"></i>
                         </button>
                     </div>
                 </form>
-                <a href="#" class="bg-secondary text-white px-6 py-2 rounded-none hover:bg-primary transition shadow-md font-bold uppercase tracking-wider text-xs whitespace-nowrap">Apply Now</a>
+                <a href="{{ route('apply') }}" class="bg-secondary text-white px-6 py-2 rounded-none hover:bg-primary transition shadow-md font-bold uppercase tracking-wider text-xs whitespace-nowrap">Apply Now</a>
             </div>
         </nav>
     </div>
@@ -141,12 +161,20 @@
                     <div class="pl-4 space-y-1">
                         @foreach($tPage->children->sortBy('sort_order')->sortBy('title') as $childPage)
                             <a href="{{ route('page.show', $childPage->slug) }}" class="p-1.5 text-xs text-slate-600 block border-b border-slate-50">&rarr; {{ $childPage->title }}</a>
+                            @if($childPage->children->count() > 0)
+                                <div class="pl-4 space-y-1">
+                                    @foreach($childPage->children->sortBy('sort_order')->sortBy('title') as $grandChildPage)
+                                        <a href="{{ route('page.show', $grandChildPage->slug) }}" class="p-1 text-[11px] text-slate-500 block border-b border-slate-50/50">&rarr;&rarr; {{ $grandChildPage->title }}</a>
+                                    @endforeach
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 @endif
             @endforeach
             <a href="{{ route('news.index') }}" class="p-2 border-b border-slate-100 block">News</a>
             <a href="{{ route('events.index') }}" class="p-2 border-b border-slate-100 block">Events</a>
+            <a href="{{ route('notices.index') }}" class="p-2 border-b border-slate-100 block">Notices</a>
             @auth
                 <a href="{{ url('/dashboard') }}" class="p-2 bg-secondary text-white text-center mt-4 font-bold uppercase">Dashboard</a>
             @else

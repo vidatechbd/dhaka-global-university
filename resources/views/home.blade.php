@@ -137,51 +137,73 @@
 
     <!-- Leadership Section -->
     @if($setting->show_leadership)
-        <section class="py-20 bg-lightBg border-t border-slate-200">
+        <section class="py-20 bg-lightBg border-t border-slate-200" x-data="{ open: true }">
             <div class="container mx-auto px-4 md:px-6">
-                <div class="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
-                    <h2 class="text-3xl lg:text-4xl font-serif font-bold text-primary mb-4">{{ $setting->leadership_title ?? 'Leadership & Authorities' }}</h2>
+                <div @click="open = !open" class="text-center max-w-3xl mx-auto mb-16 cursor-pointer select-none group">
+                    <h2 class="text-3xl lg:text-4xl font-serif font-bold text-primary mb-4 flex items-center justify-center gap-3 group-hover:text-secondary transition-colors">
+                        {{ $setting->leadership_title ?? 'Leadership & Authorities' }}
+                        <span class="text-xl text-secondary">
+                            <template x-if="open">
+                                <i class="ph ph-minus-circle"></i>
+                            </template>
+                            <template x-if="!open">
+                                <i class="ph ph-plus-circle"></i>
+                            </template>
+                        </span>
+                    </h2>
                     <p class="text-slate-600">{{ $setting->leadership_description ?? 'Guided by visionary leaders dedicated to academic brilliance.' }}</p>
                     <div class="w-16 h-1 bg-secondary mx-auto mt-6"></div>
                 </div>
 
-                @if($setting->leadership_members && count($setting->leadership_members) > 0)
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        @foreach($setting->leadership_members as $index => $member)
-                            @if(!empty($member['name']))
-                                <div class="bg-white p-6 shadow-md border border-slate-100 text-center group hover:-translate-y-2 transition-transform duration-300 reveal-on-scroll reveal-delay-{{ $index }}">
-                                    <div class="w-32 h-32 mx-auto mb-6 rounded-none overflow-hidden border-2 border-slate-100 p-1">
-                                        @if(!empty($member['image']))
-                                            <img src="{{ Str::startsWith($member['image'], 'http') ? $member['image'] : asset($member['image']) }}" alt="{{ $member['name'] }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
-                                        @else
-                                            <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
-                                                <i class="ph-bold ph-user text-4xl"></i>
-                                            </div>
-                                        @endif
+                <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
+                    @if($setting->leadership_members && count($setting->leadership_members) > 0)
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            @foreach($setting->leadership_members as $index => $member)
+                                @if(!empty($member['name']))
+                                    <div class="bg-white p-6 shadow-md border border-slate-100 text-center group/card hover:-translate-y-2 transition-transform duration-300">
+                                        <div class="w-32 h-32 mx-auto mb-6 rounded-none overflow-hidden border-2 border-slate-100 p-1">
+                                            @if(!empty($member['image']))
+                                                <img src="{{ Str::startsWith($member['image'], 'http') ? $member['image'] : asset($member['image']) }}" alt="{{ $member['name'] }}" class="w-full h-full object-cover grayscale group-hover/card:grayscale-0 transition-all duration-500">
+                                            @else
+                                                <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                                                    <i class="ph-bold ph-user text-4xl"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <h3 class="font-serif font-bold text-primary text-lg mb-1">{{ $member['name'] }}</h3>
+                                        <p class="text-secondary text-xs font-bold uppercase tracking-widest mb-4">{{ $member['designation'] ?? '' }}</p>
+                                        <a href="{{ $member['message_url'] ?? '#' }}" class="text-primary text-sm font-medium hover:text-secondary transition">Read Message &rarr;</a>
                                     </div>
-                                    <h3 class="font-serif font-bold text-primary text-lg mb-1">{{ $member['name'] }}</h3>
-                                    <p class="text-secondary text-xs font-bold uppercase tracking-widest mb-4">{{ $member['designation'] ?? '' }}</p>
-                                    <a href="{{ $member['message_url'] ?? '#' }}" class="text-primary text-sm font-medium hover:text-secondary transition">Read Message &rarr;</a>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                @endif
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </div>
         </section>
     @endif
 
     <!-- Academic Faculties Section -->
     @if($setting->show_faculties)
-        <section class="py-20 bg-white">
+        <section class="py-20 bg-white" x-data="{ open: true }">
             <div class="container mx-auto px-4 md:px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 reveal-on-scroll">
-                    <div>
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div @click="open = !open" class="cursor-pointer select-none group">
                         <div class="flex items-center gap-4 mb-2">
                             <div class="h-px bg-secondary w-12"></div>
                             <span class="text-secondary font-bold uppercase tracking-widest text-sm">Programs</span>
                         </div>
-                        <h2 class="text-3xl lg:text-4xl font-serif font-bold text-primary">{{ $setting->faculties_title ?? 'Academic Faculties' }}</h2>
+                        <h2 class="text-3xl lg:text-4xl font-serif font-bold text-primary flex items-center gap-3 group-hover:text-secondary transition-colors">
+                            {{ $setting->faculties_title ?? 'Academic Faculties' }}
+                            <span class="text-xl text-secondary">
+                                <template x-if="open">
+                                    <i class="ph ph-minus-circle"></i>
+                                </template>
+                                <template x-if="!open">
+                                    <i class="ph ph-plus-circle"></i>
+                                </template>
+                            </span>
+                        </h2>
                     </div>
                     @if($setting->faculties_btn_text)
                         <a href="{{ $setting->faculties_btn_url ?? '#' }}" class="bg-transparent border-2 border-primary text-primary px-6 py-2 rounded-none font-bold uppercase tracking-wider text-xs hover:bg-primary hover:text-white transition-colors">
@@ -189,6 +211,8 @@
                         </a>
                     @endif
                 </div>
+
+                <div x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-4" x-transition:enter-end="opacity-100 transform translate-y-0">
 
                 @if($setting->faculties && count($setting->faculties) > 0)
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -222,6 +246,7 @@
                         @endforeach
                     </div>
                 @endif
+                </div>
             </div>
         </section>
     @endif
@@ -241,9 +266,9 @@
                         
                         <div class="bg-white border border-slate-200 border-t-0 h-[450px] flex flex-col shadow-sm">
                             <div class="flex-grow overflow-y-auto notice-list p-4 space-y-3">
-                                @if($news->count() > 0)
-                                    @foreach($news->take(4) as $notice)
-                                        <a href="{{ route('news.show', $notice) }}" class="block p-4 border border-slate-100 hover:border-secondary hover:shadow-md transition-all group bg-slate-50">
+                                @if($notices->count() > 0)
+                                    @foreach($notices->take(4) as $notice)
+                                        <a href="{{ route('notices.show', $notice) }}" class="block p-4 border border-slate-100 hover:border-secondary hover:shadow-md transition-all group bg-slate-50">
                                             <div class="text-xs font-bold text-secondary mb-1 flex items-center gap-1">
                                                 <i class="ph-bold ph-calendar-blank"></i> 
                                                 {{ $notice->created_at->format('d M Y') }}
@@ -258,7 +283,7 @@
                                 @endif
                             </div>
                             <div class="p-4 border-t border-slate-200">
-                                <a href="{{ route('news.index') }}" class="w-full py-2 bg-slate-100 text-primary font-bold text-center text-sm uppercase tracking-wider hover:bg-primary hover:text-white transition block border border-transparent">
+                                <a href="{{ route('notices.index') }}" class="w-full py-2 bg-slate-100 text-primary font-bold text-center text-sm uppercase tracking-wider hover:bg-primary hover:text-white transition block border border-transparent">
                                     View All Notices
                                 </a>
                             </div>
@@ -302,6 +327,86 @@
                             @endif
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <!-- Gallery & Upcoming Events Section -->
+    @if((isset($gallery) && $gallery->count() > 0) || (isset($upcomingEvents) && $upcomingEvents->count() > 0))
+        <section class="py-20 bg-white border-t border-slate-200">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                    
+                    <!-- Left Side: Gallery Grid -->
+                    <div class="lg:col-span-8 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4 mb-2">
+                                <div class="h-px bg-secondary w-12"></div>
+                                <span class="text-secondary font-bold uppercase tracking-widest text-sm">Visual Tour</span>
+                            </div>
+                            <h2 class="text-3xl font-serif font-bold text-primary mb-6">Campus Gallery</h2>
+                            
+                            @if(isset($gallery) && $gallery->count() > 0)
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                    @foreach($gallery->take(6) as $item)
+                                        <div class="group relative overflow-hidden aspect-video bg-black shadow-md border border-slate-100">
+                                            <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                                            <!-- Overlay -->
+                                            <div class="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
+                                                <span class="bg-secondary text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded w-max mb-1">
+                                                    {{ $item->category }}
+                                                </span>
+                                                <h4 class="font-serif font-bold text-xs leading-snug line-clamp-1">
+                                                    {{ $item->title }}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center py-12 text-slate-400 text-xs">No gallery images uploaded yet.</div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Upcoming Events List -->
+                    <div class="lg:col-span-4 flex flex-col">
+                        <div class="bg-secondary text-white p-4 flex items-center gap-3">
+                            <i class="ph-bold ph-calendar text-2xl text-white"></i>
+                            <h2 class="text-xl font-serif font-bold">Upcoming Events</h2>
+                        </div>
+                        
+                        <div class="bg-white border border-slate-200 border-t-0 flex-grow flex flex-col justify-between shadow-sm">
+                            <div class="p-4 space-y-3">
+                                @if(isset($upcomingEvents) && $upcomingEvents->count() > 0)
+                                    @foreach($upcomingEvents as $eventItem)
+                                        <a href="{{ route('events.show', $eventItem) }}" class="block p-4 border border-slate-100 hover:border-primary hover:shadow-md transition-all group bg-slate-50">
+                                            <div class="text-[10px] font-bold text-secondary mb-1 flex items-center justify-between">
+                                                <span class="flex items-center gap-1">
+                                                    <i class="ph-bold ph-calendar-blank"></i> 
+                                                    {{ $eventItem->event_date ? $eventItem->event_date->format('d M Y') : 'Date TBD' }}
+                                                </span>
+                                                <span class="bg-green-100 text-green-800 text-[8px] font-bold px-1.5 py-0.5 rounded">Upcoming</span>
+                                            </div>
+                                            <h4 class="text-primary font-medium group-hover:text-primary transition-colors text-sm line-clamp-2">
+                                                {{ $eventItem->title }}
+                                            </h4>
+                                        </a>
+                                    @endforeach
+                                @else
+                                    <div class="text-center py-12 text-slate-400 text-xs mt-4">No upcoming events scheduled.</div>
+                                @endif
+                            </div>
+                            
+                            <div class="p-4 border-t border-slate-200 bg-slate-50">
+                                <a href="{{ route('events.index') }}" class="w-full py-2 bg-slate-100 text-primary font-bold text-center text-xs uppercase tracking-wider hover:bg-primary hover:text-white transition block border border-transparent">
+                                    View All Events
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

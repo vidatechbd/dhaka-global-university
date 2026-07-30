@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('pages', function (Blueprint $table) {
             $table->foreignId('parent_id')->nullable()->after('id')->constrained('pages')->nullOnDelete();
-            $table->foreignId('sidebar_id')->nullable()->after('content')->constrained('sidebars')->nullOnDelete();
         });
     }
 
@@ -25,8 +24,6 @@ return new class extends Migration
         Schema::table('pages', function (Blueprint $table) {
             $table->dropForeign(['parent_id']);
             $table->dropColumn('parent_id');
-            $table->dropForeign(['sidebar_id']);
-            $table->dropColumn('sidebar_id');
         });
     }
 };

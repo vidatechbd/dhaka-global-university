@@ -6,26 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Event extends Model
+class Student extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'content',
-        'thumbnail',
-        'event_date',
+        'name',
+        'mobile',
+        'email',
+        'program_type',
+        'admission_type',
+        'ssc_or_equivalent',
+        'ssc_division_or_gpa',
+        'hsc_or_equivalent',
+        'hsc_division_or_gpa',
+        'bachelor_or_degree_hons',
+        'bachelor_division_or_gpa',
         'status',
         'user_id',
     ];
 
-    protected $casts = [
-        'event_date' => 'date',
-    ];
-
     /**
-     * Get the user who authored the event.
+     * Get the user account created for the student.
      */
     public function user(): BelongsTo
     {

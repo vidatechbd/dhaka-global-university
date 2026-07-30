@@ -40,9 +40,20 @@
                                                 <i class="ph-bold ph-calendar text-5xl"></i>
                                             </div>
                                         @endif
-                                        <div class="absolute top-4 left-4 bg-secondary text-white px-3 py-1 text-center shadow-md">
-                                            <div class="font-bold text-lg leading-none">{{ $eventItem->created_at->format('d') }}</div>
-                                            <div class="text-[10px] font-bold uppercase mt-0.5">{{ $eventItem->created_at->format('M') }}</div>
+                                        <div class="absolute top-4 left-4 bg-secondary text-white px-3 py-1 text-center shadow-md z-10">
+                                            <div class="font-bold text-lg leading-none">{{ $eventItem->event_date ? $eventItem->event_date->format('d') : $eventItem->created_at->format('d') }}</div>
+                                            <div class="text-[10px] font-bold uppercase mt-0.5">{{ $eventItem->event_date ? $eventItem->event_date->format('M') : $eventItem->created_at->format('M') }}</div>
+                                        </div>
+                                        <div class="absolute top-4 right-4 z-10">
+                                            @if($eventItem->event_date)
+                                                @if($eventItem->event_date->isFuture() || $eventItem->event_date->isToday())
+                                                    <span class="bg-green-600 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded shadow">Upcoming</span>
+                                                @else
+                                                    <span class="bg-slate-500 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded shadow">Completed</span>
+                                                @endif
+                                            @else
+                                                <span class="bg-green-600 text-white font-bold text-[9px] uppercase tracking-wider px-2 py-0.5 rounded shadow">Upcoming</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="p-6 flex-grow flex flex-col justify-between">

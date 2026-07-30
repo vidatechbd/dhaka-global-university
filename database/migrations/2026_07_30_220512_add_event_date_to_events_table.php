@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->dropForeign(['sidebar_id']);
-            $table->dropColumn('sidebar_id');
+        Schema::table('events', function (Blueprint $table) {
+            $table->date('event_date')->nullable()->after('thumbnail');
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            $table->foreignId('sidebar_id')->nullable()->after('content')->constrained('sidebars')->nullOnDelete();
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('event_date');
         });
     }
 };

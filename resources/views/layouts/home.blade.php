@@ -37,8 +37,9 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS & AlpineJS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -130,6 +131,31 @@
 
     <!-- Include Footer Partial -->
     @include('partials.footer')
+
+    <!-- Custom Success Popup Modal -->
+    @if(session('success'))
+        <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all duration-300">
+            <div class="bg-white rounded-none border border-slate-200 max-w-md w-full p-8 shadow-2xl relative transform scale-100 transition-transform duration-300 flex flex-col items-center text-center">
+                
+                <!-- Success Icon Wrapper with pulse -->
+                <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-6 text-green-500 animate-bounce">
+                    <i class="ph ph-check-circle text-4xl"></i>
+                </div>
+
+                <h3 class="text-xl font-serif font-bold text-primary mb-3">
+                    Application Submitted!
+                </h3>
+                
+                <p class="text-slate-500 text-xs leading-relaxed mb-6">
+                    {{ session('success') }} Our admission department will review your academic records and contact you via email or phone shortly.
+                </p>
+
+                <button onclick="document.getElementById('success-modal').remove()" class="w-full py-2.5 bg-primary hover:bg-secondary text-white font-bold text-xs uppercase tracking-wider transition-colors shadow">
+                    Continue
+                </button>
+            </div>
+        </div>
+    @endif
 
 </body>
 </html>

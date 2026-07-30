@@ -2,6 +2,7 @@
 
 use App\Models\Certificate;
 use App\Models\Marksheet;
+use App\Models\Student;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
@@ -20,18 +21,41 @@ test('self registered student gets student role and is pending', function () {
     $response->assertRedirect(route('login'));
 });
 
-test('principal can approve pending student', function () {
+test('principal can approve pending student application', function () {
     $principal = User::where('email', 'principal@university.com')->first();
 
-    $student = User::factory()->create(['status' => 'pending']);
-    $student->assignRole('Student');
+    // Create admission application first
+    $appData = [
+        'name' => 'John Admission Student',
+        'mobile' => '01812345678',
+        'email' => 'john.admission@student.com',
+        'program_type' => 'B.Sc in CSE',
+        'admission_type' => 'Regular/ Undergraduate',
+        'ssc_or_equivalent' => 'SSC Science',
+        'ssc_division_or_gpa' => '5.00',
+        'hsc_or_equivalent' => 'HSC Science',
+        'hsc_division_or_gpa' => '5.00',
+    ];
+    $this->post('/apply', $appData)->assertRedirect(route('home'));
 
+    $application = Student::where('email', 'john.admission@student.com')->first();
+    expect($application)->not->toBeNull()
+        ->and($application->status)->toBe('pending');
+
+    // Approve the application
     $response = $this->actingAs($principal)
-        ->patch(route('admin.students.approve', $student));
+        ->patch(route('admin.students.approve', $application->id));
 
     $response->assertRedirect();
-    $student->refresh();
-    expect($student->status)->toBe('active');
+    $application->refresh();
+    expect($application->status)->toBe('approved');
+
+    // Assert active user account is created with Student role
+    $user = User::where('email', 'john.admission@student.com')->first();
+    expect($user)->not->toBeNull()
+        ->and($user->status)->toBe('active')
+        ->and($user->hasRole('Student'))->toBeTrue()
+        ->and(Hash::check('password', $user->password))->toBeTrue();
 });
 
 test('principal can create teacher account', function () {

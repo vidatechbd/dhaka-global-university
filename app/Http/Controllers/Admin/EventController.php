@@ -46,6 +46,7 @@ class EventController extends Controller
             'slug' => ['required', 'string', 'max:255', 'unique:events,slug'],
             'content' => ['required', 'string'],
             'status' => ['required', 'string', 'in:published,draft'],
+            'event_date' => ['nullable', 'date'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 
@@ -96,6 +97,7 @@ class EventController extends Controller
             'slug' => ['required', 'string', 'max:255', 'unique:events,slug,'.$event->id],
             'content' => ['required', 'string'],
             'status' => ['required', 'string', 'in:published,draft'],
+            'event_date' => ['nullable', 'date'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ]);
 

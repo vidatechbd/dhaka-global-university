@@ -248,10 +248,19 @@
             </div>
 
             <!-- ================= LEADERSHIP SECTION ================= -->
-            <div x-show="activeTab === 'leadership'" class="space-y-6">
-                <div class="border-b border-gray-200 pb-3">
-                    <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Leadership & Authorities</h3>
-                    <p class="text-xs text-gray-500 mt-1">Manage titles and the list of up to 4 leadership authority members.</p>
+            <div x-show="activeTab === 'leadership'" class="space-y-6" x-data="{
+                members: {{ json_encode($setting->leadership_members ?? []) }},
+                addMember() { this.members.push({ name: '', designation: '', image: '', message_url: '#' }); },
+                removeMember(index) { this.members.splice(index, 1); }
+            }">
+                <div class="border-b border-gray-200 pb-3 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Leadership & Authorities</h3>
+                        <p class="text-xs text-gray-500 mt-1">Manage titles and the list of leadership authority members dynamically.</p>
+                    </div>
+                    <button type="button" @click="addMember()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded text-[10px] uppercase transition shadow-sm">
+                        + Add Member
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -269,51 +278,72 @@
                     <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider border-b pb-1">Members List</h4>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @for($i = 0; $i < 4; $i++)
-                            @php
-                                $member = $setting->leadership_members[$i] ?? null;
-                            @endphp
-                            <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 space-y-3">
-                                <h5 class="text-xs font-bold text-blue-700">Member #{{ $i + 1 }}</h5>
+                        <template x-for="(member, index) in members" :key="index">
+                            <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 space-y-3 relative">
+                                <div class="absolute top-4 right-4 flex items-center gap-2">
+                                    <span class="bg-gray-200 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded">
+                                        Member <span x-text="index + 1"></span>
+                                    </span>
+                                    <button type="button" @click="removeMember(index)" class="bg-red-500 hover:bg-red-600 text-white p-1 rounded transition flex items-center justify-center">
+                                        <i class="ph ph-trash text-xs"></i>
+                                    </button>
+                                </div>
                                 
-                                <div>
+                                <input type="hidden" :name="'leadership_members[' + index + '][existing_image]'" :value="member.image">
+                                
+                                <div class="pt-4">
                                     <x-input-label :value="__('Name')" />
-                                    <x-text-input name="leadership_members[{{ $i }}][name]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="$member['name'] ?? ''" />
+                                    <input type="text" :name="'leadership_members[' + index + '][name]'" x-model="member.name" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none" required>
                                 </div>
                                 
                                 <div>
                                     <x-input-label :value="__('Designation')" />
-                                    <x-text-input name="leadership_members[{{ $i }}][designation]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="$member['designation'] ?? ''" />
+                                    <input type="text" :name="'leadership_members[' + index + '][designation]'" x-model="member.designation" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none">
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <x-input-label :value="__('Message / Profile Link')" />
-                                        <x-text-input name="leadership_members[{{ $i }}][message_url]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="$member['message_url'] ?? '#'" />
+                                        <input type="text" :name="'leadership_members[' + index + '][message_url]'" x-model="member.message_url" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none">
                                     </div>
                                     <div>
                                         <x-input-label :value="__('Profile Photo')" />
-                                        <input type="file" name="leadership_members[{{ $i }}][image]" class="block mt-1 w-full border border-gray-300 rounded-md p-1 bg-white text-[10px]" accept="image/*">
+                                        <input type="file" :name="'leadership_members[' + index + '][image]'" class="block mt-1 w-full border border-gray-300 rounded-md p-1 bg-white text-[10px]" accept="image/*">
                                     </div>
                                 </div>
 
-                                @if($member['image'] ?? null)
+                                <template x-if="member.image">
                                     <div class="mt-2 flex items-center gap-2">
-                                        <img src="{{ Str::startsWith($member['image'], 'http') ? $member['image'] : asset($member['image']) }}" class="w-10 h-10 object-cover rounded-full border border-gray-300 p-0.5">
+                                        <img :src="member.image.startsWith('http') ? member.image : '/' + member.image" class="w-10 h-10 object-cover rounded-full border border-gray-300 p-0.5 animate-fade-in">
                                         <span class="text-[10px] text-gray-500">Current Photo</span>
                                     </div>
-                                @endif
+                                </template>
                             </div>
-                        @endfor
+                        </template>
+                        
+                        <template x-if="members.length === 0">
+                            <div class="col-span-2 p-8 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-400 text-xs">
+                                No leadership members configured. Click "+ Add Member" to add one.
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
 
             <!-- ================= FACULTIES SECTION ================= -->
-            <div x-show="activeTab === 'faculties'" class="space-y-6">
-                <div class="border-b border-gray-200 pb-3">
-                    <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Academic Faculties</h3>
-                    <p class="text-xs text-gray-500 mt-1">Manage the title and items under the academic faculties section.</p>
+            <div x-show="activeTab === 'faculties'" class="space-y-6" x-data="{
+                faculties: {{ json_encode($setting->faculties ?? []) }},
+                addFaculty() { this.faculties.push({ name: '', explore_url: '#', image: '', depts: '' }); },
+                removeFaculty(index) { this.faculties.splice(index, 1); }
+            }">
+                <div class="border-b border-gray-200 pb-3 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider">Academic Faculties</h3>
+                        <p class="text-xs text-gray-500 mt-1">Manage titles and the list of academic faculties dynamically.</p>
+                    </div>
+                    <button type="button" @click="addFaculty()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded text-[10px] uppercase transition shadow-sm">
+                        + Add Faculty
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -335,40 +365,54 @@
                     <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider border-b pb-1">Faculties List</h4>
 
                     <div class="space-y-4">
-                        @for($i = 0; $i < 3; $i++)
-                            @php
-                                $faculty = $setting->faculties[$i] ?? null;
-                            @endphp
-                            <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="space-y-3">
-                                    <h5 class="text-xs font-bold text-blue-700">Faculty #{{ $i + 1 }}</h5>
+                        <template x-for="(faculty, index) in faculties" :key="index">
+                            <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
+                                <div class="absolute top-4 right-4 flex items-center gap-2">
+                                    <span class="bg-gray-200 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded">
+                                        Faculty <span x-text="index + 1"></span>
+                                    </span>
+                                    <button type="button" @click="removeFaculty(index)" class="bg-red-500 hover:bg-red-600 text-white p-1 rounded transition flex items-center justify-center">
+                                        <i class="ph ph-trash text-xs"></i>
+                                    </button>
+                                </div>
+
+                                <input type="hidden" :name="'faculties[' + index + '][existing_image]'" :value="faculty.image">
+
+                                <div class="space-y-3 pt-4">
                                     <div>
                                         <x-input-label :value="__('Faculty Name')" />
-                                        <x-text-input name="faculties[{{ $i }}][name]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="$faculty['name'] ?? ''" />
+                                        <input type="text" :name="'faculties[' + index + '][name]'" x-model="faculty.name" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none" required>
                                     </div>
                                     <div>
                                         <x-input-label :value="__('Explore Link')" />
-                                        <x-text-input name="faculties[{{ $i }}][explore_url]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="$faculty['explore_url'] ?? '#'" />
+                                        <input type="text" :name="'faculties[' + index + '][explore_url]'" x-model="faculty.explore_url" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none">
                                     </div>
                                 </div>
-                                <div class="space-y-3">
+                                <div class="space-y-3 pt-4">
                                     <div>
                                         <x-input-label :value="__('Cover Image')" />
-                                        <input type="file" name="faculties[{{ $i }}][image]" class="block mt-1 w-full border border-gray-300 rounded-md p-1 bg-white text-[10px]" accept="image/*">
-                                        @if($faculty['image'] ?? null)
+                                        <input type="file" :name="'faculties[' + index + '][image]'" class="block mt-1 w-full border border-gray-300 rounded-md p-1 bg-white text-[10px]" accept="image/*">
+                                        
+                                        <template x-if="faculty.image">
                                             <div class="mt-2 flex items-center gap-2">
-                                                <img src="{{ Str::startsWith($faculty['image'], 'http') ? $faculty['image'] : asset($faculty['image']) }}" class="w-16 h-10 object-cover rounded border border-gray-300 p-0.5">
+                                                <img :src="faculty.image.startsWith('http') ? faculty.image : '/' + faculty.image" class="w-16 h-10 object-cover rounded border border-gray-300 p-0.5">
                                                 <span class="text-[10px] text-gray-500">Current Cover</span>
                                             </div>
-                                        @endif
+                                        </template>
                                     </div>
                                     <div>
                                         <x-input-label :value="__('Departments (Comma-separated)')" />
-                                        <x-text-input name="faculties[{{ $i }}][depts]" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white" type="text" :value="implode(', ', $faculty['depts'] ?? [])" placeholder="e.g. Dept. of CSE, Dept. of EEE" />
+                                        <input type="text" :name="'faculties[' + index + '][depts]'" :value="Array.isArray(faculty.depts) ? faculty.depts.join(', ') : faculty.depts" @input="faculty.depts = $event.target.value" class="block mt-1 w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-xs outline-none" placeholder="e.g. Dept. of CSE, Dept. of EEE">
                                     </div>
                                 </div>
                             </div>
-                        @endfor
+                        </template>
+
+                        <template x-if="faculties.length === 0">
+                            <div class="p-8 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-400 text-xs">
+                                No faculties configured. Click "+ Add Faculty" to add one.
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>

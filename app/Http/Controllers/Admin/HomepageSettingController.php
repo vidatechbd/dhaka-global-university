@@ -148,8 +148,7 @@ class HomepageSettingController extends Controller
         $members = $request->input('leadership_members', []);
         $processedMembers = [];
         foreach ($members as $index => $member) {
-            $existingMember = ($setting->leadership_members[$index] ?? null);
-            $imagePath = $existingMember['image'] ?? null;
+            $imagePath = $member['existing_image'] ?? null;
 
             if ($request->hasFile("leadership_members.{$index}.image")) {
                 $this->deleteFile($imagePath);
@@ -170,8 +169,7 @@ class HomepageSettingController extends Controller
         $faculties = $request->input('faculties', []);
         $processedFaculties = [];
         foreach ($faculties as $index => $faculty) {
-            $existingFaculty = ($setting->faculties[$index] ?? null);
-            $imagePath = $existingFaculty['image'] ?? null;
+            $imagePath = $faculty['existing_image'] ?? null;
 
             if ($request->hasFile("faculties.{$index}.image")) {
                 $this->deleteFile($imagePath);
@@ -179,11 +177,14 @@ class HomepageSettingController extends Controller
                 $imagePath = $this->uploadImage($file, 'homepage/faculties');
             }
 
+            $deptsInput = $faculty['depts'] ?? '';
+            $deptsArray = is_array($deptsInput) ? $deptsInput : array_filter(array_map('trim', explode(',', $deptsInput)));
+
             $processedFaculties[] = [
                 'name' => $faculty['name'] ?? '',
                 'image' => $imagePath,
                 'explore_url' => $faculty['explore_url'] ?? '#',
-                'depts' => array_filter(array_map('trim', explode(',', $faculty['depts'] ?? ''))),
+                'depts' => $deptsArray,
             ];
         }
         $data['faculties'] = $processedFaculties;

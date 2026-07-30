@@ -23,9 +23,23 @@
                 <!-- Main Event Content -->
                 <article class="lg:col-span-8 space-y-6">
                     <header class="space-y-4">
-                        <span class="inline-block bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
-                            {{ $event->created_at->format('F d, Y') }}
-                        </span>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="inline-block bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
+                                Posted: {{ $event->created_at->format('F d, Y') }}
+                            </span>
+                            @if($event->event_date)
+                                <span class="inline-block bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">
+                                    Event Date: {{ $event->event_date->format('F d, Y') }}
+                                </span>
+                                @if($event->event_date->isFuture() || $event->event_date->isToday())
+                                    <span class="inline-block bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Upcoming</span>
+                                @else
+                                    <span class="inline-block bg-slate-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Completed</span>
+                                @endif
+                            @else
+                                <span class="inline-block bg-green-600 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Upcoming</span>
+                            @endif
+                        </div>
                         
                         <h1 class="text-2xl md:text-4xl font-serif font-bold text-primary leading-tight">
                             {{ $event->title }}
@@ -33,7 +47,7 @@
                         
                         <div class="flex items-center gap-4 text-xs text-slate-400 border-b border-slate-100 pb-4 font-semibold">
                             <span class="flex items-center gap-1">
-                                <i class="ph ph-user"></i> Posted by DGU Administration
+                                <i class="ph ph-user"></i> Posted by Administration
                             </span>
                             <span class="flex items-center gap-1">
                                 <i class="ph ph-calendar"></i> {{ $event->created_at->format('h:i A') }}

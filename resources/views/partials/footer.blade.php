@@ -65,9 +65,12 @@
             </div>
         </div>
 
+        @php
+            $uniSetting = \App\Models\UniversitySetting::first();
+        @endphp
         <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-            <p>&copy; <span id="current-year"></span> Feni University. All Rights Reserved.</p>
-            <p class="mt-2 md:mt-0">Designed for Academic Excellence.</p>
+            <p>&copy; <span id="current-year"></span> {{ $uniSetting->name ?? 'Feni University' }}. All Rights Reserved.</p>
+            <p class="mt-2 md:mt-0">Developed by <a href="https://www.vidatech.com.bd/" target="_blank" class="text-secondary hover:text-white transition font-bold">Vida Technology</a></p>
         </div>
     </div>
 </footer>

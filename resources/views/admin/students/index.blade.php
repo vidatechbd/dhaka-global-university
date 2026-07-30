@@ -71,29 +71,46 @@
                             <div class="overflow-x-auto border border-gray-100 rounded-xl">
                                 <table class="w-full text-left border-collapse">
                                     <thead>
-                                        <tr class="bg-slate-50 border-b border-gray-200 text-slate-600 text-xs font-bold uppercase tracking-wider">
-                                            <th class="px-6 py-4">{{ __('Name') }}</th>
-                                            <th class="px-6 py-4">{{ __('Email') }}</th>
-                                            <th class="px-6 py-4 text-right">{{ __('Action') }}</th>
+                                        <tr class="bg-slate-50 border-b border-gray-200 text-slate-600 text-[10px] font-bold uppercase tracking-wider">
+                                            <th class="px-4 py-3">{{ __('Student') }}</th>
+                                            <th class="px-4 py-3">{{ __('Program & Type') }}</th>
+                                            <th class="px-4 py-3">{{ __('Academic Records') }}</th>
+                                            <th class="px-4 py-3 text-right">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-gray-100 text-xs text-slate-700">
+                                    <tbody class="divide-y divide-gray-100 text-[11px] text-slate-700">
                                         @forelse($pendingStudents as $student)
-                                            <tr class="hover:bg-slate-50/50 transition">
-                                                <td class="px-6 py-4 font-bold text-slate-900">{{ $student->name }}</td>
-                                                <td class="px-6 py-4 font-medium text-slate-500">{{ $student->email }}</td>
-                                                <td class="px-6 py-4 text-right space-x-2">
-                                                    <form method="POST" action="{{ route('admin.students.approve', $student) }}" class="inline">
+                                            <tr class="hover:bg-slate-50/50 transition align-top">
+                                                <td class="px-4 py-3">
+                                                    <div class="font-bold text-slate-900">{{ $student->name }}</div>
+                                                    <div class="text-slate-500">{{ $student->email }}</div>
+                                                    <div class="text-slate-400">{{ $student->mobile }}</div>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <div class="font-semibold text-slate-800">{{ $student->program_type }}</div>
+                                                    <div class="text-slate-400 italic">{{ $student->admission_type }}</div>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <div class="space-y-0.5">
+                                                        <div><span class="font-medium text-slate-500">SSC:</span> {{ $student->ssc_or_equivalent }} ({{ $student->ssc_division_or_gpa }})</div>
+                                                        <div><span class="font-medium text-slate-500">HSC:</span> {{ $student->hsc_or_equivalent }} ({{ $student->hsc_division_or_gpa }})</div>
+                                                        @if($student->bachelor_or_degree_hons)
+                                                            <div><span class="font-medium text-slate-500">Bach:</span> {{ $student->bachelor_or_degree_hons }} ({{ $student->bachelor_division_or_gpa }})</div>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-3 text-right whitespace-nowrap">
+                                                    <form method="POST" action="{{ route('admin.students.approve', $student->id) }}" class="inline">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="submit" class="px-2.5 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 font-bold rounded transition">
+                                                        <button type="submit" class="px-2 py-1 bg-green-50 hover:bg-green-100 text-green-600 font-bold rounded transition text-[10px]">
                                                             {{ __('Approve') }}
                                                         </button>
                                                     </form>
-                                                    <form method="POST" action="{{ route('admin.students.destroy', $student) }}" class="inline" onsubmit="return confirm('Are you sure you want to reject this student?');">
+                                                    <form method="POST" action="{{ route('admin.students.reject', $student->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to reject this student?');">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded transition">
+                                                        <button type="submit" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded transition text-[10px] ml-1">
                                                             {{ __('Reject') }}
                                                         </button>
                                                     </form>
@@ -101,7 +118,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="3" class="px-6 py-8 text-center text-gray-400 font-medium">
+                                                <td colspan="4" class="px-6 py-8 text-center text-gray-400 font-medium">
                                                     {{ __('No pending approvals.') }}
                                                 </td>
                                             </tr>

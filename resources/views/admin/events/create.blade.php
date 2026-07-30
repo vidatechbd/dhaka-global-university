@@ -21,13 +21,20 @@
                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
             </div>
 
-            <!-- Thumbnail & Status (Flex layout) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Thumbnail, Event Date & Status (Grid layout) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Thumbnail -->
                 <div>
                     <x-input-label for="thumbnail" :value="__('Thumbnail Image')" />
                     <input id="thumbnail" type="file" name="thumbnail" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 text-xs focus:border-blue-500 focus:ring-blue-500 shadow-sm" accept="image/*">
                     <x-input-error :messages="$errors->get('thumbnail')" class="mt-2" />
+                </div>
+
+                <!-- Event Date -->
+                <div>
+                    <x-input-label for="event_date" :value="__('Event Date')" />
+                    <input id="event_date" type="date" name="event_date" value="{{ old('event_date') }}" class="mt-1 block w-full border border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-md shadow-sm px-3 py-2 text-xs bg-white">
+                    <x-input-error :messages="$errors->get('event_date')" class="mt-2" />
                 </div>
 
                 <!-- Status -->

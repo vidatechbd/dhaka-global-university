@@ -6,26 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Event extends Model
+class Notice extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'slug',
         'content',
-        'thumbnail',
-        'event_date',
+        'file_path',
         'status',
         'user_id',
     ];
 
-    protected $casts = [
-        'event_date' => 'date',
-    ];
-
     /**
-     * Get the user who authored the event.
+     * Get the user that authored the notice.
      */
     public function user(): BelongsTo
     {
