@@ -27,3 +27,7 @@ Homestead.yaml
 Thumbs.db
 index.php
 tst.php
+
+.htaccess
+composer.phar
+#test
