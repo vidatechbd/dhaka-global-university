@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\UniversitySettingController;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarksheetController;
@@ -19,10 +20,6 @@ use App\Http\Controllers\NewsController as PublicNewsController;
 use App\Http\Controllers\NoticeController as PublicNoticeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
-use App\Models\Certificate;
-use App\Models\Event;
-use App\Models\Marksheet;
-use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,49 +38,7 @@ Route::get('/pending-approval', function () {
     return view('auth.pending-approval');
 })->middleware(['auth'])->name('pending-approval');
 
-Route::get('/dashboard', function () {
-    $totalStudents = User::role('Student')->count();
-    $pendingStudents = User::role('Student')->where('status', 'pending')->count();
-    $totalMarksheets = Marksheet::count();
-    $totalCertificates = Certificate::count();
-
-    // Passing rate: percentage of marksheets with CGPA >= 2.00 (of 4.00)
-    $passingCount = Marksheet::whereNotNull('result')->where('result', '<>', '')->get()
-        ->filter(fn ($m) => (float) $m->result >= 2.00)
-        ->count();
-    $gradedCount = Marksheet::whereNotNull('result')->where('result', '<>', '')->count();
-    $passingRate = $gradedCount > 0 ? round(($passingCount / $gradedCount) * 100, 1) : 0;
-
-    // Upcoming events
-    $upcomingEvents = Event::where('status', 'published')
-        ->where('event_date', '>=', now()->startOfDay())
-        ->count();
-
-    // 1. Enrollment trend (last 6 months registrations) - for admission bar chart
-    $registrationTrend = [];
-    for ($i = 5; $i >= 0; $i--) {
-        $date = now()->subMonths($i);
-        $monthName = $date->format('M');
-        $count = User::role('Student')
-            ->whereYear('created_at', $date->year)
-            ->whereMonth('created_at', $date->month)
-            ->count();
-        $registrationTrend[] = [
-            'month' => $monthName,
-            'count' => $count,
-        ];
-    }
-
-    return view('dashboard', compact(
-        'totalStudents',
-        'pendingStudents',
-        'totalMarksheets',
-        'totalCertificates',
-        'passingRate',
-        'upcomingEvents',
-        'registrationTrend'
-    ));
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::match(['get', 'post'], '/marksheets/{marksheet}/verify', [MarksheetController::class, 'verify'])->name('marksheets.verify');
 Route::match(['get', 'post'], '/certificates/{certificate}/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
