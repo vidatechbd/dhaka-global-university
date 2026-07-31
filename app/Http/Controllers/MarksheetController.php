@@ -51,7 +51,7 @@ class MarksheetController extends Controller
         }
 
         $validated = $request->validate([
-            'student_id' => 'required|exists:users,id',
+            'student_id' => 'nullable|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'department' => 'nullable|string|max:255',
@@ -67,9 +67,11 @@ class MarksheetController extends Controller
             'semesters' => 'nullable',
         ]);
 
-        $student = User::findOrFail($request->student_id);
-        if (! $student->hasRole('Student') || $student->status !== 'active') {
-            return redirect()->back()->with('error', 'Invalid student selected.');
+        if ($request->student_id) {
+            $student = User::findOrFail($request->student_id);
+            if (! $student->hasRole('Student') || $student->status !== 'active') {
+                return redirect()->back()->with('error', 'Invalid student selected.');
+            }
         }
 
         if (is_string($request->semesters)) {

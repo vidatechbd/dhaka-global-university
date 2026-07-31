@@ -67,7 +67,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Select Student</label>
-                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                             <option value="" class="bg-white">-- Select Student --</option>
                             @foreach($students as $student)
                                 <option value="{{ $student->id }}" data-name="{{ $student->name }}" data-email="{{ $student->email }}" class="bg-white">{{ $student->name }} ({{ $student->email }})</option>
@@ -87,7 +87,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" id="input-student-name" class="w-full bg-slate-50 border border-slate-200 text-primary rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" readonly>
+                        <input type="text" id="input-student-name" class="w-full bg-white border border-slate-200 text-primary rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" >
                     </div>
 
                     <div>
@@ -107,12 +107,12 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="text" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <input type="number" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration No - Session</label>
-                        <input type="text" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <input type="number" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
