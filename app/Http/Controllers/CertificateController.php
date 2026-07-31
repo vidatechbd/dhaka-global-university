@@ -83,7 +83,7 @@ class CertificateController extends Controller
         return view('certificates.show', compact('certificate', 'setting'));
     }
 
-    public function verify(Certificate $certificate)
+    public function verify(Request $request, Certificate $certificate)
     {
         $setting = UniversitySetting::first() ?? new UniversitySetting([
             'name' => 'Dhaka Global University',
@@ -91,7 +91,30 @@ class CertificateController extends Controller
             'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
         ]);
 
-        return view('certificates.show', compact('certificate', 'setting'));
+        $sessionKey = 'verified_certificate_'.$certificate->id;
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'roll' => 'required|string',
+                'reg_no' => 'required|string',
+            ]);
+
+            if ($request->roll === $certificate->roll && $request->reg_no === $certificate->reg_no) {
+                session([$sessionKey => true]);
+
+                return redirect()->refresh();
+            }
+
+            return back()->withErrors([
+                'verification' => 'The provided Exam Roll or Registration number is incorrect.',
+            ])->withInput();
+        }
+
+        if (session($sessionKey) === true) {
+            return view('certificates.show', compact('certificate', 'setting'));
+        }
+
+        return view('certificates.verify_gate', compact('certificate', 'setting'));
     }
 
     public function destroy(Certificate $certificate)

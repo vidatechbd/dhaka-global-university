@@ -120,8 +120,26 @@ test('anyone can verify a marksheet via public link', function () {
     $marksheet = Marksheet::create([
         'student_id' => $student->id,
         'title' => 'BSc Computer Science',
+        'exam_roll' => '46437',
+        'reg_no' => '1502046437',
         'created_by' => $student->id,
     ]);
+
+    $response = $this->get(route('marksheets.verify', $marksheet));
+    $response->assertStatus(200);
+    $response->assertSee('Verify Academic Transcript');
+
+    $response = $this->post(route('marksheets.verify', $marksheet), [
+        'exam_roll' => 'wrong',
+        'reg_no' => 'wrong',
+    ]);
+    $response->assertSessionHasErrors('verification');
+
+    $response = $this->post(route('marksheets.verify', $marksheet), [
+        'exam_roll' => '46437',
+        'reg_no' => '1502046437',
+    ]);
+    $response->assertRedirect();
 
     $response = $this->get(route('marksheets.verify', $marksheet));
     $response->assertStatus(200);
@@ -186,6 +204,22 @@ test('anyone can verify a certificate via public link', function () {
         'out_of' => '4.00',
         'created_by' => $student->id,
     ]);
+
+    $response = $this->get(route('certificates.verify', $certificate));
+    $response->assertStatus(200);
+    $response->assertSee('Verify Academic Certificate');
+
+    $response = $this->post(route('certificates.verify', $certificate), [
+        'roll' => 'wrong',
+        'reg_no' => 'wrong',
+    ]);
+    $response->assertSessionHasErrors('verification');
+
+    $response = $this->post(route('certificates.verify', $certificate), [
+        'roll' => '46437',
+        'reg_no' => '1502046437',
+    ]);
+    $response->assertRedirect();
 
     $response = $this->get(route('certificates.verify', $certificate));
     $response->assertStatus(200);

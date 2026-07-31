@@ -99,7 +99,7 @@ class MarksheetController extends Controller
         return view('marksheets.show', compact('marksheet', 'setting'));
     }
 
-    public function verify(Marksheet $marksheet)
+    public function verify(Request $request, Marksheet $marksheet)
     {
         $setting = UniversitySetting::first() ?? new UniversitySetting([
             'name' => 'Dhaka Global University',
@@ -107,7 +107,30 @@ class MarksheetController extends Controller
             'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
         ]);
 
-        return view('marksheets.show', compact('marksheet', 'setting'));
+        $sessionKey = 'verified_marksheet_'.$marksheet->id;
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'exam_roll' => 'required|string',
+                'reg_no' => 'required|string',
+            ]);
+
+            if ($request->exam_roll === $marksheet->exam_roll && $request->reg_no === $marksheet->reg_no) {
+                session([$sessionKey => true]);
+
+                return redirect()->refresh();
+            }
+
+            return back()->withErrors([
+                'verification' => 'The provided Exam Roll or Registration number is incorrect.',
+            ])->withInput();
+        }
+
+        if (session($sessionKey) === true) {
+            return view('marksheets.show', compact('marksheet', 'setting'));
+        }
+
+        return view('marksheets.verify_gate', compact('marksheet', 'setting'));
     }
 
     public function destroy(Marksheet $marksheet)

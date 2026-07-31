@@ -53,7 +53,7 @@
                 <i class="ph-bold ph-arrow-left"></i>
                 Back to Marksheets
             </a>
-            <button onclick="window.print()"
+            <button onclick="downloadMarksheet()"
                     class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition-colors flex items-center gap-2 shadow-md shadow-primary/20 text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -259,11 +259,22 @@
         </div>
     </div>
 
+    <script>
+        function downloadMarksheet() {
+            const originalTitle = document.title;
+            document.title = "marksheet";
+            window.print();
+            setTimeout(() => {
+                document.title = originalTitle;
+            }, 100);
+        }
+    </script>
+
     @if(request()->query('print'))
         <script>
             window.addEventListener('DOMContentLoaded', () => {
                 const originalTitle = document.title;
-                document.title = "certificate"; // Keep "certificate" as filename as per earlier preference, or rename if preferred
+                document.title = "marksheet";
                 setTimeout(() => {
                     window.print();
                     setTimeout(() => {
@@ -283,12 +294,49 @@
     <title>Verify Marksheet - {{ $marksheet->student->name ?? '' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media print {
+            body, html {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                overflow: visible !important;
+            }
+            body * { visibility: hidden; }
+            .no-print { display: none !important; }
+            #printable-transcript,
+            #printable-transcript * { visibility: visible !important; }
+            #printable-transcript {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                margin: 0 !important;
+                padding: 10mm 15mm !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            @page { size: A4 portrait; margin: 0; }
+        }
+    </style>
 </head>
 <body class="bg-[#F0E8EE] font-sans min-h-screen flex flex-col items-center justify-center p-6 text-[#4C4C4C]">
     
-    <!-- Verification Status Banner -->
-    <div class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-full px-5 py-2 flex items-center gap-2 font-bold text-sm shadow-sm">
-        <span class="text-lg">✓</span> Verified Academic Document
+    <!-- Verification Status Banner & Download Button -->
+    <div class="flex items-center gap-4 mb-6 no-print">
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-full px-5 py-2 flex items-center gap-2 font-bold text-sm shadow-sm">
+            <span class="text-lg">✓</span> Verified Academic Document
+        </div>
+        
+        <button onclick="downloadMarksheet()"
+                class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-md text-sm cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            Download PDF
+        </button>
     </div>
 
     {{-- Transcript A4 Document --}}

@@ -79,8 +79,8 @@ Route::get('/dashboard', function () {
     ));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/marksheets/{marksheet}/verify', [MarksheetController::class, 'verify'])->name('marksheets.verify');
-Route::get('/certificates/{certificate}/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
+Route::match(['get', 'post'], '/marksheets/{marksheet}/verify', [MarksheetController::class, 'verify'])->name('marksheets.verify');
+Route::match(['get', 'post'], '/certificates/{certificate}/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
