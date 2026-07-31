@@ -563,6 +563,16 @@
             </div>
         </div>
     </div>
+    <script>
+        function downloadMarksheet() {
+            const originalTitle = document.title;
+            document.title = "marksheet";
+            window.print();
+            setTimeout(() => {
+                document.title = originalTitle;
+            }, 100);
+        }
+    </script>
 </body>
 </html>
 @endif

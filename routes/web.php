@@ -19,6 +19,8 @@ use App\Http\Controllers\NewsController as PublicNewsController;
 use App\Http\Controllers\NoticeController as PublicNoticeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Models\Certificate;
+use App\Models\Event;
 use App\Models\Marksheet;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
@@ -41,11 +43,23 @@ Route::get('/pending-approval', function () {
 
 Route::get('/dashboard', function () {
     $totalStudents = User::role('Student')->count();
-    $totalTeachers = User::role('Teacher')->count();
-    $totalCertificates = Marksheet::count(); // Total marksheets generated
     $pendingStudents = User::role('Student')->where('status', 'pending')->count();
+    $totalMarksheets = Marksheet::count();
+    $totalCertificates = Certificate::count();
 
-    // 1. Enrollment trend (last 6 months registrations)
+    // Passing rate: percentage of marksheets with CGPA >= 2.00 (of 4.00)
+    $passingCount = Marksheet::whereNotNull('result')->where('result', '<>', '')->get()
+        ->filter(fn ($m) => (float) $m->result >= 2.00)
+        ->count();
+    $gradedCount = Marksheet::whereNotNull('result')->where('result', '<>', '')->count();
+    $passingRate = $gradedCount > 0 ? round(($passingCount / $gradedCount) * 100, 1) : 0;
+
+    // Upcoming events
+    $upcomingEvents = Event::where('status', 'published')
+        ->where('event_date', '>=', now()->startOfDay())
+        ->count();
+
+    // 1. Enrollment trend (last 6 months registrations) - for admission bar chart
     $registrationTrend = [];
     for ($i = 5; $i >= 0; $i--) {
         $date = now()->subMonths($i);
@@ -60,22 +74,14 @@ Route::get('/dashboard', function () {
         ];
     }
 
-    // 2. Department distribution
-    $departmentCounts = Marksheet::select('department', DB::raw('count(*) as total'))
-        ->whereNotNull('department')
-        ->where('department', '<>', '')
-        ->groupBy('department')
-        ->get()
-        ->pluck('total', 'department')
-        ->toArray();
-
     return view('dashboard', compact(
         'totalStudents',
-        'totalTeachers',
-        'totalCertificates',
         'pendingStudents',
-        'registrationTrend',
-        'departmentCounts'
+        'totalMarksheets',
+        'totalCertificates',
+        'passingRate',
+        'upcomingEvents',
+        'registrationTrend'
     ));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
