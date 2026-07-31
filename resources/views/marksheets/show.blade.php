@@ -235,18 +235,33 @@
                         </div>
                         
                         <!-- Signature: Prepared by -->
-                        <div class="text-center w-36">
-                            <div class="border-t border-black font-bold pt-1 text-[12px] italic">Prepared by</div>
+                        <div class="text-center w-36 flex flex-col items-center">
+                            <div class="h-8 w-28 flex items-end justify-center mb-1">
+                                @if($setting->marksheet_prepared_by)
+                                    <img src="{{ asset($setting->marksheet_prepared_by) }}" alt="Prepared By" class="max-h-full max-w-full object-contain">
+                                @endif
+                            </div>
+                            <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Prepared by</div>
                         </div>
                         
                         <!-- Signature: Compared by -->
-                        <div class="text-center w-36">
-                            <div class="border-t border-black font-bold pt-1 text-[12px] italic">Compared by</div>
+                        <div class="text-center w-36 flex flex-col items-center">
+                            <div class="h-8 w-28 flex items-end justify-center mb-1">
+                                @if($setting->marksheet_compared_by)
+                                    <img src="{{ asset($setting->marksheet_compared_by) }}" alt="Compared By" class="max-h-full max-w-full object-contain">
+                                @endif
+                            </div>
+                            <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Compared by</div>
                         </div>
                         
                         <!-- Signature: Controller of Examinations -->
-                        <div class="text-center w-44">
-                            <div class="border-t border-black font-bold pt-1 text-[12px] italic">Controller of Examinations</div>
+                        <div class="text-center w-44 flex flex-col items-center">
+                            <div class="h-8 w-36 flex items-end justify-center mb-1">
+                                @if($setting->marksheet_controller_signature)
+                                    <img src="{{ asset($setting->marksheet_controller_signature) }}" alt="Controller Signature" class="max-h-full max-w-full object-contain">
+                                @endif
+                            </div>
+                            <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Controller of Examinations</div>
                         </div>
                     </div>
 
@@ -511,18 +526,33 @@
                     </div>
                     
                     <!-- Signature: Prepared by -->
-                    <div class="text-center w-36">
-                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Prepared by</div>
+                    <div class="text-center w-36 flex flex-col items-center">
+                        <div class="h-8 w-28 flex items-end justify-center mb-1">
+                            @if($setting->marksheet_prepared_by)
+                                <img src="{{ asset($setting->marksheet_prepared_by) }}" alt="Prepared By" class="max-h-full max-w-full object-contain">
+                            @endif
+                        </div>
+                        <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Prepared by</div>
                     </div>
                     
                     <!-- Signature: Compared by -->
-                    <div class="text-center w-36">
-                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Compared by</div>
+                    <div class="text-center w-36 flex flex-col items-center">
+                        <div class="h-8 w-28 flex items-end justify-center mb-1">
+                            @if($setting->marksheet_compared_by)
+                                <img src="{{ asset($setting->marksheet_compared_by) }}" alt="Compared By" class="max-h-full max-w-full object-contain">
+                            @endif
+                        </div>
+                        <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Compared by</div>
                     </div>
                     
                     <!-- Signature: Controller of Examinations -->
-                    <div class="text-center w-44">
-                        <div class="border-t border-black font-bold pt-1 text-[12px] italic">Controller of Examinations</div>
+                    <div class="text-center w-44 flex flex-col items-center">
+                        <div class="h-8 w-36 flex items-end justify-center mb-1">
+                            @if($setting->marksheet_controller_signature)
+                                <img src="{{ asset($setting->marksheet_controller_signature) }}" alt="Controller Signature" class="max-h-full max-w-full object-contain">
+                            @endif
+                        </div>
+                        <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Controller of Examinations</div>
                     </div>
                 </div>
 

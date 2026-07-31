@@ -316,7 +316,7 @@
 
                                 <!-- Certificate Body Text -->
                                 <div class="text-justify px-5 mb-auto">
-                                    <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
+                                    <p class="text-krinah text-[26px] leading-[2.3] m-0 uppercase">
                                         HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
                                         OF <span id="preview-subject">DIPLOMA IN COMPUTER SCIENCE AND
                                             ENGINEERING</span><span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span

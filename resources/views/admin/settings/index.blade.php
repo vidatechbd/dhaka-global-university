@@ -19,23 +19,36 @@
 
             <!-- Card 1: General & Branding -->
             <x-admin.card title="University Branding & Details" subtitle="Core identity information shown across the portal." icon="ph-bold ph-graduation-cap">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div>
-                        <x-input-label for="name" :value="__('University Name')" />
-                        <x-text-input id="name" class="block mt-1.5 w-full text-xs" type="text" name="name" :value="old('name', $setting->name)" required />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                    </div>
+                <div class="mb-6">
+                    <x-input-label for="name" :value="__('University Name')" />
+                    <x-text-input id="name" class="block mt-1.5 w-full text-xs" type="text" name="name" :value="old('name', $setting->name)" required />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
 
+                <!-- Row 1: Logo, Favicon, Certificate Signature -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
                         <x-input-label for="logo" :value="__('University Logo (WebP Compressed)')" />
                         @if($setting->logo)
                             <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->logo) }}" alt="Logo" class="h-12 object-contain p-1 border border-slate-200 rounded-lg">
+                                <img src="{{ asset($setting->logo) }}" alt="Logo" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
                                 <span class="text-xs text-slate-400">Current Logo</span>
                             </div>
                         @endif
                         <input id="logo" type="file" name="logo" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                         <x-input-error :messages="$errors->get('logo')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="favicon" :value="__('Favicon (ICO or PNG)')" />
+                        @if($setting->favicon)
+                            <div class="mt-2 mb-2 flex items-center gap-3">
+                                <img src="{{ asset($setting->favicon) }}" alt="Favicon" class="w-8 h-8 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                <span class="text-xs text-slate-400">Current Favicon</span>
+                            </div>
+                        @endif
+                        <input id="favicon" type="file" name="favicon" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*,.ico">
+                        <x-input-error :messages="$errors->get('favicon')" class="mt-2" />
                     </div>
 
                     <div>
@@ -49,17 +62,47 @@
                         <input id="signature" type="file" name="signature" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                         <x-input-error :messages="$errors->get('signature')" class="mt-2" />
                     </div>
+                </div>
 
-                    <div>
-                        <x-input-label for="favicon" :value="__('Favicon (ICO or PNG)')" />
-                        @if($setting->favicon)
-                            <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->favicon) }}" alt="Favicon" class="w-8 h-8 object-contain p-1 border border-slate-200 rounded-lg">
-                                <span class="text-xs text-slate-400">Current Favicon</span>
-                            </div>
-                        @endif
-                        <input id="favicon" type="file" name="favicon" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*,.ico">
-                        <x-input-error :messages="$errors->get('favicon')" class="mt-2" />
+                <!-- Row 2: Marksheet Signatures -->
+                <div class="border-t border-slate-100 pt-6 mt-6 mb-6">
+                    <h4 class="font-bold text-slate-800 text-sm mb-4">Marksheet Signatures</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <x-input-label for="marksheet_prepared_by" :value="__('Prepared By Signature (PNG)')" />
+                            @if($setting->marksheet_prepared_by)
+                                <div class="mt-2 mb-2 flex items-center gap-3">
+                                    <img src="{{ asset($setting->marksheet_prepared_by) }}" alt="Prepared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                    <span class="text-xs text-slate-400">Current</span>
+                                </div>
+                            @endif
+                            <input id="marksheet_prepared_by" type="file" name="marksheet_prepared_by" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <x-input-error :messages="$errors->get('marksheet_prepared_by')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="marksheet_compared_by" :value="__('Compared By Signature (PNG)')" />
+                            @if($setting->marksheet_compared_by)
+                                <div class="mt-2 mb-2 flex items-center gap-3">
+                                    <img src="{{ asset($setting->marksheet_compared_by) }}" alt="Compared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                    <span class="text-xs text-slate-400">Current</span>
+                                </div>
+                            @endif
+                            <input id="marksheet_compared_by" type="file" name="marksheet_compared_by" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <x-input-error :messages="$errors->get('marksheet_compared_by')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="marksheet_controller_signature" :value="__('Controller Signature (PNG)')" />
+                            @if($setting->marksheet_controller_signature)
+                                <div class="mt-2 mb-2 flex items-center gap-3">
+                                    <img src="{{ asset($setting->marksheet_controller_signature) }}" alt="Controller Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                    <span class="text-xs text-slate-400">Current</span>
+                                </div>
+                            @endif
+                            <input id="marksheet_controller_signature" type="file" name="marksheet_controller_signature" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <x-input-error :messages="$errors->get('marksheet_controller_signature')" class="mt-2" />
+                        </div>
                     </div>
                 </div>
 

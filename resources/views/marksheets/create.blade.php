@@ -150,6 +150,9 @@
                 $previewWeb    = collect($setting->social_medias ?? [])->firstWhere('platform','Website')['url']
                                 ?? collect($setting->social_medias ?? [])->first()['url']
                                 ?? 'https://dhakaglobal.university';
+                $previewPreparedBy = ($setting->marksheet_prepared_by ?? null) ? asset($setting->marksheet_prepared_by) : null;
+                $previewComparedBy = ($setting->marksheet_compared_by ?? null) ? asset($setting->marksheet_compared_by) : null;
+                $previewController = ($setting->marksheet_controller_signature ?? null) ? asset($setting->marksheet_controller_signature) : null;
             @endphp
             <div id="certificate-section"
                  class="bg-white relative mx-auto overflow-hidden shadow-2xl"
@@ -225,18 +228,33 @@
                             </div>
                             
                             <!-- Signature: Prepared by -->
-                            <div class="text-center w-36">
-                                <div class="border-t border-black font-bold pt-1 text-[12px] italic">Prepared by</div>
+                            <div class="text-center w-36 flex flex-col items-center">
+                                <div class="h-8 w-28 flex items-end justify-center mb-1">
+                                    @if($previewPreparedBy)
+                                        <img src="{{ $previewPreparedBy }}" alt="Prepared By" class="max-h-full max-w-full object-contain">
+                                    @endif
+                                </div>
+                                <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Prepared by</div>
                             </div>
                             
                             <!-- Signature: Compared by -->
-                            <div class="text-center w-36">
-                                <div class="border-t border-black font-bold pt-1 text-[12px] italic">Compared by</div>
+                            <div class="text-center w-36 flex flex-col items-center">
+                                <div class="h-8 w-28 flex items-end justify-center mb-1">
+                                    @if($previewComparedBy)
+                                        <img src="{{ $previewComparedBy }}" alt="Compared By" class="max-h-full max-w-full object-contain">
+                                    @endif
+                                </div>
+                                <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Compared by</div>
                             </div>
                             
                             <!-- Signature: Controller of Examinations -->
-                            <div class="text-center w-44">
-                                <div class="border-t border-black font-bold pt-1 text-[12px] italic">Controller of Examinations</div>
+                            <div class="text-center w-44 flex flex-col items-center">
+                                <div class="h-8 w-36 flex items-end justify-center mb-1">
+                                    @if($previewController)
+                                        <img src="{{ $previewController }}" alt="Controller Signature" class="max-h-full max-w-full object-contain">
+                                    @endif
+                                </div>
+                                <div class="border-t border-black font-bold pt-1 text-[12px] italic w-full">Controller of Examinations</div>
                             </div>
                         </div>
                         <div class="text-center text-[10px] mt-2 border-t border-black pt-1 font-bold">

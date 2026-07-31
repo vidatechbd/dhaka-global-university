@@ -280,7 +280,7 @@
 
                                 <!-- Certificate Body Text -->
                                 <div class="text-justify px-5 mb-auto">
-                                    <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
+                                    <p class="text-krinah text-[26px] leading-[2.3] m-0 uppercase">
                                         HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
                                         OF {{ strtoupper($certificate->subject) }}<span
                                             class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
@@ -395,6 +395,7 @@
                 font-style: normal;
             }
 
+            /* MAIN CONTAINERS & DIMENSIONS (11.69in x 8.27in A4 landscape) */
             .certificate-paper-wrapper {
                 width: 100%;
                 display: flex;
@@ -543,12 +544,51 @@
             .content-wrapper {
                 position: relative;
                 z-index: 10;
-                padding: 30px 45px 15px 45px;
+                padding: 50px 0px 31px 0px;
                 display: flex;
                 flex-direction: column;
                 height: 100%;
                 box-sizing: border-box;
                 justify-content: space-between;
+            }
+
+            @media print {
+                body>*:not(#printable-certificate-container) {
+                    display: none !important;
+                }
+
+                body,
+                html {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    background: white !important;
+                    width: 11.69in !important;
+                    height: 8.27in !important;
+                    overflow: hidden !important;
+                }
+
+                #printable-certificate-container {
+                    display: block !important;
+                    position: static !important;
+                    width: 11.69in !important;
+                    height: 8.27in !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    box-shadow: none !important;
+                    border: none !important;
+                }
+
+                .certificate-paper {
+                    box-shadow: none !important;
+                    width: 11.69in !important;
+                    height: 8.27in !important;
+                    margin: 0 !important;
+                }
+
+                @page {
+                    size: A4 landscape;
+                    margin: 0;
+                }
             }
         </style>
     </head>
@@ -561,7 +601,23 @@
             <span class="text-lg">✓</span> Verified Academic Certificate
         </div>
 
-        <div class="certificate-paper-wrapper">
+        <!-- Verification Status Banner & Download Button -->
+        <div class="flex items-center gap-4 mb-6 no-print">
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-full px-5 py-2 flex items-center gap-2 font-bold text-sm shadow-sm">
+                <span class="text-lg">✓</span> Verified Academic Certificate
+            </div>
+            
+            <button onclick="downloadCertificate()"
+                class="bg-slate-800 hover:bg-slate-950 text-white px-5 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-md text-sm cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Download PDF
+            </button>
+        </div>
+
+        <div id="printable-certificate-container" class="certificate-paper-wrapper">
             <div class="certificate-paper shadow-2xl">
                 <div class="certificate-content-border">
                     <div class="repeating-university-bg" id="bg-text"></div>
@@ -580,35 +636,38 @@
                             </h1>
                         </header>
 
-                        <!-- Certification Text -->
-                        <div class="text-center mb-4">
-                            <p class="text-old-english text-[20px] md:text-[24px] m-0 tracking-wider">
-                                This is to certify that
-                            </p>
-                        </div>
+                        <section>
 
-                        <!-- Student Name -->
-                        <div class="text-center mb-6">
-                            <h2 class="text-krinah text-[42px] m-0 uppercase font-black">
-                                {{ $certificate->name }}
-                            </h2>
-                        </div>
+                            <!-- Certification Text -->
+                            <div class="text-center mb-4">
+                                <p class="text-old-english text-[20px] md:text-[24px] m-0 tracking-wider">
+                                    This is to certify that
+                                </p>
+                            </div>
 
-                        <!-- Certificate Body Text -->
-                        <div class="text-justify px-5 mb-auto">
-                            <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
-                                HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
-                                OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span>
-                                BEARING ROLL NO IS <span
-                                    class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span
-                                    class="text-base/none font-mono">.</span>
-                                HE SECURED
-                                CGPA <span class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON
-                                A SCALE OF <span
-                                    class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span
-                                    class="text-base/none font-mono">.</span>
-                            </p>
-                        </div>
+                            <!-- Student Name -->
+                            <div class="text-center mb-6">
+                                <h2 class="text-krinah text-[42px] m-0 uppercase font-black">
+                                    {{ $certificate->name }}
+                                </h2>
+                            </div>
+
+                            <!-- Certificate Body Text -->
+                            <div class="text-justify px-5 mb-auto">
+                                <p class="text-krinah text-[26px] leading-[2.3] m-0 uppercase">
+                                    HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
+                                    OF {{ strtoupper($certificate->subject) }}<span
+                                        class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
+                                        class="fill-in-line text-base/none font-mono text-[23px !important]">{{ $certificate->roll }}</span><span class="text-base/none font-mono">.</span>
+                                    HE SECURED
+                                    CGPA <span
+                                        class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->cgpa }}</span> ON
+                                    A SCALE OF <span
+                                        class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->out_of }}</span><span
+                                        class="text-base/none font-mono">.</span>
+                                </p>
+                            </div>
+                        </section>
 
                         <!-- Footer Section -->
                         <div class="mt-4 flex flex-col justify-end">
@@ -627,12 +686,7 @@
                                     <div class="h-10 w-44 mb-1 flex items-end justify-center">
                                         @if($sigPath)
                                             <img src="{{ $sigPath }}" alt="Controller Signature"
-                                                class="h-full w-auto object-contain">
-                                        @else
-                                            <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2"
-                                                fill="none">
-                                                <path d="M 20,40 Q 40,-10 60,35 T 90,20 T 120,35 Q 150,15 180,30" />
-                                            </svg>
+                                                class="h-auto w-full object-contain">
                                         @endif
                                     </div>
                                     <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
@@ -661,6 +715,35 @@
                 const bgContainer = document.getElementById('bg-text');
                 const uniName = @json($uniName);
                 bgContainer.innerText = (uniName + " ").repeat(1000);
+            });
+
+            function downloadCertificate() {
+                const originalTitle = document.title;
+                document.title = "certificate";
+                window.print();
+                setTimeout(() => {
+                    document.title = originalTitle;
+                }, 100);
+            }
+
+            // Relocate print element to root body to avoid layout clipping
+            window.addEventListener('beforeprint', () => {
+                const cert = document.getElementById('printable-certificate-container');
+                if (cert) {
+                    const placeholder = document.createElement('div');
+                    placeholder.id = 'cert-placeholder';
+                    cert.parentNode.insertBefore(placeholder, cert);
+                    document.body.appendChild(cert);
+                }
+            });
+
+            window.addEventListener('afterprint', () => {
+                const cert = document.getElementById('printable-certificate-container');
+                const placeholder = document.getElementById('cert-placeholder');
+                if (cert && placeholder) {
+                    placeholder.parentNode.insertBefore(cert, placeholder);
+                    placeholder.parentNode.removeChild(placeholder);
+                }
             });
         </script>
     </body>

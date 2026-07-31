@@ -52,6 +52,9 @@ class UniversitySettingController extends Controller
             'social_medias' => ['nullable', 'array'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'signature' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'marksheet_prepared_by' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'marksheet_compared_by' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'marksheet_controller_signature' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
@@ -108,6 +111,84 @@ class UniversitySettingController extends Controller
             } catch (\Throwable $e) {
                 $file->move($targetDir, $filename);
                 $validated['signature'] = 'uploads/settings/'.$filename;
+            }
+        }
+
+        if ($request->hasFile('marksheet_prepared_by')) {
+            if ($setting->marksheet_prepared_by && File::exists(public_path($setting->marksheet_prepared_by))) {
+                File::delete(public_path($setting->marksheet_prepared_by));
+            }
+
+            $file = $request->file('marksheet_prepared_by');
+            $filename = 'marksheet_prepared_by_'.time().'.png';
+            $targetDir = public_path('uploads/settings');
+
+            if (! File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $targetPath = $targetDir.'/'.$filename;
+
+            try {
+                $manager = new ImageManager(new Driver);
+                $image = $manager->read($file->getRealPath());
+                $image->toPng()->save($targetPath);
+                $validated['marksheet_prepared_by'] = 'uploads/settings/'.$filename;
+            } catch (\Throwable $e) {
+                $file->move($targetDir, $filename);
+                $validated['marksheet_prepared_by'] = 'uploads/settings/'.$filename;
+            }
+        }
+
+        if ($request->hasFile('marksheet_compared_by')) {
+            if ($setting->marksheet_compared_by && File::exists(public_path($setting->marksheet_compared_by))) {
+                File::delete(public_path($setting->marksheet_compared_by));
+            }
+
+            $file = $request->file('marksheet_compared_by');
+            $filename = 'marksheet_compared_by_'.time().'.png';
+            $targetDir = public_path('uploads/settings');
+
+            if (! File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $targetPath = $targetDir.'/'.$filename;
+
+            try {
+                $manager = new ImageManager(new Driver);
+                $image = $manager->read($file->getRealPath());
+                $image->toPng()->save($targetPath);
+                $validated['marksheet_compared_by'] = 'uploads/settings/'.$filename;
+            } catch (\Throwable $e) {
+                $file->move($targetDir, $filename);
+                $validated['marksheet_compared_by'] = 'uploads/settings/'.$filename;
+            }
+        }
+
+        if ($request->hasFile('marksheet_controller_signature')) {
+            if ($setting->marksheet_controller_signature && File::exists(public_path($setting->marksheet_controller_signature))) {
+                File::delete(public_path($setting->marksheet_controller_signature));
+            }
+
+            $file = $request->file('marksheet_controller_signature');
+            $filename = 'marksheet_controller_signature_'.time().'.png';
+            $targetDir = public_path('uploads/settings');
+
+            if (! File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $targetPath = $targetDir.'/'.$filename;
+
+            try {
+                $manager = new ImageManager(new Driver);
+                $image = $manager->read($file->getRealPath());
+                $image->toPng()->save($targetPath);
+                $validated['marksheet_controller_signature'] = 'uploads/settings/'.$filename;
+            } catch (\Throwable $e) {
+                $file->move($targetDir, $filename);
+                $validated['marksheet_controller_signature'] = 'uploads/settings/'.$filename;
             }
         }
 
