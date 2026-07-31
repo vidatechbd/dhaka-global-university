@@ -1,85 +1,101 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center w-full">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Role Management') }}
-            </h2>
-            <a href="{{ route('admin.roles.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
-                ➕ {{ __('Add New Role') }}
-            </a>
+        <div class="flex flex-wrap items-center justify-between gap-3 w-full">
+            <div>
+                <h1 class="text-xl font-bold text-primary">{{ __('Role Management') }}</h1>
+                <p class="text-xs text-slate-500 mt-0.5">Define roles and control access to the admin panel.</p>
+            </div>
+            <x-admin.btn href="{{ route('admin.roles.create') }}" variant="primary" size="md">
+                <i class="ph-bold ph-plus text-sm"></i>
+                Add New Role
+            </x-admin.btn>
         </div>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col gap-6">
-
-                @if(session('success'))
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded" role="alert">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if(session('error'))
-                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">{{ __('Roles List') }}</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Role Name') }}</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Permissions') }}</th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Actions') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($roles as $role)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">{{ $role->name }}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-500">
-                                            <div class="flex flex-wrap gap-1">
-                                                @forelse($role->permissions as $perm)
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
-                                                        {{ $perm->name }}
-                                                    </span>
-                                                @empty
-                                                    <span class="text-xs text-gray-400 italic">{{ __('No permissions mapped') }}</span>
-                                                @endforelse
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-end gap-3">
-                                                <a href="{{ route('admin.roles.edit', $role) }}" class="text-indigo-600 hover:text-indigo-900 font-semibold">
-                                                    {{ __('Edit') }}
-                                                </a>
-                                                
-                                                @if($role->name !== 'Principal')
-                                                    <form method="POST" action="{{ route('admin.roles.destroy', $role) }}" onsubmit="return confirm('Are you sure?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-900 font-semibold">
-                                                            {{ __('Delete') }}
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">{{ __('No roles defined.') }}</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+    <x-admin.card title="Roles List" subtitle="Each role bundles a set of access permissions." icon="ph-bold ph-shield-check">
+        @if(session('success'))
+            <div class="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-medium rounded-r-lg flex items-center gap-2">
+                <i class="ph-bold ph-check-circle text-base"></i>
+                {{ session('success') }}
             </div>
+        @endif
+        @if(session('error'))
+            <div class="mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-700 text-xs font-medium rounded-r-lg flex items-center gap-2">
+                <i class="ph-bold ph-warning-circle text-base"></i>
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="overflow-x-auto -mx-6">
+            <table class="w-full text-left admin-table">
+                <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold tracking-wider">
+                        <th class="px-6 py-4">{{ __('Role Name') }}</th>
+                        <th class="px-6 py-4">{{ __('Permissions') }}</th>
+                        <th class="px-6 py-4 text-right">{{ __('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs text-slate-600">
+                    @forelse($roles as $role)
+                        <tr class="hover:bg-slate-50/60 transition">
+                            <td class="px-6 py-4 whitespace-nowrap" data-label="Role Name">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs uppercase">
+                                        {{ substr($role->name, 0, 1) }}
+                                    </div>
+                                    <span class="font-bold text-slate-800">{{ $role->name }}</span>
+                                    @if($role->name === 'Principal')
+                                        <x-admin.badge color="orange">Super Admin</x-admin.badge>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="px-6 py-4" data-label="Permissions">
+                                <div class="flex flex-wrap gap-1">
+                                    @forelse($role->permissions as $perm)
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#e0edf7] text-primary">
+                                            {{ $perm->name }}
+                                        </span>
+                                    @empty
+                                        <span class="text-xs text-slate-400 italic">No permissions mapped</span>
+                                    @endforelse
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right" data-label="">
+                                <div class="flex justify-end gap-2">
+                                    <x-admin.btn href="{{ route('admin.roles.edit', $role) }}" variant="amber-soft" size="sm">
+                                        <i class="ph-bold ph-pencil-simple text-xs"></i>
+                                        Edit
+                                    </x-admin.btn>
+                                    @if($role->name !== 'Principal')
+                                        <form method="POST" action="{{ route('admin.roles.destroy', $role) }}" onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-admin.btn type="submit" variant="danger-soft" size="sm">
+                                                <i class="ph-bold ph-trash text-xs"></i>
+                                                Delete
+                                            </x-admin.btn>
+                                        </form>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" data-label="" class="px-6 py-14 text-center">
+                                <div class="flex flex-col items-center justify-center gap-2">
+                                    <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                                        <i class="ph-bold ph-shield-check text-2xl"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-500">{{ __('No roles defined.') }}</span>
+                                    <x-admin.btn href="{{ route('admin.roles.create') }}" variant="primary" size="sm" class="mt-1">
+                                        Create your first role
+                                    </x-admin.btn>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-    </div>
+    </x-admin.card>
 </x-admin-layout>

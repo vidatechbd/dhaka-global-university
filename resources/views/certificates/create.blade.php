@@ -136,56 +136,58 @@
             @csrf
 
             <!-- SECTION 1: Inputs -->
-            <section id="form-section" class="bg-bgclr-200 border border-bgclr-300 p-8 rounded-3xl shadow-sm no-print">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-bgclr-300">
+            <section id="form-section" class="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm no-print">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('certificates.index') }}" class="text-textclr-200 hover:text-textclr-100 transition font-bold text-sm">
-                            &larr; Back
+                        <a href="{{ route('certificates.index') }}" class="text-slate-500 hover:text-slate-800 transition font-bold text-sm inline-flex items-center gap-1">
+                            <i class="ph-bold ph-arrow-left"></i>
+                            Back
                         </a>
-                        <h2 class="text-xl font-bold text-textclr-100 border-l-4 border-primary-300 pl-3">Generate Student Certificate</h2>
+                        <h2 class="text-xl font-bold text-primary border-l-4 border-secondary pl-3">Generate Student Certificate</h2>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button type="submit" class="bg-primary-300 hover:bg-primary-300/90 text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs">
-                            ✓ Save Certificate
+                        <button type="submit" class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-md shadow-primary/20 text-xs">
+                            <i class="ph-bold ph-check text-sm"></i>
+                            Save Certificate
                         </button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Select Student (Optional)</label>
-                        <select id="student_select" onchange="autoFillStudent(this)" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Select Student (Optional)</label>
+                        <select id="student_select" onchange="autoFillStudent(this)" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                             <option value="">-- Custom (No Student Record) --</option>
                             @foreach($students as $student)
-                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-bgclr-100">{{ $student->name }} ({{ $student->email }})</option>
+                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-white">{{ $student->name }} ({{ $student->email }})</option>
                             @endforeach
                         </select>
                         <input type="hidden" name="student_id" id="student_id" value="">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" name="name" id="input-name" oninput="updatePreview()" value="Jack Nicholson" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-bold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
+                        <input type="text" name="name" id="input-name" oninput="updatePreview()" value="Jack Nicholson" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="text" name="roll" id="input-roll" oninput="updatePreview()" value="46437" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam. Roll</label>
+                        <input type="text" name="roll" id="input-roll" oninput="updatePreview()" value="46437" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Subject/Degree</label>
-                        <input type="text" name="subject" id="input-subject" oninput="updatePreview()" value="Diploma in Computer Science and Engineering" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Subject/Degree</label>
+                        <input type="text" name="subject" id="input-subject" oninput="updatePreview()" value="Diploma in Computer Science and Engineering" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">CGPA</label>
-                        <input type="text" name="cgpa" id="input-cgpa" oninput="updatePreview()" value="3.96" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">CGPA</label>
+                        <input type="text" name="cgpa" id="input-cgpa" oninput="updatePreview()" value="3.96" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Out of Scale</label>
-                        <input type="text" name="out_of" id="input-outof" oninput="updatePreview()" value="4.00" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Out of Scale</label>
+                        <input type="text" name="out_of" id="input-outof" oninput="updatePreview()" value="4.00" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
                     </div>
                 </div>
             </section>

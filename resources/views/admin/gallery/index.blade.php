@@ -1,69 +1,90 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h1 class="text-xl font-bold text-gray-800">{{ __('Campus Gallery') }}</h1>
-            <a href="{{ route('admin.gallery.create') }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow transition-colors">
-                + Add Image
-            </a>
+        <div class="flex flex-wrap items-center justify-between gap-3 w-full">
+            <div>
+                <h1 class="text-xl font-bold text-primary">{{ __('Campus Gallery') }}</h1>
+                <p class="text-xs text-slate-500 mt-0.5">Showcase photos from campus life.</p>
+            </div>
+            <x-admin.btn href="{{ route('admin.gallery.create') }}" variant="primary" size="md">
+                <i class="ph-bold ph-plus text-sm"></i>
+                Add Image
+            </x-admin.btn>
         </div>
     </x-slot>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-            <h2 class="text-sm font-bold text-gray-700">{{ __('Gallery Images') }}</h2>
-        </div>
+    <x-admin.card title="Gallery Images" subtitle="Manage the images shown in the campus visual tour." icon="ph-bold ph-images">
+        <x-slot name="actions">
+            <x-admin.badge color="navy">{{ $galleryItems->count() }} {{ Str::plural('image', $galleryItems->count()) }}</x-admin.badge>
+        </x-slot>
 
         @if(session('success'))
-            <div class="m-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-xs font-medium rounded-r-lg">
+            <div class="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-medium rounded-r-lg flex items-center gap-2">
+                <i class="ph-bold ph-check-circle text-base"></i>
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="p-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @forelse($galleryItems as $item)
-                    <div class="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow transition bg-white flex flex-col justify-between">
-                        <div>
-                            <div class="h-44 relative bg-slate-950 flex items-center justify-center overflow-hidden group">
-                                <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                <span class="absolute top-2.5 left-2.5 px-2 py-0.5 bg-primary-300 text-white font-bold text-[9px] uppercase tracking-wider rounded">
-                                    {{ $item->category }}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            @forelse($galleryItems as $item)
+                <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition bg-white flex flex-col">
+                    <div class="h-44 relative bg-slate-950 flex items-center justify-center overflow-hidden group">
+                        <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 bg-primary text-white font-bold text-[9px] uppercase tracking-wider rounded-full shadow">
+                            {{ $item->category }}
+                        </span>
+                        <span class="absolute top-3 right-3">
+                            @if($item->status === 'published')
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-500 text-white text-[9px] font-bold rounded-full shadow">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span> Published
                                 </span>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-semibold text-gray-800 text-xs line-clamp-2" title="{{ $item->title }}">
-                                    {{ $item->title }}
-                                </h3>
-                                <div class="mt-2 flex items-center justify-between">
-                                    <span class="text-[9px] text-gray-400">{{ $item->created_at->format('M d, Y') }}</span>
-                                    @if($item->status === 'published')
-                                        <span class="inline-block px-1.5 py-0.5 bg-green-50 text-green-700 text-[8px] font-bold rounded uppercase">Pub</span>
-                                    @else
-                                        <span class="inline-block px-1.5 py-0.5 bg-amber-50 text-amber-600 text-[8px] font-bold rounded uppercase">Draft</span>
-                                    @endif
-                                </div>
-                            </div>
+                            @else
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-amber-500 text-white text-[9px] font-bold rounded-full shadow">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span> Draft
+                                </span>
+                            @endif
+                        </span>
+                    </div>
+                    <div class="p-4 flex-1">
+                        <h3 class="font-bold text-slate-800 text-xs line-clamp-2" title="{{ $item->title }}">
+                            {{ $item->title }}
+                        </h3>
+                        <div class="mt-2 flex items-center gap-1.5 text-[10px] text-slate-400">
+                            <i class="ph-bold ph-calendar-blank"></i>
+                            {{ $item->created_at->format('M d, Y') }}
                         </div>
-                        
-                        <div class="px-4 pb-4 pt-2 border-t border-gray-50 flex items-center justify-end gap-2">
-                            <a href="{{ route('admin.gallery.edit', $item) }}" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold rounded text-[10px] transition">
+                    </div>
+
+                    <div class="px-4 pb-4 pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <a href="{{ asset($item->image_path) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#e0edf7] hover:bg-[#d0e2f2] text-primary font-bold rounded-lg text-[10px] transition">
+                            <i class="ph-bold ph-eye text-xs"></i>
+                            View
+                        </a>
+                        <div class="flex items-center gap-1.5">
+                            <a href="{{ route('admin.gallery.edit', $item) }}" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold rounded-lg text-[10px] transition">
+                                <i class="ph-bold ph-pencil-simple text-xs"></i>
                                 Edit
                             </a>
                             <form action="{{ route('admin.gallery.destroy', $item) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this gallery item?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded text-[10px] transition">
-                                    Delete
+                                <button type="submit" class="inline-flex items-center px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold rounded-lg text-[10px] transition">
+                                    <i class="ph-bold ph-trash text-xs"></i>
                                 </button>
                             </form>
                         </div>
                     </div>
-                @empty
-                    <div class="col-span-full py-16 text-center text-gray-400 text-xs font-medium">
-                        {{ __('No gallery items found.') }}
+                </div>
+            @empty
+                <div class="col-span-full py-16 text-center flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                        <i class="ph-bold ph-images text-2xl"></i>
                     </div>
-                @endforelse
-            </div>
+                    <span class="text-sm font-medium text-slate-500">{{ __('No gallery items found.') }}</span>
+                    <x-admin.btn href="{{ route('admin.gallery.create') }}" variant="primary" size="sm" class="mt-1">
+                        Upload your first image
+                    </x-admin.btn>
+                </div>
+            @endforelse
         </div>
-    </div>
+    </x-admin.card>
 </x-admin-layout>

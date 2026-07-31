@@ -5,33 +5,33 @@
 <x-dynamic-component :component="$layout">
     @if(auth()->user()->hasRole('Student'))
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-textclr-100 leading-tight">
+            <h2 class="font-semibold text-xl text-[#0f172a] leading-tight">
                 {{ __('My Certificates') }}
             </h2>
         </x-slot>
 
         <div class="py-6 max-w-7xl mx-auto">
-            <div class="bg-bgclr-200 border border-bgclr-300 overflow-hidden shadow-sm sm:rounded-2xl p-6">
-                <h3 class="text-lg font-bold text-textclr-100 mb-4">{{ __('My Issued Certificates') }}</h3>
-                <div class="overflow-x-auto border border-bgclr-300 rounded-xl">
-                    <table class="min-w-full divide-y divide-bgclr-300">
-                        <thead class="bg-bgclr-300/30">
-                            <tr class="text-textclr-200 text-xs font-bold uppercase tracking-wider">
+            <div class="bg-white border border-slate-200 overflow-hidden shadow-sm sm:rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-[#0f172a] mb-4">{{ __('My Issued Certificates') }}</h3>
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr class="text-slate-500 text-xs font-bold uppercase tracking-wider">
                                 <th class="px-6 py-3 text-left">{{ __('Title/Subject') }}</th>
                                 <th class="px-6 py-3 text-left">{{ __('Issued By') }}</th>
                                 <th class="px-6 py-3 text-left">{{ __('Date') }}</th>
                                 <th class="px-6 py-3 text-right">{{ __('Action') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-bgclr-300 text-textclr-100 text-sm">
+                        <tbody class="divide-y divide-slate-100 text-slate-700 text-sm">
                             @forelse($certificates as $certificate)
-                                <tr class="hover:bg-bgclr-100/60 transition">
-                                    <td class="px-6 py-4 whitespace-nowrap text-textclr-100 font-semibold">{{ $certificate->subject }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-textclr-200">{{ $certificate->creator->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-textclr-200">{{ $certificate->created_at->format('M d, Y') }}</td>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap font-semibold text-[#0f172a]">{{ $certificate->subject }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-slate-500">{{ $certificate->creator->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-slate-500">{{ $certificate->created_at->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right font-medium space-x-3">
-                                        <a href="{{ route('certificates.show', $certificate) }}" class="text-primary-300 hover:text-primary-300/80 font-bold">{{ __('View') }}</a>
-                                        <a href="{{ route('certificates.show', $certificate) }}?print=true" target="_blank" class="text-accent-200 hover:text-accent-200/80 font-bold inline-flex items-center gap-1">
+                                        <a href="{{ route('certificates.show', $certificate) }}" class="text-[#0a3a60] hover:text-[#072740] font-bold">{{ __('View') }}</a>
+                                        <a href="{{ route('certificates.show', $certificate) }}?print=true" target="_blank" class="text-[#d97d10] hover:text-[#f7941d] font-bold inline-flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                             </svg>
@@ -41,7 +41,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-8 text-center text-textclr-200 italic">{{ __('No certificates found.') }}</td>
+                                    <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">{{ __('No certificates found.') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -74,92 +74,88 @@
 
         <div class="flex flex-col gap-6 w-full">
             @if(session('success'))
-                <div class="p-4 bg-primary-100 border-l-4 border-primary-300 text-primary-300 text-xs font-semibold rounded-r-lg shadow-sm">
+                <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-semibold rounded-r-lg shadow-sm">
                     {{ session('success') }}
                 </div>
             @endif
             @if(session('error'))
-                <div class="p-4 bg-accent-100/30 border-l-4 border-accent-200 text-accent-200 text-xs font-semibold rounded-r-lg shadow-sm">
+                <div class="p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-700 text-xs font-semibold rounded-r-lg shadow-sm">
                     {{ session('error') }}
                 </div>
             @endif
 
             <!-- Generated Certificates List Table (Full Width) -->
-            <div class="bg-bgclr-200 border border-bgclr-300 rounded-3xl p-6 shadow-sm w-full">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                    <h2 class="text-xl font-bold text-textclr-100">{{ __('All Generated Certificates') }}</h2>
-                    
+            <x-admin.card title="All Generated Certificates" subtitle="Every certificate issued on the portal." icon="ph-bold ph-certificate">
+                <x-slot name="actions">
                     <div class="flex flex-wrap items-center gap-2">
-                        <a href="{{ route('certificates.create') }}" class="px-4 py-2 bg-primary-300 hover:bg-primary-300/90 text-white font-bold text-xs rounded-lg shadow-sm transition">
-                            + Generate Certificate
-                        </a>
-                        <button type="button" class="px-4 py-1.5 bg-bgclr-300/40 text-textclr-100 font-bold text-[11px] rounded-md shadow-sm hover:bg-bgclr-300/70 transition">CSV</button>
-                        <button type="button" class="px-4 py-1.5 bg-bgclr-300/40 text-textclr-100 font-bold text-[11px] rounded-md shadow-sm hover:bg-bgclr-300/70 transition">Excel</button>
-                        <button type="button" class="px-4 py-1.5 bg-bgclr-300/40 text-textclr-100 font-bold text-[11px] rounded-md shadow-sm hover:bg-bgclr-300/70 transition">PDF</button>
-                        <button type="button" onclick="window.print()" class="px-4 py-1.5 bg-bgclr-300/40 text-textclr-100 font-bold text-[11px] rounded-md shadow-sm hover:bg-bgclr-300/70 transition">Print</button>
+                        <x-admin.btn href="{{ route('certificates.create') }}" variant="primary" size="sm">
+                            <i class="ph-bold ph-plus text-xs"></i>
+                            Generate Certificate
+                        </x-admin.btn>
                     </div>
-                </div>
+                </x-slot>
 
-                <div class="overflow-x-auto border border-bgclr-300 rounded-2xl">
-                    <table class="w-full text-left border-collapse">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left admin-table">
                         <thead>
-                            <tr class="bg-bgclr-300/30 border-b border-bgclr-300 text-textclr-200 text-xs font-bold uppercase tracking-wider">
-                                <th class="px-6 py-4 text-center">#</th>
-                                <th class="px-6 py-4">Student Name</th>
-                                <th class="px-6 py-4">Subject</th>
-                                <th class="px-6 py-4 text-center">Roll</th>
-                                <th class="px-6 py-4 text-center">CGPA</th>
-                                <th class="px-6 py-4 text-center">Status</th>
-                                <th class="px-6 py-4 text-right">Actions</th>
+                            <tr class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold tracking-wider">
+                                <th class="px-6 py-4 text-center" style="width: 48px;">#</th>
+                                <th class="px-6 py-4">{{ __('Student Name') }}</th>
+                                <th class="px-6 py-4">{{ __('Subject') }}</th>
+                                <th class="px-6 py-4 text-center">{{ __('Roll') }}</th>
+                                <th class="px-6 py-4 text-center">{{ __('CGPA') }}</th>
+                                <th class="px-6 py-4 text-center">{{ __('Status') }}</th>
+                                <th class="px-6 py-4 text-right">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-bgclr-300 text-xs text-textclr-100">
+                        <tbody class="divide-y divide-slate-100 text-xs text-slate-600">
                             @forelse($certificates as $index => $certificate)
-                                <tr class="hover:bg-bgclr-100/60 transition">
-                                    <td class="px-6 py-4 text-center text-textclr-200 font-medium">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4 font-bold text-textclr-100">{{ $certificate->name }}</td>
-                                    <td class="px-6 py-4 font-semibold text-textclr-100">{{ $certificate->subject }}</td>
-                                    <td class="px-6 py-4 text-center font-mono text-textclr-200">{{ $certificate->roll }}</td>
-                                    <td class="px-6 py-4 text-center font-bold text-textclr-100">{{ $certificate->cgpa }} / {{ $certificate->out_of }}</td>
-                                    <td class="px-6 py-4 text-center">
-                                        <span class="inline-block px-2.5 py-1 bg-primary-100/50 border border-primary-200/50 text-primary-300 font-bold text-[10px] rounded-md tracking-wider">
-                                            GENERATED
-                                        </span>
+                                <tr class="hover:bg-slate-50/60 transition">
+                                    <td class="px-6 py-4 text-center text-slate-400 font-medium" data-label="#">{{ $index + 1 }}</td>
+                                    <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{ $certificate->name }}</td>
+                                    <td class="px-6 py-4 font-semibold text-slate-700" data-label="Subject">{{ $certificate->subject }}</td>
+                                    <td class="px-6 py-4 text-center font-mono text-slate-500" data-label="Roll">{{ $certificate->roll }}</td>
+                                    <td class="px-6 py-4 text-center font-bold text-slate-800" data-label="CGPA">{{ $certificate->cgpa }} / {{ $certificate->out_of }}</td>
+                                    <td class="px-6 py-4 text-center" data-label="Status">
+                                        <x-admin.badge color="navy">Generated</x-admin.badge>
                                     </td>
-                                    <td class="px-6 py-4 text-right whitespace-nowrap space-x-2">
-                                        <a href="{{ route('certificates.show', $certificate) }}" class="inline-flex items-center justify-center p-1.5 bg-primary-100/40 hover:bg-primary-100/80 text-primary-300 rounded-md transition shadow-sm" title="View Certificate">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </a>
-                                        <a href="{{ route('certificates.show', $certificate) }}?print=true" target="_blank" class="inline-flex items-center justify-center p-1.5 bg-accent-100/40 hover:bg-accent-100/80 text-accent-200 rounded-md transition shadow-sm" title="Download PDF">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                                            </svg>
-                                        </a>
-                                        <form action="{{ route('certificates.destroy', $certificate) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this certificate?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="inline-flex items-center justify-center p-1.5 bg-accent-100/30 hover:bg-accent-100/60 text-accent-200 rounded-md transition shadow-sm" title="Delete Certificate">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                </svg>
-                                            </button>
-                                        </form>
+                                    <td class="px-6 py-4 text-right whitespace-nowrap" data-label="">
+                                        <div class="inline-flex items-center gap-1.5 justify-end">
+                                            <a href="{{ route('certificates.show', $certificate) }}" class="inline-flex items-center justify-center p-2 bg-[#e0edf7] hover:bg-[#d0e2f2] text-primary rounded-lg transition" title="View Certificate">
+                                                <i class="ph-bold ph-eye text-xs"></i>
+                                            </a>
+                                            <a href="{{ route('certificates.show', $certificate) }}?print=true" target="_blank" class="inline-flex items-center justify-center p-2 bg-[#fde9d0] hover:bg-[#fad9a8] text-[#d97d10] rounded-lg transition" title="Download PDF">
+                                                <i class="ph-bold ph-download-simple text-xs"></i>
+                                            </a>
+                                            <form action="{{ route('certificates.destroy', $certificate) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this certificate?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="inline-flex items-center justify-center p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition" title="Delete Certificate">
+                                                    <i class="ph-bold ph-trash text-xs"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="px-6 py-8 text-center text-textclr-200 font-medium italic">
-                                        {{ __('No certificates generated yet.') }}
+                                    <td colspan="7" data-label="" class="px-6 py-14 text-center">
+                                        <div class="flex flex-col items-center justify-center gap-2">
+                                            <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                                                <i class="ph-bold ph-certificate text-2xl"></i>
+                                            </div>
+                                            <span class="text-sm font-medium text-slate-500">{{ __('No certificates generated yet.') }}</span>
+                                            <x-admin.btn href="{{ route('certificates.create') }}" variant="primary" size="sm" class="mt-1">
+                                                Generate your first certificate
+                                            </x-admin.btn>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </x-admin.card>
         </div>
     @endif
 </x-dynamic-component>

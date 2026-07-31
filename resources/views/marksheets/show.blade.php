@@ -49,11 +49,12 @@
         {{-- ── Top Toolbar ── --}}
         <div class="flex items-center justify-between mb-6 no-print">
             <a href="{{ route('marksheets.index') }}"
-               class="text-sm font-bold text-textclr-200 hover:text-textclr-100 flex items-center gap-1">
-                &larr; Back to Marksheets
+               class="text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-colors">
+                <i class="ph-bold ph-arrow-left"></i>
+                Back to Marksheets
             </a>
             <button onclick="window.print()"
-                    class="bg-primary-300 hover:bg-primary-300/90 text-white px-5 py-2 rounded-lg font-bold transition-colors flex items-center gap-2 shadow-md text-sm">
+                    class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition-colors flex items-center gap-2 shadow-md shadow-primary/20 text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>

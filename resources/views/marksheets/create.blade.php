@@ -27,12 +27,12 @@
 
     <div class="flex flex-col gap-6 w-full">
         @if(session('success'))
-            <div class="p-4 bg-primary-100 border-l-4 border-primary-300 text-primary-300 text-xs font-semibold rounded-r-lg shadow-sm">
+            <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-semibold rounded-r-lg shadow-sm">
                 {{ session('success') }}
             </div>
         @endif
         @if(session('error'))
-            <div class="p-4 bg-accent-100/30 border-l-4 border-accent-200 text-accent-200 text-xs font-semibold rounded-r-lg shadow-sm">
+            <div class="p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-700 text-xs font-semibold rounded-r-lg shadow-sm">
                 {{ session('error') }}
             </div>
         @endif
@@ -43,92 +43,94 @@
             <input type="hidden" name="semesters" id="semesters-json" value="[]">
 
             <!-- SECTION 1: Student Details Form -->
-            <section id="form-section" class="bg-bgclr-200 border border-bgclr-300 p-8 rounded-3xl shadow-sm no-print">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-bgclr-300">
+            <section id="form-section" class="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm no-print">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('marksheets.index') }}" class="text-textclr-200 hover:text-textclr-100 transition font-bold text-sm">
-                            &larr; Back
+                        <a href="{{ route('marksheets.index') }}" class="text-slate-500 hover:text-slate-800 transition font-bold text-sm inline-flex items-center gap-1">
+                            <i class="ph-bold ph-arrow-left"></i>
+                            Back
                         </a>
-                        <h2 class="text-xl font-bold text-textclr-100 border-l-4 border-primary-300 pl-3">Generate Academic Transcript</h2>
+                        <h2 class="text-xl font-bold text-primary border-l-4 border-secondary pl-3">Generate Academic Transcript</h2>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button type="button" onclick="window.print()" class="bg-bgclr-300/40 hover:bg-bgclr-300/80 text-textclr-100 px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs border border-bgclr-300/20">
+                        <button type="button" onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs border border-slate-200">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                             Print / Save as PDF
                         </button>
-                        <button type="submit" class="bg-primary-300 hover:bg-primary-300/90 text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-sm text-xs">
-                            ✓ Save to Database
+                        <button type="submit" class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-md shadow-primary/20 text-xs">
+                            <i class="ph-bold ph-check text-sm"></i>
+                            Save to Database
                         </button>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Select Student</label>
-                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold" required>
-                            <option value="" class="bg-bgclr-100">-- Select Student --</option>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Select Student</label>
+                        <select id="student_id" name="student_id" onchange="autoFillStudent(this)" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                            <option value="" class="bg-white">-- Select Student --</option>
                             @foreach($students as $student)
-                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" data-email="{{ $student->email }}" class="bg-bgclr-100">{{ $student->name }} ({{ $student->email }})</option>
+                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" data-email="{{ $student->email }}" class="bg-white">{{ $student->name }} ({{ $student->email }})</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Certificate Title</label>
-                        <input type="text" name="title" value="Academic Transcript" oninput="updateTranscriptPreview()" id="input-title" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-bold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Certificate Title</label>
+                        <input type="text" name="title" value="Academic Transcript" oninput="updateTranscriptPreview()" id="input-title" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold" required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Department</label>
-                        <input type="text" name="department" value="Computer Science and Engineering" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Department</label>
+                        <input type="text" name="department" value="Computer Science and Engineering" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" id="input-student-name" class="w-full bg-bgclr-100 border border-bgclr-300 text-primary-300 rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" readonly>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
+                        <input type="text" id="input-student-name" class="w-full bg-slate-50 border border-slate-200 text-primary rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" readonly>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Father's Name</label>
-                        <input type="text" name="father_name" value="MOHAMMED BELAL" oninput="updateTranscriptPreview()" id="input-father" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Father's Name</label>
+                        <input type="text" name="father_name" value="MOHAMMED BELAL" oninput="updateTranscriptPreview()" id="input-father" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Mother's Name</label>
-                        <input type="text" name="mother_name" value="RAHENA AKTER" oninput="updateTranscriptPreview()" id="input-mother" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Mother's Name</label>
+                        <input type="text" name="mother_name" value="RAHENA AKTER" oninput="updateTranscriptPreview()" id="input-mother" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Name of Course</label>
-                        <input type="text" name="course_name" value="Diploma Programme" oninput="updateTranscriptPreview()" id="input-course" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Name of Course</label>
+                        <input type="text" name="course_name" value="Diploma Programme" oninput="updateTranscriptPreview()" id="input-course" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="text" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam. Roll</label>
+                        <input type="text" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Registration No - Session</label>
-                        <input type="text" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration No - Session</label>
+                        <input type="text" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
-                        <input type="text" name="credit_completed" value="216/216" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
+                        <input type="text" name="credit_completed" value="216/216" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-textclr-200 uppercase tracking-wide mb-1">Final Result / CGPA</label>
-                        <input type="text" name="result" value="3.96 Out Of 4.00" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-bgclr-100 border border-bgclr-300 text-accent-200 rounded-lg px-4 py-2.5 outline-none focus:border-primary-300 text-xs font-bold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Final Result / CGPA</label>
+                        <input type="text" name="result" value="3.96 Out Of 4.00" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-white border border-slate-300 text-[#d97d10] rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold">
                     </div>
                 </div>
 
                 <!-- Academic Semesters List (Summary) -->
                 <div class="mt-8">
-                    <div class="flex justify-between items-center border-b border-bgclr-300 pb-2 mb-4">
-                        <h3 class="text-sm font-bold text-textclr-100">Academic Semesters & Subjects Breakdown</h3>
-                        <button type="button" onclick="openSemesterModal()" class="text-xs bg-primary-100 text-primary-300 hover:bg-primary-200 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 shadow-sm border border-primary-300/20">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-4">
+                        <h3 class="text-sm font-bold text-slate-800">Academic Semesters & Subjects Breakdown</h3>
+                        <button type="button" onclick="openSemesterModal()" class="text-xs bg-[#e0edf7] text-primary hover:bg-[#d0e2f2] px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 shadow-sm border border-[#0a3a60]/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                             Add Semester
                         </button>
@@ -247,34 +249,34 @@
         </form>
 
         <!-- Add Semester Modal -->
-        <div id="semester-modal" class="hidden fixed inset-0 bg-bgclr-300/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 no-print">
-            <div class="bg-bgclr-200 border border-bgclr-300 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="semester-modal-content">
-                <div class="px-6 py-4 border-b border-bgclr-300 flex justify-between items-center bg-bgclr-300/30 shrink-0">
-                    <h3 class="text-lg font-bold text-textclr-100 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div id="semester-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 no-print">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="semester-modal-content">
+                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Add New Semester
                     </h3>
-                    <button type="button" onclick="closeSemesterModal()" class="text-textclr-200 hover:text-textclr-100 p-1 rounded-md hover:bg-bgclr-300/40 transition">
+                    <button type="button" onclick="closeSemesterModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-100 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 
-                <div class="p-6 overflow-y-auto flex-1 bg-bgclr-200 text-textclr-100">
+                <div class="p-6 overflow-y-auto flex-1 bg-white text-slate-800">
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="block text-xs font-bold text-textclr-200 uppercase mb-1">Semester Name (e.g. 1ST)</label>
-                            <input type="text" id="sem-name-input" placeholder="1ST" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-3 py-2 outline-none focus:border-primary-300 font-serif uppercase text-xs">
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Semester Name (e.g. 1ST)</label>
+                            <input type="text" id="sem-name-input" placeholder="1ST" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-1 focus:ring-primary font-serif uppercase text-xs">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-textclr-200 uppercase mb-1">Semester GPA</label>
-                            <input type="number" step="0.01" id="sem-gpa-input" placeholder="4.00" class="w-full bg-bgclr-100 border border-bgclr-300 text-textclr-100 rounded-lg px-3 py-2 outline-none focus:border-primary-300 text-xs">
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Semester GPA</label>
+                            <input type="number" step="0.01" id="sem-gpa-input" placeholder="4.00" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs">
                         </div>
                     </div>
 
-                    <div class="border-t border-bgclr-300 pt-4">
+                    <div class="border-t border-slate-100 pt-4">
                         <div class="flex justify-between items-center mb-3">
-                            <h4 class="text-xs font-bold text-textclr-100">Courses / Subjects</h4>
-                            <button type="button" onclick="addCourseRow()" class="text-xs text-primary-300 hover:text-primary-300/80 font-bold flex items-center gap-1">
+                            <h4 class="text-xs font-bold text-slate-800">Courses / Subjects</h4>
+                            <button type="button" onclick="addCourseRow()" class="text-xs text-primary hover:text-primaryDark font-bold flex items-center gap-1">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                                 Add Course Row
                             </button>
@@ -285,9 +287,9 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-4 border-t border-bgclr-300 bg-bgclr-300/30 flex justify-end gap-3 shrink-0">
-                    <button type="button" onclick="closeSemesterModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-textclr-200 hover:bg-bgclr-300/40 transition">Cancel</button>
-                    <button type="button" onclick="saveSemester()" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-primary-300 hover:bg-primary-300/90 transition-colors shadow-md flex items-center gap-2">
+                <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 shrink-0">
+                    <button type="button" onclick="closeSemesterModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition">Cancel</button>
+                    <button type="button" onclick="saveSemester()" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-primary hover:bg-primaryDark transition-colors shadow-md shadow-primary/20 flex items-center gap-2">
                         Save to Transcript
                     </button>
                 </div>
@@ -355,14 +357,14 @@
                 stateSemesters.forEach((sem, semIdx) => {
                     const liHTML = sem.courses.map(c => `<li>${c.code} - ${c.title}</li>`).join('');
                     const cardHTML = `
-                        <div class="bg-bgclr-100/50 border border-bgclr-300/40 rounded-2xl p-4 relative group text-textclr-100">
+                        <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-4 relative group text-slate-800">
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-bold text-primary-300 text-xs">${sem.name} Semester (GPA: ${sem.gpa})</h4>
-                                <button type="button" onclick="removeSemester(${semIdx})" class="text-accent-200 hover:text-accent-200/80 transition no-print" title="Remove">
+                                <h4 class="font-bold text-primary text-xs">${sem.name} Semester (GPA: ${sem.gpa})</h4>
+                                <button type="button" onclick="removeSemester(${semIdx})" class="text-rose-500 hover:text-rose-600 transition no-print" title="Remove">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </div>
-                            <ul class="text-[11px] text-textclr-200 space-y-1">
+                            <ul class="text-[11px] text-slate-500 space-y-1">
                                 ${liHTML}
                             </ul>
                         </div>
@@ -439,36 +441,36 @@
                 const container = document.getElementById('course-rows-container');
                 const rowId = Date.now() + Math.random();
                 const rowHTML = `
-                    <div class="grid grid-cols-12 gap-2 items-end bg-bgclr-100/50 p-2 rounded border border-bgclr-300/40 course-input-row" id="course-${rowId}">
+                    <div class="grid grid-cols-12 gap-2 items-end bg-slate-50 p-2 rounded border border-slate-200 course-input-row" id="course-${rowId}">
                         <div class="col-span-3">
-                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Code</label>
-                            <input type="text" class="course-code w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="e.g. 28591">
+                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Code</label>
+                            <input type="text" class="course-code w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="e.g. 28591">
                         </div>
                         <div class="col-span-5">
-                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Title</label>
-                            <input type="text" class="course-title w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="Course Title">
+                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Title</label>
+                            <input type="text" class="course-title w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="Course Title">
                         </div>
                         <div class="col-span-2">
-                            <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Cr.</label>
-                            <input type="number" class="course-credit w-full bg-bgclr-100 border border-bgclr-300 rounded px-2 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold" placeholder="4">
+                            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Cr.</label>
+                            <input type="number" class="course-credit w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="4">
                         </div>
                         <div class="col-span-2 flex gap-1 items-end">
                             <div class="flex-1">
-                                <label class="block text-[10px] font-bold text-textclr-200 uppercase mb-0.5">Grade</label>
-                                <select class="course-grade w-full bg-bgclr-100 border border-bgclr-300 rounded px-1 py-1 text-xs text-textclr-100 outline-none focus:border-primary-300 font-semibold">
-                                    <option value="A+" class="bg-bgclr-200">A+</option>
-                                    <option value="A" class="bg-bgclr-200">A</option>
-                                    <option value="A-" class="bg-bgclr-200">A-</option>
-                                    <option value="B+" class="bg-bgclr-200">B+</option>
-                                    <option value="B" class="bg-bgclr-200">B</option>
-                                    <option value="B-" class="bg-bgclr-200">B-</option>
-                                    <option value="C+" class="bg-bgclr-200">C+</option>
-                                    <option value="C" class="bg-bgclr-200">C</option>
-                                    <option value="D" class="bg-bgclr-200">D</option>
-                                    <option value="F" class="bg-bgclr-200">F</option>
+                                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Grade</label>
+                                <select class="course-grade w-full bg-white border border-slate-300 rounded px-1 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold">
+                                    <option value="A+" class="bg-white">A+</option>
+                                    <option value="A" class="bg-white">A</option>
+                                    <option value="A-" class="bg-white">A-</option>
+                                    <option value="B+" class="bg-white">B+</option>
+                                    <option value="B" class="bg-white">B</option>
+                                    <option value="B-" class="bg-white">B-</option>
+                                    <option value="C+" class="bg-white">C+</option>
+                                    <option value="C" class="bg-white">C</option>
+                                    <option value="D" class="bg-white">D</option>
+                                    <option value="F" class="bg-white">F</option>
                                 </select>
                             </div>
-                            <button type="button" onclick="document.getElementById('course-${rowId}').remove()" class="p-1.5 text-accent-200 hover:bg-accent-100/20 rounded transition-colors" title="Remove">
+                            <button type="button" onclick="document.getElementById('course-${rowId}').remove()" class="p-1.5 text-rose-500 hover:bg-rose-50 rounded transition-colors" title="Remove">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </div>

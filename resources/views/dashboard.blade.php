@@ -48,13 +48,13 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             
             <!-- Card 1: Total Students -->
-            <div class="bg-[#eaf5f4] border border-[#B5D3D2] rounded-2xl p-4 flex items-center justify-between shadow-sm">
+            <div class="bg-[#e0edf7] border border-[#0a3a60] rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
-                    <span class="text-2xl font-extrabold text-[#587372] block">{{ number_format($totalStudents) }}</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Total Students') }}</span>
+                    <span class="text-2xl font-extrabold text-[#0a3a60] block">{{ number_format($totalStudents) }}</span>
+                    <span class="text-xs font-bold text-[#64748b]">{{ __('Total Students') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +8.2%</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-[#587372] text-white flex items-center justify-center shadow-inner">
+                <div class="w-10 h-10 rounded-xl bg-[#0a3a60] text-white flex items-center justify-center shadow-inner">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
@@ -62,13 +62,13 @@
             </div>
 
             <!-- Card 2: Faculty Members -->
-            <div class="bg-[#f0edf5] border border-[#bdb6bc] rounded-2xl p-4 flex items-center justify-between shadow-sm">
+            <div class="bg-[#f1f5f9] border border-[#cbd5e1] rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
-                    <span class="text-2xl font-extrabold text-[#985863] block">{{ number_format($totalTeachers) }}</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Faculty Members') }}</span>
+                    <span class="text-2xl font-extrabold text-[#475569] block">{{ number_format($totalTeachers) }}</span>
+                    <span class="text-xs font-bold text-[#64748b]">{{ __('Faculty Members') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +3.1%</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-inner">
+                <div class="w-10 h-10 rounded-xl bg-[#475569] text-white flex items-center justify-center shadow-inner">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
                     </svg>
@@ -79,7 +79,7 @@
             <div class="bg-[#fff9eb] border border-amber-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-amber-700 block">342</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Active Courses') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Active Courses') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +12.5%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-inner">
@@ -93,7 +93,7 @@
             <div class="bg-[#fdf3f8] border border-purple-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-purple-700 block">24</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Departments') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Departments') }}</span>
                     <span class="text-[10px] text-gray-500 font-bold block mt-1">0%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-inner">
@@ -107,7 +107,7 @@
             <div class="bg-[#fff4eb] border border-orange-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-orange-700 block">{{ number_format($pendingStudents) }}</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Pending Admissions') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Pending Admissions') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +22.4%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center shadow-inner">
@@ -121,7 +121,7 @@
             <div class="bg-[#fff0f3] border border-rose-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-rose-700 block">18</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Upcoming Events') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Upcoming Events') }}</span>
                     <span class="text-[10px] text-rose-600 font-bold block mt-1">↓ -5.3%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center shadow-inner">
@@ -135,7 +135,7 @@
             <div class="bg-[#edf9f3] border border-emerald-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-emerald-700 block">384</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Scholarships Awarded') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Scholarships Awarded') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +15.8%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-inner">
@@ -149,7 +149,7 @@
             <div class="bg-[#ebf8ff] border border-cyan-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                 <div>
                     <span class="text-2xl font-extrabold text-cyan-700 block">87.6%</span>
-                    <span class="text-xs font-bold text-[#787878]">{{ __('Pass Rate') }}</span>
+                    <span class="text-xs font-bold text-slate-500">{{ __('Pass Rate') }}</span>
                     <span class="text-[10px] text-emerald-600 font-bold block mt-1">↑ +2.1%</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center shadow-inner">
@@ -190,14 +190,14 @@
                         <text x="40" y="163" text-anchor="end" font-size="8" fill="#999" font-family="sans-serif">0</text>
                         
                         <!-- Enrollment trend Line -->
-                        <path d="{{ $pathD }}" fill="none" stroke="#0f4c5c" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="{{ $pathD }}" fill="none" stroke="#0a3a60" stroke-width="2.5" stroke-linecap="round" />
                         
                         <!-- Dotted Graduates Line (Baseline simulated) -->
-                        <path d="M 50 160 L 550 160" fill="none" stroke="#fb8b24" stroke-width="1.5" stroke-dasharray="3 3" />
+                        <path d="M 50 160 L 550 160" fill="none" stroke="#f7941d" stroke-width="1.5" stroke-dasharray="3 3" />
                         
                         <!-- Nodes -->
                         @foreach($points as $idx => $pt)
-                            <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="3.5" fill="#0f4c5c" stroke="#fff" stroke-width="1" />
+                            <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="3.5" fill="#0a3a60" stroke="#fff" stroke-width="1" />
                         @endforeach
 
                         <!-- X-Axis Labels -->
@@ -210,11 +210,11 @@
                 <!-- Legend -->
                 <div class="flex items-center gap-6 mt-2 pt-2 border-t border-bgclr-300 text-xs">
                     <div class="flex items-center gap-1.5">
-                        <span class="inline-block w-4 h-0.5 bg-[#0f4c5c]"></span>
+                        <span class="inline-block w-4 h-0.5 bg-[#0a3a60]"></span>
                         <span class="text-textclr-200 font-semibold">Students</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <span class="inline-block w-4 h-0.5 border-t-2 border-dashed border-[#fb8b24]"></span>
+                        <span class="inline-block w-4 h-0.5 border-t-2 border-dashed border-[#f7941d]"></span>
                         <span class="text-textclr-200 font-semibold">Graduates</span>
                     </div>
                 </div>
