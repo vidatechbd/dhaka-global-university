@@ -117,6 +117,40 @@ class CertificateController extends Controller
         return view('certificates.verify_gate', compact('certificate', 'setting'));
     }
 
+    public function showVerificationForm()
+    {
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        return view('certificates.verification_search', compact('setting'));
+    }
+
+    public function searchVerification(Request $request)
+    {
+        $request->validate([
+            'roll' => 'required|string',
+            'reg_no' => 'required|string',
+        ]);
+
+        $certificate = Certificate::where('roll', $request->roll)
+            ->where('reg_no', $request->reg_no)
+            ->first();
+
+        if ($certificate) {
+            $sessionKey = 'verified_certificate_'.$certificate->id;
+            session([$sessionKey => true]);
+
+            return redirect()->route('certificates.verify', $certificate);
+        }
+
+        return back()->withErrors([
+            'search' => 'No certificate found matching the provided Exam Roll and Registration Number.',
+        ])->withInput();
+    }
+
     public function destroy(Certificate $certificate)
     {
         if (! auth()->user()->hasAnyRole(['Principal', 'Teacher'])) {

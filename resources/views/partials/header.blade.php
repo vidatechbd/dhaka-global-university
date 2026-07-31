@@ -25,6 +25,11 @@
                     <a href="{{ $link['url'] ?? '#' }}" class="hover:text-white transition hidden md:block">{{ $link['title'] }}</a>
                 @endforeach
             @endif
+            
+            <a href="{{ route('verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
+                <i class="ph ph-certificate"></i> Certificate Verification
+            </a>
+            
             @auth
                 <a href="{{ url('/dashboard') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                     <i class="ph ph-user"></i> Dashboard
