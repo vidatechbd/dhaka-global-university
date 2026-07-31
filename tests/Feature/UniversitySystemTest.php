@@ -140,6 +140,7 @@ test('teacher can issue certificate to active student', function () {
             'student_id' => $student->id,
             'name' => 'Jack Nicholson',
             'roll' => '46437',
+            'reg_no' => '1502046437',
             'subject' => 'Bachelor of Science in Computer Science',
             'cgpa' => '3.96',
             'out_of' => '4.00',
@@ -150,6 +151,7 @@ test('teacher can issue certificate to active student', function () {
         'student_id' => $student->id,
         'name' => 'Jack Nicholson',
         'roll' => '46437',
+        'reg_no' => '1502046437',
         'created_by' => $teacher->id,
     ]);
 });
@@ -178,6 +180,7 @@ test('anyone can verify a certificate via public link', function () {
         'student_id' => $student->id,
         'name' => 'Jack Nicholson',
         'roll' => '46437',
+        'reg_no' => '1502046437',
         'subject' => 'Bachelor of Science in Computer Science',
         'cgpa' => '3.96',
         'out_of' => '4.00',

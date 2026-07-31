@@ -54,6 +54,7 @@ class CertificateController extends Controller
             'student_id' => 'nullable|exists:users,id',
             'name' => 'required|string|max:255',
             'roll' => 'required|string|max:255',
+            'reg_no' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
             'cgpa' => 'required|string|max:255',
             'out_of' => 'required|string|max:255',

@@ -187,7 +187,7 @@
             }
 
             @media print {
-                body > *:not(#printable-certificate-container) {
+                body>*:not(#printable-certificate-container) {
                     display: none !important;
                 }
 
@@ -282,12 +282,15 @@
                                 <div class="text-justify px-5 mb-auto">
                                     <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
                                         HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
-                                        OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
-                                            class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span class="text-base/none font-mono">.</span>
+                                        OF {{ strtoupper($certificate->subject) }}<span
+                                            class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
+                                            class="fill-in-line text-base/none font-mono text-[23px !important]">{{ $certificate->roll }}</span><span class="text-base/none font-mono">.</span>
                                         HE SECURED
                                         CGPA <span
-                                            class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON A SCALE OF <span
-                                            class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span class="text-base/none font-mono">.</span>
+                                            class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->cgpa }}</span> ON
+                                        A SCALE OF <span
+                                            class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->out_of }}</span><span
+                                            class="text-base/none font-mono">.</span>
                                     </p>
                                 </div>
                             </section>
@@ -308,7 +311,8 @@
                                     <div class="flex flex-col items-center mr-4">
                                         <div class="h-10 w-44 mb-1 flex items-end justify-center">
                                             @if($sigPath)
-                                                <img src="{{ $sigPath }}" alt="Controller Signature" class="h-auto w-full object-contain">
+                                                <img src="{{ $sigPath }}" alt="Controller Signature"
+                                                    class="h-auto w-full object-contain">
                                             @endif
                                         </div>
                                         <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
@@ -594,12 +598,15 @@
                         <div class="text-justify px-5 mb-auto">
                             <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
                                 HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
-                                OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
-                                    class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span class="text-base/none font-mono">.</span>
+                                OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span>
+                                BEARING ROLL NO IS <span
+                                    class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span
+                                    class="text-base/none font-mono">.</span>
                                 HE SECURED
-                                CGPA <span
-                                    class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON A SCALE OF <span
-                                    class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span class="text-base/none font-mono">.</span>
+                                CGPA <span class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON
+                                A SCALE OF <span
+                                    class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span
+                                    class="text-base/none font-mono">.</span>
                             </p>
                         </div>
 
@@ -619,7 +626,8 @@
                                 <div class="flex flex-col items-center mr-4">
                                     <div class="h-10 w-44 mb-1 flex items-end justify-center">
                                         @if($sigPath)
-                                            <img src="{{ $sigPath }}" alt="Controller Signature" class="h-full w-auto object-contain">
+                                            <img src="{{ $sigPath }}" alt="Controller Signature"
+                                                class="h-full w-auto object-contain">
                                         @else
                                             <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2"
                                                 fill="none">

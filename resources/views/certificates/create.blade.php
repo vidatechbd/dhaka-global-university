@@ -1,27 +1,29 @@
 @php
     $layout = auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout';
-    $previewLogo   = ($setting->logo ?? null) ? asset($setting->logo) : null;
-    $previewSig    = ($setting->signature ?? null) ? asset($setting->signature) : null;
-    $previewName   = $setting->name    ?? 'Bayt al-Hikmah Global University';
-    $previewAddr   = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
+    $previewLogo = $setting->logo ?? null ? asset($setting->logo) : null;
+    $previewSig = $setting->signature ?? null ? asset($setting->signature) : null;
+    $previewName = $setting->name ?? 'Bayt al-Hikmah Global University';
+    $previewAddr = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
 @endphp
 
 <x-dynamic-component :component="$layout">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <style>
         @font-face {
             font-family: 'CloisterBlack';
-            src: url('{{ asset("fonts/cloister_black/CloisterBlack.ttf") }}') format('truetype');
+            src: url('{{ asset('fonts/cloister_black/CloisterBlack.ttf') }}') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
         @font-face {
             font-family: 'Krinah';
-            src: url('{{ asset("fonts/krinah/Krinahpersonal.otf") }}') format('opentype');
+            src: url('{{ asset('fonts/krinah/Krinahpersonal.otf') }}') format('opentype');
             font-weight: normal;
             font-style: normal;
         }
@@ -190,16 +192,20 @@
 
             <!-- SECTION 1: Inputs -->
             <section id="form-section" class="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm no-print">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
+                <div
+                    class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('certificates.index') }}" class="text-slate-500 hover:text-slate-800 transition font-bold text-sm inline-flex items-center gap-1">
+                        <a href="{{ route('certificates.index') }}"
+                            class="text-slate-500 hover:text-slate-800 transition font-bold text-sm inline-flex items-center gap-1">
                             <i class="ph-bold ph-arrow-left"></i>
                             Back
                         </a>
-                        <h2 class="text-xl font-bold text-primary border-l-4 border-secondary pl-3">Generate Student Certificate</h2>
+                        <h2 class="text-xl font-bold text-primary border-l-4 border-secondary pl-3">Generate Student
+                            Certificate</h2>
                     </div>
                     <div class="flex items-center gap-3">
-                        <button type="submit" class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-md shadow-primary/20 text-xs">
+                        <button type="submit"
+                            class="bg-primary hover:bg-primaryDark text-white px-5 py-2 rounded-lg font-bold transition flex items-center gap-2 shadow-md shadow-primary/20 text-xs">
                             <i class="ph-bold ph-check text-sm"></i>
                             Save Certificate
                         </button>
@@ -208,39 +214,66 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Select Student (Optional)</label>
-                        <select id="student_select" onchange="autoFillStudent(this)" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Select
+                            Student (Optional)</label>
+                        <select id="student_select" onchange="autoFillStudent(this)"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                             <option value="">-- Custom (No Student Record) --</option>
-                            @foreach($students as $student)
-                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-white">{{ $student->name }} ({{ $student->email }})</option>
+                            @foreach ($students as $student)
+                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-white">
+                                    {{ $student->name }} ({{ $student->email }})</option>
                             @endforeach
                         </select>
                         <input type="hidden" name="student_id" id="student_id" value="">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" name="name" id="input-name" oninput="updatePreview()" value="Jack Nicholson" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's
+                            Name</label>
+                        <input type="text" name="name" id="input-name" oninput="updatePreview()"
+                            value="Jack Nicholson"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold"
+                            required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="text" name="roll" id="input-roll" oninput="updatePreview()" value="46437" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam.
+                            Roll</label>
+                        <input type="text" name="roll" id="input-roll" oninput="updatePreview()" value="46437"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Subject/Degree</label>
-                        <input type="text" name="subject" id="input-subject" oninput="updatePreview()" value="Diploma in Computer Science and Engineering" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration
+                            No.</label>
+                        <input type="text" name="reg_no" id="input-regno" value="1502046437"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Subject/Degree</label>
+                        <input type="text" name="subject" id="input-subject" oninput="updatePreview()"
+                            value="Diploma in Computer Science and Engineering"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">CGPA</label>
-                        <input type="text" name="cgpa" id="input-cgpa" oninput="updatePreview()" value="3.96" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                        <input type="text" name="cgpa" id="input-cgpa" oninput="updatePreview()" value="3.96"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Out of Scale</label>
-                        <input type="text" name="out_of" id="input-outof" oninput="updatePreview()" value="4.00" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold" required>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Out of
+                            Scale</label>
+                        <input type="text" name="out_of" id="input-outof" oninput="updatePreview()" value="4.00"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
                     </div>
                 </div>
             </section>
@@ -251,7 +284,7 @@
                     <div class="certificate-content-border">
                         <div class="repeating-university-bg" id="bg-text"></div>
                         <div class="watermark-seal {{ $previewLogo ? 'has-logo' : '' }}">
-                            @if($previewLogo)
+                            @if ($previewLogo)
                                 <img src="{{ $previewLogo }}" alt="University Logo" class="watermark-logo">
                             @endif
                         </div>
@@ -259,50 +292,64 @@
                         <div class="content-wrapper">
                             <!-- Main University Name -->
                             <header class="text-center mt-2 mb-6">
-                                <h1 class="text-university-name text-[32px] sm:text-[40px] md:text-[46px] m-0 leading-none uppercase">
+                                <h1
+                                    class="text-university-name text-[32px] sm:text-[40px] md:text-[46px] m-0 leading-none uppercase">
                                     {{ $previewName }}
                                 </h1>
                             </header>
 
-                            <!-- Certification Text -->
-                            <div class="text-center mb-4">
-                                <p class="text-old-english text-[20px] md:text-[24px] m-0 tracking-wider">
-                                    This is to certify that
-                                </p>
-                            </div>
+                            <section>
 
-                            <!-- Student Name -->
-                            <div class="text-center mb-6">
-                                <h2 id="preview-name" class="text-krinah text-[42px] m-0 uppercase font-black">
-                                    Jack Nicholson
-                                </h2>
-                            </div>
+                                <!-- Certification Text -->
+                                <div class="text-center mb-4">
+                                    <p class="text-old-english text-[20px] md:text-[24px] m-0 tracking-wider">
+                                        This is to certify that
+                                    </p>
+                                </div>
 
-                            <!-- Certificate Body Text -->
-                            <div class="text-justify px-5 mb-auto">
-                                <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
-                                    HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE 
-                                    OF <span id="preview-subject">DIPLOMA IN COMPUTER SCIENCE AND ENGINEERING</span><span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span class="fill-in-line font-mono" id="preview-roll">46437</span> <span class="text-base/none font-mono">.</span> HE SECURED 
-                                    CGPA <span class="fill-in-line font-mono" id="preview-cgpa">3.96</span> ON A SCALE OF <span class="fill-in-line font-mono" id="preview-outof">4.00</span><span class="text-base/none font-mono">.</span>
-                                </p>
-                            </div>
+                                <!-- Student Name -->
+                                <div class="text-center mb-6">
+                                    <h2 id="preview-name" class="text-krinah text-[42px] m-0 uppercase font-black">
+                                        Jack Nicholson
+                                    </h2>
+                                </div>
+
+                                <!-- Certificate Body Text -->
+                                <div class="text-justify px-5 mb-auto">
+                                    <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
+                                        HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
+                                        OF <span id="preview-subject">DIPLOMA IN COMPUTER SCIENCE AND
+                                            ENGINEERING</span><span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
+                                            class="fill-in-line text-base/none font-mono text-[23px !important]" id="preview-roll">46437</span><span class="text-base/none font-mono">.</span>
+                                        HE SECURED
+                                        CGPA <span
+                                            class="fill-in-line text-base/none font-mono text-[23px]" id="preview-cgpa">3.96</span> ON
+                                        A SCALE OF <span
+                                            class="fill-in-line text-base/none font-mono text-[23px]" id="preview-outof">4.00</span><span
+                                            class="text-base/none font-mono">.</span>
+                                    </p>
+                                </div>
+                            </section>
 
                             <!-- Footer Section -->
                             <div class="mt-4 flex flex-col justify-end">
-                                
+
                                 <!-- Middle Footer row -->
                                 <div class="flex justify-between items-end px-4 md:px-12 mb-3">
-                                    
+
                                     <!-- Left: QR Code -->
                                     <div class="w-20 h-20 bg-white border border-black p-1">
-                                        <div class="w-full h-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-center">QR CODE</div>
+                                        <div
+                                            class="w-full h-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-center">
+                                            QR CODE</div>
                                     </div>
 
                                     <!-- Right: Signature -->
                                     <div class="flex flex-col items-center mr-4">
                                         <div class="h-10 w-44 mb-1 flex items-end justify-center">
-                                            @if($previewSig)
-                                                <img src="{{ $previewSig }}" alt="Controller Signature" class="h-auto w-full object-contain">
+                                            @if ($previewSig)
+                                                <img src="{{ $previewSig }}" alt="Controller Signature"
+                                                    class="h-auto w-full object-contain">
                                             @endif
                                         </div>
                                         <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
@@ -315,7 +362,8 @@
 
                                 <!-- Bottom N.B. Note -->
                                 {{-- <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
-                                    <p class="text-sans-small text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest m-0">
+                                    <p
+                                        class="text-sans-small text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest m-0">
                                         N.B : Original certificate will be issued on return of this provisional certificate
                                     </p>
                                 </div> --}}
@@ -339,7 +387,7 @@
             const selectedOpt = selectEl.options[selectEl.selectedIndex];
             const studentId = selectedOpt.value;
             const name = selectedOpt.getAttribute('data-name') || '';
-            
+
             document.getElementById('student_id').value = studentId;
             if (name) {
                 document.getElementById('input-name').value = name;
@@ -350,7 +398,8 @@
         function updatePreview() {
             document.getElementById('preview-name').innerText = document.getElementById('input-name').value || '—';
             document.getElementById('preview-roll').innerText = document.getElementById('input-roll').value || '—';
-            document.getElementById('preview-subject').innerText = (document.getElementById('input-subject').value || '—').toUpperCase();
+            document.getElementById('preview-subject').innerText = (document.getElementById('input-subject').value || '—')
+                .toUpperCase();
             document.getElementById('preview-cgpa').innerText = document.getElementById('input-cgpa').value || '—';
             document.getElementById('preview-outof').innerText = document.getElementById('input-outof').value || '—';
         }

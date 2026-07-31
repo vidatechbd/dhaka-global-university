@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'student_id',
     'name',
     'roll',
+    'reg_no',
     'subject',
     'cgpa',
     'out_of',
