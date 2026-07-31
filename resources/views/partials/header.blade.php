@@ -38,11 +38,11 @@
                 <a href="{{ route('login') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                     <i class="ph ph-sign-in"></i> Log In
                 </a>
-                @if (Route::has('register'))
+                {{-- @if (Route::has('register'))
                     <a href="{{ route('register') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                         <i class="ph ph-user-plus"></i> Register
                     </a>
-                @endif
+                @endif --}}
             @endauth
         </div>
     </div>
