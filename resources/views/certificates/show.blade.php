@@ -2,6 +2,7 @@
     $uniName = $setting->name ?? 'Bayt al-Hikmah Global University';
     $uniAddress = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
     $logoPath = ($setting->logo ?? null) ? asset($setting->logo) : null;
+    $sigPath = ($setting->signature ?? null) ? asset($setting->signature) : null;
     $layout = auth()->check() ? (auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout') : null;
 @endphp
 
@@ -40,14 +41,14 @@
                 background-color: #fbf8eb;
                 width: 11.69in;
                 height: 8.27in;
-                padding: 20px;
+                padding: 60px;
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
                 position: relative;
                 box-sizing: border-box;
             }
 
             .certificate-content-border {
-                border: 1.5px solid #22222286;
+                border: 1.5px solid #22222262;
                 position: relative;
                 height: 100%;
                 display: flex;
@@ -110,9 +111,31 @@
                 letter-spacing: 10px;
             }
 
+            .watermark-seal.has-logo {
+                border: none;
+                background-color: transparent;
+            }
+
+            .watermark-seal.has-logo::before {
+                display: none;
+            }
+
+            .watermark-seal.has-logo::after {
+                display: none;
+            }
+
+            .watermark-logo {
+                width: 240px;
+                height: 240px;
+                object-fit: contain;
+                opacity: 0.07;
+                filter: grayscale(100%);
+                pointer-events: none;
+            }
+
             .text-university-name {
                 font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
-                font-weight: 900;
+                font-weight: 800;
                 color: #000;
                 letter-spacing: -0.5px;
                 transform: scaleY(1.05);
@@ -164,35 +187,23 @@
             }
 
             @media print {
+                body > *:not(#printable-certificate-container) {
+                    display: none !important;
+                }
 
                 body,
                 html {
                     margin: 0 !important;
                     padding: 0 !important;
                     background: white !important;
-                }
-
-                body * {
-                    visibility: hidden;
-                }
-
-                #sidebar,
-                header,
-                .no-print,
-                nav,
-                aside {
-                    display: none !important;
-                }
-
-                #printable-certificate-container,
-                #printable-certificate-container * {
-                    visibility: visible !important;
+                    width: 11.69in !important;
+                    height: 8.27in !important;
+                    overflow: hidden !important;
                 }
 
                 #printable-certificate-container {
-                    position: fixed !important;
-                    left: 0 !important;
-                    top: 0 !important;
+                    display: block !important;
+                    position: static !important;
                     width: 11.69in !important;
                     height: 8.27in !important;
                     margin: 0 !important;
@@ -236,7 +247,11 @@
                 <div class="certificate-paper">
                     <div class="certificate-content-border">
                         <div class="repeating-university-bg" id="bg-text"></div>
-                        <div class="watermark-seal"></div>
+                        <div class="watermark-seal {{ $logoPath ? 'has-logo' : '' }}">
+                            @if($logoPath)
+                                <img src="{{ $logoPath }}" alt="University Logo" class="watermark-logo">
+                            @endif
+                        </div>
 
                         <div class="content-wrapper">
                             <!-- Main University Name -->
@@ -258,7 +273,7 @@
 
                                 <!-- Student Name -->
                                 <div class="text-center mb-6">
-                                    <h2 class="text-engravers text-[26px] md:text-[36px] m-0 uppercase font-black">
+                                    <h2 class="text-krinah text-[42px] m-0 uppercase font-black">
                                         {{ $certificate->name }}
                                     </h2>
                                 </div>
@@ -267,14 +282,12 @@
                                 <div class="text-justify px-5 mb-auto">
                                     <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
                                         HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
-                                        OF {{ strtoupper($certificate->subject) }}. BEARING ROLL NO IS <span
-                                            class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> .
+                                        OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
+                                            class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span class="text-base/none font-mono">.</span>
                                         HE SECURED
                                         CGPA <span
-                                            class="fill-in-line  text-base/nonefont-mono">{{ $certificate->cgpa }}</span> IN
-                                        ON SCALE OF <span
-                                            class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span>
-                                        .
+                                            class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON A SCALE OF <span
+                                            class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span class="text-base/none font-mono">.</span>
                                     </p>
                                 </div>
                             </section>
@@ -294,10 +307,9 @@
                                     <!-- Right: Signature -->
                                     <div class="flex flex-col items-center mr-4">
                                         <div class="h-10 w-44 mb-1 flex items-end justify-center">
-                                            <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2"
-                                                fill="none">
-                                                <path d="M 20,40 Q 40,-10 60,35 T 90,20 T 120,35 Q 150,15 180,30" />
-                                            </svg>
+                                            @if($sigPath)
+                                                <img src="{{ $sigPath }}" alt="Controller Signature" class="h-auto w-full object-contain">
+                                            @endif
                                         </div>
                                         <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
                                             <p class="text-sans-small text-[9px] font-bold uppercase tracking-wider m-0">
@@ -308,12 +320,12 @@
                                 </div>
 
                                 <!-- Bottom N.B. Note -->
-                                <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
+                                {{-- <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
                                     <p
                                         class="text-sans-small text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest m-0">
                                         N.B : Original certificate will be issued on return of this provisional certificate
                                     </p>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -326,6 +338,26 @@
                 const bgContainer = document.getElementById('bg-text');
                 const uniName = @json($uniName);
                 bgContainer.innerText = (uniName + " ").repeat(1000);
+            });
+
+            // Relocate print element to root body to avoid dashboard overflow/layout clipping
+            window.addEventListener('beforeprint', () => {
+                const cert = document.getElementById('printable-certificate-container');
+                if (cert) {
+                    const placeholder = document.createElement('div');
+                    placeholder.id = 'cert-placeholder';
+                    cert.parentNode.insertBefore(placeholder, cert);
+                    document.body.appendChild(cert);
+                }
+            });
+
+            window.addEventListener('afterprint', () => {
+                const cert = document.getElementById('printable-certificate-container');
+                const placeholder = document.getElementById('cert-placeholder');
+                if (cert && placeholder) {
+                    placeholder.parentNode.insertBefore(cert, placeholder);
+                    placeholder.parentNode.removeChild(placeholder);
+                }
             });
         </script>
     </x-dynamic-component>
@@ -370,14 +402,14 @@
                 background-color: #fbf8eb;
                 width: 11.69in;
                 height: 8.27in;
-                padding: 20px;
+                padding: 60px;
                 box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
                 position: relative;
                 box-sizing: border-box;
             }
 
             .certificate-content-border {
-                border: 1.5px solid #222;
+                border: 1.5px solid #22222262;
                 position: relative;
                 height: 100%;
                 display: flex;
@@ -440,9 +472,31 @@
                 letter-spacing: 10px;
             }
 
+            .watermark-seal.has-logo {
+                border: none;
+                background-color: transparent;
+            }
+
+            .watermark-seal.has-logo::before {
+                display: none;
+            }
+
+            .watermark-seal.has-logo::after {
+                display: none;
+            }
+
+            .watermark-logo {
+                width: 240px;
+                height: 240px;
+                object-fit: contain;
+                opacity: 0.07;
+                filter: grayscale(100%);
+                pointer-events: none;
+            }
+
             .text-university-name {
                 font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
-                font-weight: 900;
+                font-weight: 800;
                 color: #000;
                 letter-spacing: -0.5px;
                 transform: scaleY(1.05);
@@ -507,7 +561,11 @@
             <div class="certificate-paper shadow-2xl">
                 <div class="certificate-content-border">
                     <div class="repeating-university-bg" id="bg-text"></div>
-                    <div class="watermark-seal"></div>
+                    <div class="watermark-seal {{ $logoPath ? 'has-logo' : '' }}">
+                        @if($logoPath)
+                            <img src="{{ $logoPath }}" alt="University Logo" class="watermark-logo">
+                        @endif
+                    </div>
 
                     <div class="content-wrapper">
                         <!-- Main University Name -->
@@ -527,19 +585,21 @@
 
                         <!-- Student Name -->
                         <div class="text-center mb-6">
-                            <h2 class="text-engravers text-[26px] md:text-[36px] m-0 uppercase font-black">
+                            <h2 class="text-krinah text-[42px] m-0 uppercase font-black">
                                 {{ $certificate->name }}
                             </h2>
                         </div>
 
                         <!-- Certificate Body Text -->
-                        <div class="text-justify px-6 md:px-14 mb-auto">
-                            <p class="text-krinah text-[14px] md:text-[18px] leading-[2.3] m-0 uppercase">
+                        <div class="text-justify px-5 mb-auto">
+                            <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
                                 HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
-                                OF {{ strtoupper($certificate->subject) }}. BEARING ROLL NO IS <span
-                                    class="fill-in-line">{{ $certificate->roll }}</span> . HE SECURED
-                                CGPA <span class="fill-in-line">{{ $certificate->cgpa }}</span> IN ON SCALE OF <span
-                                    class="fill-in-line">{{ $certificate->out_of }}</span> .
+                                OF {{ strtoupper($certificate->subject) }}<span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
+                                    class="fill-in-line text-base/none font-mono">{{ $certificate->roll }}</span> <span class="text-base/none font-mono">.</span>
+                                HE SECURED
+                                CGPA <span
+                                    class="fill-in-line text-base/none font-mono">{{ $certificate->cgpa }}</span> ON A SCALE OF <span
+                                    class="fill-in-line text-base/none font-mono">{{ $certificate->out_of }}</span><span class="text-base/none font-mono">.</span>
                             </p>
                         </div>
 
@@ -558,10 +618,14 @@
                                 <!-- Right: Signature -->
                                 <div class="flex flex-col items-center mr-4">
                                     <div class="h-10 w-44 mb-1 flex items-end justify-center">
-                                        <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2"
-                                            fill="none">
-                                            <path d="M 20,40 Q 40,-10 60,35 T 90,20 T 120,35 Q 150,15 180,30" />
-                                        </svg>
+                                        @if($sigPath)
+                                            <img src="{{ $sigPath }}" alt="Controller Signature" class="h-full w-auto object-contain">
+                                        @else
+                                            <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2"
+                                                fill="none">
+                                                <path d="M 20,40 Q 40,-10 60,35 T 90,20 T 120,35 Q 150,15 180,30" />
+                                            </svg>
+                                        @endif
                                     </div>
                                     <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
                                         <p class="text-sans-small text-[9px] font-bold uppercase tracking-wider m-0">
@@ -572,12 +636,12 @@
                             </div>
 
                             <!-- Bottom N.B. Note -->
-                            <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
+                            {{-- <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
                                 <p
                                     class="text-sans-small text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest m-0">
                                     N.B : Original certificate will be issued on return of this provisional certificate
                                 </p>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

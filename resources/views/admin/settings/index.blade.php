@@ -19,7 +19,7 @@
 
             <!-- Card 1: General & Branding -->
             <x-admin.card title="University Branding & Details" subtitle="Core identity information shown across the portal." icon="ph-bold ph-graduation-cap">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
                         <x-input-label for="name" :value="__('University Name')" />
                         <x-text-input id="name" class="block mt-1.5 w-full text-xs" type="text" name="name" :value="old('name', $setting->name)" required />
@@ -36,6 +36,18 @@
                         @endif
                         <input id="logo" type="file" name="logo" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                         <x-input-error :messages="$errors->get('logo')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="signature" :value="__('University Signature (PNG)')" />
+                        @if($setting->signature)
+                            <div class="mt-2 mb-2 flex items-center gap-3">
+                                <img src="{{ asset($setting->signature) }}" alt="Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                <span class="text-xs text-slate-400">Current Signature</span>
+                            </div>
+                        @endif
+                        <input id="signature" type="file" name="signature" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                        <x-input-error :messages="$errors->get('signature')" class="mt-2" />
                     </div>
 
                     <div>

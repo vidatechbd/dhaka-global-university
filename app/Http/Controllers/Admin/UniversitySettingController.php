@@ -51,6 +51,7 @@ class UniversitySettingController extends Controller
             'contacts' => ['nullable', 'array'],
             'social_medias' => ['nullable', 'array'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'signature' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
@@ -81,6 +82,32 @@ class UniversitySettingController extends Controller
             } catch (\Throwable $e) {
                 $file->move($targetDir, $filename);
                 $validated['logo'] = 'uploads/settings/'.$filename;
+            }
+        }
+
+        if ($request->hasFile('signature')) {
+            if ($setting->signature && File::exists(public_path($setting->signature))) {
+                File::delete(public_path($setting->signature));
+            }
+
+            $file = $request->file('signature');
+            $filename = 'signature_'.time().'.png';
+            $targetDir = public_path('uploads/settings');
+
+            if (! File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
+            $targetPath = $targetDir.'/'.$filename;
+
+            try {
+                $manager = new ImageManager(new Driver);
+                $image = $manager->read($file->getRealPath());
+                $image->toPng()->save($targetPath);
+                $validated['signature'] = 'uploads/settings/'.$filename;
+            } catch (\Throwable $e) {
+                $file->move($targetDir, $filename);
+                $validated['signature'] = 'uploads/settings/'.$filename;
             }
         }
 

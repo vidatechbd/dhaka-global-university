@@ -17,6 +17,7 @@ class UniversitySetting extends Model
         'contacts',
         'social_medias',
         'logo',
+        'signature',
         'meta_title',
         'meta_description',
         'meta_keywords',

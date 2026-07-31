@@ -1,6 +1,7 @@
 @php
     $layout = auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout';
     $previewLogo   = ($setting->logo ?? null) ? asset($setting->logo) : null;
+    $previewSig    = ($setting->signature ?? null) ? asset($setting->signature) : null;
     $previewName   = $setting->name    ?? 'Bayt al-Hikmah Global University';
     $previewAddr   = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
 @endphp
@@ -11,18 +12,40 @@
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        .certificate-preview-box {
+        @font-face {
+            font-family: 'CloisterBlack';
+            src: url('{{ asset("fonts/cloister_black/CloisterBlack.ttf") }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Krinah';
+            src: url('{{ asset("fonts/krinah/Krinahpersonal.otf") }}') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* MAIN CONTAINERS & DIMENSIONS (11.69in x 8.27in A4 landscape) */
+        .certificate-paper-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .certificate-paper {
             background-color: #fbf8eb;
             width: 11.69in;
             height: 8.27in;
-            padding: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
             position: relative;
             box-sizing: border-box;
         }
 
         .certificate-content-border {
-            border: 1.5px solid #222;
+            border: 1.5px solid #22222262;
             position: relative;
             height: 100%;
             display: flex;
@@ -64,7 +87,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(251, 248, 235, 0.65); 
+            background-color: rgba(251, 248, 235, 0.65);
         }
 
         .watermark-seal::before {
@@ -85,17 +108,39 @@
             letter-spacing: 10px;
         }
 
+        .watermark-seal.has-logo {
+            border: none;
+            background-color: transparent;
+        }
+
+        .watermark-seal.has-logo::before {
+            display: none;
+        }
+
+        .watermark-seal.has-logo::after {
+            display: none;
+        }
+
+        .watermark-logo {
+            width: 240px;
+            height: 240px;
+            object-fit: contain;
+            opacity: 0.07;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
         .text-university-name {
             font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
-            font-weight: 900;
+            font-weight: 800;
             color: #000;
             letter-spacing: -0.5px;
-            transform: scaleY(1.05); 
+            transform: scaleY(1.05);
             display: inline-block;
         }
 
         .text-old-english {
-            font-family: 'UnifrakturMaguntia', serif;
+            font-family: 'CloisterBlack', 'UnifrakturMaguntia', serif;
             font-weight: normal;
             color: #000;
         }
@@ -105,6 +150,14 @@
             font-weight: 800;
             color: #111;
             letter-spacing: 0.08em;
+            word-spacing: 0.25em;
+        }
+
+        .text-krinah {
+            font-family: 'Krinah', serif;
+            font-weight: normal;
+            color: #111;
+            letter-spacing: 0.05em;
             word-spacing: 0.25em;
         }
 
@@ -122,7 +175,7 @@
         .content-wrapper {
             position: relative;
             z-index: 10;
-            padding: 30px 45px 15px 45px;
+            padding: 50px 0px 31px 0px;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -194,10 +247,14 @@
 
             <!-- SECTION 2: Preview Panel -->
             <div class="w-full overflow-x-auto py-6 flex justify-center">
-                <div class="certificate-preview-box">
+                <div class="certificate-paper">
                     <div class="certificate-content-border">
                         <div class="repeating-university-bg" id="bg-text"></div>
-                        <div class="watermark-seal"></div>
+                        <div class="watermark-seal {{ $previewLogo ? 'has-logo' : '' }}">
+                            @if($previewLogo)
+                                <img src="{{ $previewLogo }}" alt="University Logo" class="watermark-logo">
+                            @endif
+                        </div>
 
                         <div class="content-wrapper">
                             <!-- Main University Name -->
@@ -216,17 +273,17 @@
 
                             <!-- Student Name -->
                             <div class="text-center mb-6">
-                                <h2 id="preview-name" class="text-engravers text-[26px] md:text-[36px] m-0 uppercase font-black">
+                                <h2 id="preview-name" class="text-krinah text-[42px] m-0 uppercase font-black">
                                     Jack Nicholson
                                 </h2>
                             </div>
 
                             <!-- Certificate Body Text -->
-                            <div class="text-justify px-6 md:px-14 mb-auto">
-                                <p class="text-engravers text-[14px] md:text-[18px] leading-[2.3] m-0 uppercase">
+                            <div class="text-justify px-5 mb-auto">
+                                <p class="text-krinah text-[25px] leading-[2.3] m-0 uppercase">
                                     HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE 
-                                    OF <span id="preview-subject">DIPLOMA IN COMPUTER SCIENCE AND ENGINEERING</span>. BEARING ROLL NO IS <span class="fill-in-line" id="preview-roll">46437</span> . HE SECURED 
-                                    CGPA <span class="fill-in-line" id="preview-cgpa">3.96</span> IN ON SCALE OF <span class="fill-in-line" id="preview-outof">4.00</span> .
+                                    OF <span id="preview-subject">DIPLOMA IN COMPUTER SCIENCE AND ENGINEERING</span><span class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span class="fill-in-line font-mono" id="preview-roll">46437</span> <span class="text-base/none font-mono">.</span> HE SECURED 
+                                    CGPA <span class="fill-in-line font-mono" id="preview-cgpa">3.96</span> ON A SCALE OF <span class="fill-in-line font-mono" id="preview-outof">4.00</span><span class="text-base/none font-mono">.</span>
                                 </p>
                             </div>
 
@@ -244,9 +301,9 @@
                                     <!-- Right: Signature -->
                                     <div class="flex flex-col items-center mr-4">
                                         <div class="h-10 w-44 mb-1 flex items-end justify-center">
-                                            <svg viewBox="0 0 200 50" class="w-full h-full" stroke="black" stroke-width="2" fill="none">
-                                                <path d="M 20,40 Q 40,-10 60,35 T 90,20 T 120,35 Q 150,15 180,30" />
-                                            </svg>
+                                            @if($previewSig)
+                                                <img src="{{ $previewSig }}" alt="Controller Signature" class="h-auto w-full object-contain">
+                                            @endif
                                         </div>
                                         <div class="border-t-[1.5px] border-black w-56 text-center pt-1">
                                             <p class="text-sans-small text-[9px] font-bold uppercase tracking-wider m-0">
@@ -257,11 +314,11 @@
                                 </div>
 
                                 <!-- Bottom N.B. Note -->
-                                <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
+                                {{-- <div class="border-t-[1px] border-[rgba(0,0,0,0.2)] pt-1.5 ml-4">
                                     <p class="text-sans-small text-[8px] md:text-[9px] text-black font-bold uppercase tracking-widest m-0">
                                         N.B : Original certificate will be issued on return of this provisional certificate
                                     </p>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
