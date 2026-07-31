@@ -52,15 +52,15 @@
                     </div>
 
                     <div>
-                        <x-input-label for="signature" :value="__('University Signature (PNG)')" />
-                        @if($setting->signature)
+                        <x-input-label for="controller_of_examinations" :value="__('Controller of Examinations (PNG)')" />
+                        @if($setting->controller_of_examinations)
                             <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->signature) }}" alt="Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                <img src="{{ asset($setting->controller_of_examinations) }}" alt="Controller of Examinations" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
                                 <span class="text-xs text-slate-400">Current Signature</span>
                             </div>
                         @endif
-                        <input id="signature" type="file" name="signature" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
-                        <x-input-error :messages="$errors->get('signature')" class="mt-2" />
+                        <input id="controller_of_examinations" type="file" name="controller_of_examinations" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                        <x-input-error :messages="$errors->get('controller_of_examinations')" class="mt-2" />
                     </div>
                 </div>
 

@@ -51,7 +51,7 @@ class UniversitySettingController extends Controller
             'contacts' => ['nullable', 'array'],
             'social_medias' => ['nullable', 'array'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
-            'signature' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'controller_of_examinations' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'marksheet_prepared_by' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'marksheet_compared_by' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'marksheet_controller_signature' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
@@ -88,13 +88,13 @@ class UniversitySettingController extends Controller
             }
         }
 
-        if ($request->hasFile('signature')) {
-            if ($setting->signature && File::exists(public_path($setting->signature))) {
-                File::delete(public_path($setting->signature));
+        if ($request->hasFile('controller_of_examinations')) {
+            if ($setting->controller_of_examinations && File::exists(public_path($setting->controller_of_examinations))) {
+                File::delete(public_path($setting->controller_of_examinations));
             }
 
-            $file = $request->file('signature');
-            $filename = 'signature_'.time().'.png';
+            $file = $request->file('controller_of_examinations');
+            $filename = 'controller_of_examinations_'.time().'.png';
             $targetDir = public_path('uploads/settings');
 
             if (! File::exists($targetDir)) {
@@ -107,10 +107,10 @@ class UniversitySettingController extends Controller
                 $manager = new ImageManager(new Driver);
                 $image = $manager->read($file->getRealPath());
                 $image->toPng()->save($targetPath);
-                $validated['signature'] = 'uploads/settings/'.$filename;
+                $validated['controller_of_examinations'] = 'uploads/settings/'.$filename;
             } catch (\Throwable $e) {
                 $file->move($targetDir, $filename);
-                $validated['signature'] = 'uploads/settings/'.$filename;
+                $validated['controller_of_examinations'] = 'uploads/settings/'.$filename;
             }
         }
 

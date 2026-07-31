@@ -2,7 +2,7 @@
     $uniName = $setting->name ?? 'Bayt al-Hikmah Global University';
     $uniAddress = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
     $logoPath = ($setting->logo ?? null) ? asset($setting->logo) : null;
-    $sigPath = ($setting->signature ?? null) ? asset($setting->signature) : null;
+    $sigPath = ($setting->controller_of_examinations ?? null) ? asset($setting->controller_of_examinations) : null;
     $layout = auth()->check() ? (auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout') : null;
 @endphp
 

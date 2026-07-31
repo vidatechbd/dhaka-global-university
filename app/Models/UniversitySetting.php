@@ -17,7 +17,7 @@ class UniversitySetting extends Model
         'contacts',
         'social_medias',
         'logo',
-        'signature',
+        'controller_of_examinations',
         'marksheet_prepared_by',
         'marksheet_compared_by',
         'marksheet_controller_signature',

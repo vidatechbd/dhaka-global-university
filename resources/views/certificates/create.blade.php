@@ -1,7 +1,7 @@
 @php
     $layout = auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout';
     $previewLogo = $setting->logo ?? null ? asset($setting->logo) : null;
-    $previewSig = $setting->signature ?? null ? asset($setting->signature) : null;
+    $previewSig = $setting->controller_of_examinations ?? null ? asset($setting->controller_of_examinations) : null;
     $previewName = $setting->name ?? 'Bayt al-Hikmah Global University';
     $previewAddr = $setting->address ?? 'Purbachal Model Town, Dhaka, Bangladesh';
 @endphp
