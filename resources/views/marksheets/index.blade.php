@@ -113,7 +113,7 @@
                             @forelse($marksheets as $index => $marksheet)
                                 <tr class="hover:bg-slate-50/60 transition">
                                     <td class="px-6 py-4 text-center text-slate-400 font-medium" data-label="#">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{ $marksheet->student->name }}</td>
+                                    <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{ $marksheet->student->name ?? $marksheet->student_name }}</td>
                                     <td class="px-6 py-4 font-semibold text-slate-700" data-label="Title">{{ $marksheet->title }}</td>
                                     <td class="px-6 py-4 font-semibold text-slate-500" data-label="Department">{{ $marksheet->department ?: 'CSE' }}</td>
                                     <td class="px-6 py-4 text-center font-mono text-slate-500" data-label="Exam Roll">{{ $marksheet->exam_roll ?: (46437 + $index) }}</td>

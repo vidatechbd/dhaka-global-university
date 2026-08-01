@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'student_id',
+    'student_name',
     'title',
     'description',
     'created_by',
@@ -36,6 +37,7 @@ class Marksheet extends Model
             'semesters' => 'array',
         ];
     }
+
     /**
      * Get the student that owns the marksheet.
      */

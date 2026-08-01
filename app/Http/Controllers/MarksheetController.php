@@ -52,6 +52,7 @@ class MarksheetController extends Controller
 
         $validated = $request->validate([
             'student_id' => 'nullable|exists:users,id',
+            'student_name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'department' => 'nullable|string|max:255',

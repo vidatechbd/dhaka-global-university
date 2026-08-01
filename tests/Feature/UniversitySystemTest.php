@@ -85,6 +85,7 @@ test('teacher can issue marksheet to active student', function () {
     $response = $this->actingAs($teacher)
         ->post(route('marksheets.store'), [
             'student_id' => $student->id,
+            'student_name' => $student->name,
             'title' => 'BSc Computer Science',
             'description' => 'First Class Honors',
         ]);
@@ -92,6 +93,28 @@ test('teacher can issue marksheet to active student', function () {
     $response->assertRedirect();
     $this->assertDatabaseHas('marksheets', [
         'student_id' => $student->id,
+        'student_name' => $student->name,
+        'title' => 'BSc Computer Science',
+        'created_by' => $teacher->id,
+    ]);
+});
+
+test('teacher can issue marksheet without student record (custom name)', function () {
+    $teacher = User::factory()->create(['status' => 'active']);
+    $teacher->assignRole('Teacher');
+
+    $response = $this->actingAs($teacher)
+        ->post(route('marksheets.store'), [
+            'student_id' => null,
+            'student_name' => 'Custom Student Name',
+            'title' => 'BSc Computer Science',
+            'description' => 'First Class Honors',
+        ]);
+
+    $response->assertRedirect();
+    $this->assertDatabaseHas('marksheets', [
+        'student_id' => null,
+        'student_name' => 'Custom Student Name',
         'title' => 'BSc Computer Science',
         'created_by' => $teacher->id,
     ]);

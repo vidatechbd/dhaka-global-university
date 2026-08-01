@@ -87,7 +87,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
-                        <input type="text" id="input-student-name" class="w-full bg-white border border-slate-200 text-primary rounded-lg px-4 py-2.5 outline-none text-xs font-extrabold" >
+                        <input type="text" name="student_name" id="input-student-name" value="{{ old('student_name') }}" oninput="updateTranscriptPreview()" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold" required>
                     </div>
 
                     <div>

@@ -109,7 +109,7 @@
                         <div class="flex mb-[1px]">
                             <div class="w-48 font-bold">Student's Name</div>
                             <div class="w-4 font-bold">:</div>
-                            <div class="font-bold uppercase">{{ $marksheet->student->name ?? '—' }}</div>
+                            <div class="font-bold uppercase">{{ $marksheet->student?->name ?? $marksheet->student_name ?? '—' }}</div>
                         </div>
 
                         <div class="flex mb-[1px]">
@@ -306,7 +306,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verify Marksheet - {{ $marksheet->student->name ?? '' }}</title>
+    <title>Verify Marksheet - {{ $marksheet->student?->name ?? $marksheet->student_name ?? '' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -400,7 +400,7 @@
                     <div class="flex mb-[1px]">
                         <div class="w-48 font-bold">Student's Name</div>
                         <div class="w-4 font-bold">:</div>
-                        <div class="font-bold uppercase">{{ $marksheet->student->name ?? '—' }}</div>
+                        <div class="font-bold uppercase">{{ $marksheet->student?->name ?? $marksheet->student_name ?? '—' }}</div>
                     </div>
 
                     <div class="flex mb-[1px]">
