@@ -207,8 +207,13 @@
                                 @else
                                     <div class="w-14 h-14 bg-[#072740] text-white rounded-lg flex items-center justify-center font-bold text-xl">FU</div>
                                 @endif
-                                @if(str_contains(strtolower($uniName), 'feni'))
-                                    <span class="text-[10px] font-bold mt-1 text-slate-700">Estd: 2012</span>
+                                @php
+                                    $estdYear = collect($setting->contacts ?? [])->firstWhere('type', 'Established')['value']
+                                                ?? collect($setting->contacts ?? [])->firstWhere('type', 'Estd')['value']
+                                                ?? (str_contains(strtolower($uniName), 'feni') ? '2012' : null);
+                                @endphp
+                                @if($estdYear)
+                                    <span class="text-[10px] font-bold mt-1 text-slate-700">Estd: {{ $estdYear }}</span>
                                 @endif
                             </div>
                             
