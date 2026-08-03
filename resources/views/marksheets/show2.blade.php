@@ -387,15 +387,12 @@
                                 <div class="h-10 flex items-end justify-center mb-1">
                                     @if($setting->marksheet_controller_signature)
                                         <img src="{{ asset($setting->marksheet_controller_signature) }}" alt="Controller Signature" class="max-h-full object-contain">
-                                    @else
-                                        <!-- Fallback placeholder -->
-                                        <div class="w-24 border-b border-dashed border-slate-400 h-[1px]"></div>
                                     @endif
                                 </div>
                                 {{-- <span class="block border-t border-black w-full pt-1 text-[11px] font-bold tracking-wide leading-none">
                                     ({{ $setting->controller_of_examinations ?? 'Muhammad Harun Al-Rashid' }})
                                 </span> --}}
-                                <span class="block border-t border-black w-max p-3  text-[10px] font-bold text-slate-700 mt-0.5 leading-none">
+                                <span class="block border-t border-dashed border-slate-400 w-max p-3  text-[10px] font-bold text-slate-700 mt-0.5 leading-none">
                                     Controller of Examination
                                 </span>
                             </div>
