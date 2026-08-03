@@ -374,15 +374,18 @@
                                 @endif
                             </div>
 
-                            <!-- Right Block: Signature line -->
-                            <div class="w-[45%] text-center flex flex-col items-center">
+                            <div class="w-auto">
                                 @if($page['is_last'])
                                     <!-- QR Code for verification -->
-                                    <div class="flex flex-col items-center mb-2 no-print">
+                                    <div class="flex flex-col items-center mb-2 no-print self-start ml-4">
                                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data={{ urlencode(route('marksheets.verify2', $marksheet)) }}" alt="QR Code" class="w-12 h-12 border border-gray-300 p-0.5 bg-white">
                                         <p class="text-[6px] font-bold mt-0.5 text-gray-500">SCAN TO VERIFY</p>
                                     </div>
                                 @endif
+                            </div>
+
+                            <!-- Right Block: Signature line -->
+                            <div class="w-auto text-center flex flex-col items-center">
                                 
                                 <div class="h-10 flex items-end justify-center mb-1">
                                     @if($setting->marksheet_controller_signature)
