@@ -26,9 +26,9 @@
                 @endforeach
             @endif
             
-            <a href="{{ route('verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
+            {{-- <a href="{{ route('verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                 <i class="ph ph-certificate"></i> Certificate Verification
-            </a>
+            </a> --}}
             
              <a href="{{ route('marksheets.verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                 <i class="ph ph-file-text"></i> Marksheet Verification
