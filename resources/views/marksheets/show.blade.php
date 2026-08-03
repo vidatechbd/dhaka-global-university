@@ -6,7 +6,7 @@
 
     // Extract first email & web from contacts/social_medias for the footer
     $contactEmail = collect($setting->contacts ?? [])->firstWhere('type', 'Email')['value'] ?? 'contact@dhakaglobal.university';
-    $contactWeb = parse_url(route('home'), PHP_URL_HOST) ?? request()->getHost();
+    $contactWeb = 'https://'. parse_url(route('home'), PHP_URL_HOST) ?? request()->getHost();
 
     $layout = auth()->check() ? (auth()->user()->hasRole('Student') ? 'app-layout' : 'admin-layout') : null;
 @endphp
@@ -617,7 +617,7 @@
 
                     <div class="text-center text-[10px] mt-2 border-t border-black pt-1 font-bold">
                         Address: {{ $uniAddress }}<br>
-                        E-mail: {{ $contactEmail }}, Web: {{ $contactWeb }}
+                        E-mail: {{ $contactEmail }}, Web: https://{{ $contactWeb }}
                     </div>
                 </div>
             </div>

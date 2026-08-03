@@ -221,7 +221,7 @@
                                 </h1>
                                 <p class="text-[12px] font-bold text-slate-800 leading-tight mb-0.5">{{ $uniAddress }}</p>
                                 <p class="text-[11px] font-semibold text-slate-700 leading-tight">
-                                    {{ parse_url(route('home'), PHP_URL_HOST) ?? request()->getHost() }}
+                                   https://{{ parse_url(route('home'), PHP_URL_HOST) ?? request()->getHost() }}
                                 </p>
                             </div>
                         </div>
