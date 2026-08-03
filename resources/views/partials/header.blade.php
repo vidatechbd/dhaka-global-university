@@ -30,8 +30,12 @@
                 <i class="ph ph-certificate"></i> Certificate Verification
             </a> --}}
             
-             <a href="{{ route('marksheets.verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
+             {{-- <a href="{{ route('marksheets.verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                 <i class="ph ph-file-text"></i> Marksheet Verification
+            </a> --}}
+            
+             <a href="{{ route('marksheets.verification.form2') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
+                <i class="ph ph-file-text"></i> Marksheet Verification 2
             </a>
             
             @auth

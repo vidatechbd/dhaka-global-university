@@ -136,6 +136,40 @@ class MarksheetController extends Controller
         return view('marksheets.verify_gate', compact('marksheet', 'setting'));
     }
 
+    public function verify2(Request $request, Marksheet $marksheet)
+    {
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        $sessionKey = 'verified_marksheet_v2_'.$marksheet->id;
+
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'exam_roll' => 'required|string',
+                'reg_no' => 'required|string',
+            ]);
+
+            if ($request->exam_roll === $marksheet->exam_roll && $request->reg_no === $marksheet->reg_no) {
+                session([$sessionKey => true]);
+
+                return redirect()->refresh();
+            }
+
+            return back()->withErrors([
+                'verification' => 'The provided Exam Roll or Registration number is incorrect.',
+            ])->withInput();
+        }
+
+        if (session($sessionKey) === true) {
+            return view('marksheets.show2', compact('marksheet', 'setting'));
+        }
+
+        return view('marksheets.verify_gate2', compact('marksheet', 'setting'));
+    }
+
     public function destroy(Marksheet $marksheet)
     {
         if (! auth()->user()->hasAnyRole(['Principal', 'Teacher'])) {
@@ -174,6 +208,40 @@ class MarksheetController extends Controller
             session([$sessionKey => true]);
 
             return redirect()->route('marksheets.verify', $marksheet);
+        }
+
+        return back()->withErrors([
+            'search' => 'No marksheet found matching the provided Exam Roll and Registration Number.',
+        ])->withInput();
+    }
+
+    public function showVerificationForm2()
+    {
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        return view('marksheets.verification_search2', compact('setting'));
+    }
+
+    public function searchVerification2(Request $request)
+    {
+        $request->validate([
+            'exam_roll' => 'required|string',
+            'reg_no' => 'required|string',
+        ]);
+
+        $marksheet = Marksheet::where('exam_roll', $request->exam_roll)
+            ->where('reg_no', $request->reg_no)
+            ->first();
+
+        if ($marksheet) {
+            $sessionKey = 'verified_marksheet_v2_'.$marksheet->id;
+            session([$sessionKey => true]);
+
+            return redirect()->route('marksheets.verify2', $marksheet);
         }
 
         return back()->withErrors([

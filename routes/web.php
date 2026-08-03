@@ -41,11 +41,14 @@ Route::get('/pending-approval', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::match(['get', 'post'], '/marksheets/{marksheet}/verify', [MarksheetController::class, 'verify'])->name('marksheets.verify');
+Route::match(['get', 'post'], '/marksheets/{marksheet}/verify2', [MarksheetController::class, 'verify2'])->name('marksheets.verify2');
 Route::match(['get', 'post'], '/certificates/{certificate}/verify', [CertificateController::class, 'verify'])->name('certificates.verify');
 Route::get('/verification', [CertificateController::class, 'showVerificationForm'])->name('verification.form');
 Route::post('/verification', [CertificateController::class, 'searchVerification'])->name('verification.search');
 Route::get('/marksheet-verification', [MarksheetController::class, 'showVerificationForm'])->name('marksheets.verification.form');
 Route::post('/marksheet-verification', [MarksheetController::class, 'searchVerification'])->name('marksheets.verification.search');
+Route::get('/marksheet-verification2', [MarksheetController::class, 'showVerificationForm2'])->name('marksheets.verification.form2');
+Route::post('/marksheet-verification2', [MarksheetController::class, 'searchVerification2'])->name('marksheets.verification.search2');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
