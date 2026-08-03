@@ -219,7 +219,16 @@
                                 </h1>
                                 <p class="text-[12px] font-bold text-slate-800 leading-tight mb-0.5">{{ $uniAddress }}</p>
                                 <p class="text-[11px] font-semibold text-slate-700 leading-tight">
-                                    {{ parse_url($contactWeb, PHP_URL_HOST) ?? preg_replace('/^https?:\/\//i', '', $contactWeb) }}
+                                    @php
+                                        $webHost = parse_url($contactWeb, PHP_URL_HOST) ?: $contactWeb;
+                                        $isSocial = preg_match('/(facebook|twitter|instagram|linkedin|youtube|pinterest|github)/i', $webHost);
+                                        $displayDomain = ($isSocial || !$webHost) ? request()->getHost() : $webHost;
+                                        $displayDomain = preg_replace('/^www\./i', '', $displayDomain);
+                                        
+                                        $isIpOrLocal = preg_match('/^(localhost|127\.0\.0\.1|::1|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/i', $displayDomain);
+                                        $finalDisplay = $isIpOrLocal ? $displayDomain : $displayDomain;
+                                    @endphp
+                                    {{ $finalDisplay }}
                                 </p>
                             </div>
                         </div>

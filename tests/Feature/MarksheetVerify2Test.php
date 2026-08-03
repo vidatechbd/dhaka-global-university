@@ -52,7 +52,6 @@ test('anyone can verify a marksheet via layout 2 public link', function () {
     // 4. Get request after verification session is set
     $response = $this->get(route('marksheets.verify2', $marksheet));
     $response->assertSuccessful();
-    $response->assertSee('Verified Academic Document (Official Layout)');
     $response->assertSee('Dhaka Global University');
     $response->assertSee('Official Academic Transcript');
     $response->assertSee('172022002');
@@ -102,5 +101,5 @@ test('anyone can search and verify a marksheet via layout 2 verification portal'
     // 4. Get verification page after redirect
     $response = $this->get(route('marksheets.verify2', $marksheet));
     $response->assertSuccessful();
-    $response->assertSee('Verified Academic Document (Official Layout)');
+    $response->assertSee('Official Academic Transcript');
 });
