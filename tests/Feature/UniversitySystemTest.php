@@ -272,3 +272,32 @@ test('anyone can verify a certificate via public link', function () {
     $response->assertStatus(200);
     $response->assertSee('Verified Academic Certificate');
 });
+
+test('anyone can search and verify marksheet via public lookup', function () {
+    $student = User::factory()->create(['status' => 'active']);
+    $student->assignRole('Student');
+
+    $marksheet = Marksheet::create([
+        'student_id' => $student->id,
+        'title' => 'BSc Computer Science',
+        'exam_roll' => '46437',
+        'reg_no' => '1502046437',
+        'created_by' => $student->id,
+    ]);
+
+    $response = $this->get(route('marksheets.verification.form'));
+    $response->assertStatus(200);
+    $response->assertSee('Marksheet/Transcript Verification');
+
+    $response = $this->post(route('marksheets.verification.search'), [
+        'exam_roll' => 'wrong',
+        'reg_no' => 'wrong',
+    ]);
+    $response->assertSessionHasErrors('search');
+
+    $response = $this->post(route('marksheets.verification.search'), [
+        'exam_roll' => '46437',
+        'reg_no' => '1502046437',
+    ]);
+    $response->assertRedirect(route('marksheets.verify', $marksheet));
+});

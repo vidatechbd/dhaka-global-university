@@ -30,6 +30,10 @@
                 <i class="ph ph-certificate"></i> Certificate Verification
             </a>
             
+             <a href="{{ route('marksheets.verification.form') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
+                <i class="ph ph-file-text"></i> Marksheet Verification
+            </a>
+            
             @auth
                 <a href="{{ url('/dashboard') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
                     <i class="ph ph-user"></i> Dashboard

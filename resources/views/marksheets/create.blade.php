@@ -81,11 +81,6 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Department</label>
-                        <input type="text" name="department" value="Computer Science and Engineering" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
-                    </div>
-
-                    <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's Name</label>
                         <input type="text" name="student_name" id="input-student-name" value="{{ old('student_name') }}" oninput="updateTranscriptPreview()" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold" required>
                     </div>
@@ -107,22 +102,27 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Exam. Roll</label>
-                        <input type="number" name="exam_roll" value="46437" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <input type="number" name="exam_roll" value="" oninput="updateTranscriptPreview()" id="input-roll" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration No - Session</label>
-                        <input type="number" name="reg_no" value="48236683 - 2021-2022" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <input type="number" name="reg_no" value="" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Subject/Department Name</label>
+                        <input type="text" name="department" value="" oninput="updateTranscriptPreview()" id="input-dept" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
-                        <input type="text" name="credit_completed" value="216/216" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <input type="text" name="credit_completed" value="" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Final Result / CGPA</label>
-                        <input type="text" name="result" value="3.96 Out Of 4.00" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-white border border-slate-300 text-[#d97d10] rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold">
+                        <input type="text" name="result" placeholder="3.96 Out Of 4.00" value="" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-white border border-slate-300 text-[#d97d10] rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold">
                     </div>
                 </div>
 

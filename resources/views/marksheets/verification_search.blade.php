@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verify Certificate - {{ $setting->name ?? 'Dhaka Global University' }}</title>
+    <title>Verify Marksheet - {{ $setting->name ?? 'Dhaka Global University' }}</title>
     
     @if($setting && $setting->favicon)
         <link rel="shortcut icon" href="{{ asset($setting->favicon) }}" type="image/x-icon">
@@ -52,41 +52,40 @@
                     </div>
                 @endif
                 <h2 class="font-serif font-bold text-white text-lg tracking-tight">{{ $setting->name ?? 'Dhaka Global University' }}</h2>
-                <p class="text-white/70 text-xs mt-1 font-medium tracking-wide uppercase">Academic Verification Gate</p>
+                <p class="text-white/70 text-xs mt-1 font-medium tracking-wide uppercase">Academic Verification Portal</p>
             </div>
         </div>
 
         <!-- Form Section -->
-        <form action="{{ route('certificates.verify', $certificate) }}" method="POST" class="p-8 space-y-6">
+        <form action="{{ route('marksheets.verification.search') }}" method="POST" class="p-8 space-y-6">
             @csrf
 
             <div class="text-center">
-                <h3 class="text-base font-bold text-slate-800">Verify Academic Certificate</h3>
-                <p class="text-xs text-slate-400 mt-1">Please enter the official credentials printed on the certificate to access the full document.</p>
+                <h3 class="text-base font-bold text-slate-800">Marksheet/Transcript Verification</h3>
+                <p class="text-xs text-slate-400 mt-1">Please enter the Registration Number and Exam Roll Number to search for and verify the transcript.</p>
             </div>
 
             <!-- Error Alerts -->
-            @if($errors->has('verification'))
+            @if($errors->has('search'))
                 <div class="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold rounded-xl flex items-center gap-2.5">
                     <span class="text-sm">⚠️</span>
-                    <span>{{ $errors->first('verification') }}</span>
+                    <span>{{ $errors->first('search') }}</span>
                 </div>
             @endif
 
             <div class="space-y-4">
                 <!-- Exam Roll -->
                 <div>
-                    <label for="roll" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Exam Roll Number</label>
+                    <label for="exam_roll" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Exam Roll Number</label>
                     <input 
                         type="text" 
-                        name="roll" 
-                        id="roll" 
-                        value="{{ old('roll') }}" 
-                        {{-- placeholder="e.g. 46437"  --}}
+                        name="exam_roll" 
+                        id="exam_roll" 
+                        value="{{ old('exam_roll') }}" 
                         class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 outline-none transition duration-200 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary text-xs font-semibold shadow-sm"
                         required
                     >
-                    @error('roll')
+                    @error('exam_roll')
                         <p class="text-rose-600 text-[10px] mt-1 font-bold">{{ $message }}</p>
                     @enderror
                 </div>
@@ -99,7 +98,6 @@
                         name="reg_no" 
                         id="reg_no" 
                         value="{{ old('reg_no') }}" 
-                        {{-- placeholder="e.g. 1502046437"  --}}
                         class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 outline-none transition duration-200 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary text-xs font-semibold shadow-sm"
                         required
                     >
@@ -115,7 +113,7 @@
                     type="submit" 
                     class="w-full bg-primary hover:bg-primaryDark text-white py-3 rounded-xl font-bold transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-primary/20 text-xs cursor-pointer hover:translate-y-[-1px] active:translate-y-[0px]"
                 >
-                    Verify & View Certificate
+                    Search & Verify Marksheet
                 </button>
             </div>
         </form>
@@ -123,9 +121,9 @@
         <!-- Footer Info -->
         <div class="border-t border-slate-100 bg-slate-50/50 px-8 py-4 flex justify-between items-center text-[10px] text-slate-400">
             <p>&copy; {{ date('Y') }} {{ $setting->name ?? 'Dhaka Global University' }}</p>
-            <p class="font-semibold text-primary">Secure Verification System 
+            <p class="font-semibold text-primary">Secure Verification System</p>
         </div>
-        <p class="text-[10px] text-slate-400 text-center w-full py-2 border border-t-2">Development by <a href="https://www.vidatech.com.bd/" target="_blank" class="hover:underline font-bold">Vida Technolog
+        <p class="text-[10px] text-slate-400 text-center w-full py-2 border border-t-2">Development by <a href="https://www.vidatech.com.bd/" target="_blank" class="hover:underline font-bold">Vida Technology</a></p>
 
     </div>
 

@@ -99,7 +99,7 @@
                         name="reg_no" 
                         id="reg_no" 
                         value="{{ old('reg_no') }}" 
-                        {{-- placeholder="e.g. 1502046437"  --}}
+                        {{-- placeholder="e.g. 1502046437" --}}
                         class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 outline-none transition duration-200 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary text-xs font-semibold shadow-sm"
                         required
                     >
@@ -123,8 +123,9 @@
         <!-- Footer Info -->
         <div class="border-t border-slate-100 bg-slate-50/50 px-8 py-4 flex justify-between items-center text-[10px] text-slate-400">
             <p>&copy; {{ date('Y') }} {{ $setting->name ?? 'Dhaka Global University' }}</p>
-            <p class="font-semibold text-primary">Secure Verification System</p>
+            <p class="font-semibold text-primary">Secure Verification System 
         </div>
+        <p class="text-[10px] text-slate-400 text-center w-full py-2 border border-t-2">Development by <a href="https://www.vidatech.com.bd/" target="_blank" class="hover:underline font-bold">Vida Technolog
 
     </div>
 

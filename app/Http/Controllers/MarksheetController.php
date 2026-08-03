@@ -146,4 +146,38 @@ class MarksheetController extends Controller
 
         return redirect()->route('marksheets.index')->with('success', 'Marksheet/Transcript deleted successfully.');
     }
+
+    public function showVerificationForm()
+    {
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        return view('marksheets.verification_search', compact('setting'));
+    }
+
+    public function searchVerification(Request $request)
+    {
+        $request->validate([
+            'exam_roll' => 'required|string',
+            'reg_no' => 'required|string',
+        ]);
+
+        $marksheet = Marksheet::where('exam_roll', $request->exam_roll)
+            ->where('reg_no', $request->reg_no)
+            ->first();
+
+        if ($marksheet) {
+            $sessionKey = 'verified_marksheet_'.$marksheet->id;
+            session([$sessionKey => true]);
+
+            return redirect()->route('marksheets.verify', $marksheet);
+        }
+
+        return back()->withErrors([
+            'search' => 'No marksheet found matching the provided Exam Roll and Registration Number.',
+        ])->withInput();
+    }
 }

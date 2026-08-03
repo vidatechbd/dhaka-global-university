@@ -602,7 +602,7 @@
         </div>
 
         <!-- Verification Status Banner & Download Button -->
-        <div class="flex items-center gap-4 mb-6 no-print">
+        {{-- <div class="flex items-center gap-4 mb-6 no-print">
             <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-full px-5 py-2 flex items-center gap-2 font-bold text-sm shadow-sm">
                 <span class="text-lg">✓</span> Verified Academic Certificate
             </div>
@@ -615,7 +615,7 @@
                 </svg>
                 Download PDF
             </button>
-        </div>
+        </div> --}}
 
         <div id="printable-certificate-container" class="certificate-paper-wrapper">
             <div class="certificate-paper shadow-2xl">
