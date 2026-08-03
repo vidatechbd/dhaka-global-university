@@ -525,6 +525,7 @@
                         <p class="text-[7px] font-bold mt-1 text-gray-500 text-center">SCAN TO VERIFY</p>
                     </div>
                     
+                    {{-- all Signature section --}}
                     <!-- Signature: Prepared by -->
                     <div class="text-center w-36 flex flex-col items-center">
                         <div class="h-8 w-28 flex items-end justify-center mb-1">
