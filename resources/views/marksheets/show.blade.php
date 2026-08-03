@@ -172,12 +172,12 @@
                            style="line-height:1.15;">
                         <thead>
                             <tr class="bg-gray-50">
-                                <th class="border border-black py-1 px-1 font-bold text-center w-14">SEMESTER</th>
+                                <th class="border border-black py-1 px-1 font-bold text-center w-14">YEAR</th>
                                 <th class="border border-black py-1 px-1 font-bold text-center w-20">COURSE CODE</th>
                                 <th class="border border-black py-1 px-2 font-bold text-left">COURSE TITLE</th>
                                 <th class="border border-black py-1 px-1 font-bold text-center w-14">CREDIT</th>
                                 <th class="border border-black py-1 px-1 font-bold text-center w-14">GRADE</th>
-                                <th class="border border-black py-1 px-1 font-bold text-center w-16">GPA</th>
+                                <th class="border border-black py-1 px-1 font-bold text-center w-16">YEAR CGP</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -191,7 +191,7 @@
                                         @if($idx === 0)
                                             <td rowspan="{{ $rowCount }}"
                                                 class="border border-black text-center font-bold align-middle">
-                                                {{ $sem['name'] ?? '' }}
+                                                {{ $sem['year'] ?? '' }}
                                             </td>
                                         @endif
                                         <td class="border border-black text-center py-[1.5px] px-1">
@@ -209,7 +209,7 @@
                                         @if($idx === 0)
                                             <td rowspan="{{ $rowCount }}"
                                                 class="border border-black text-center font-bold align-middle">
-                                                {{ $sem['gpa'] ?? '' }}
+                                                {{ $sem['year_cgp'] ?? '' }}
                                             </td>
                                         @endif
                                     </tr>
@@ -463,12 +463,12 @@
                        style="line-height:1.15;">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="border border-black py-1 px-1 font-bold text-center w-14">SEMESTER</th>
+                            <th class="border border-black py-1 px-1 font-bold text-center w-14">YEAR</th>
                             <th class="border border-black py-1 px-1 font-bold text-center w-20">COURSE CODE</th>
                             <th class="border border-black py-1 px-2 font-bold text-left">COURSE TITLE</th>
                             <th class="border border-black py-1 px-1 font-bold text-center w-14">CREDIT</th>
                             <th class="border border-black py-1 px-1 font-bold text-center w-14">GRADE</th>
-                            <th class="border border-black py-1 px-1 font-bold text-center w-16">GPA</th>
+                            <th class="border border-black py-1 px-1 font-bold text-center w-16">YEAR CGP</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -482,7 +482,7 @@
                                     @if($idx === 0)
                                         <td rowspan="{{ $rowCount }}"
                                             class="border border-black text-center font-bold align-middle">
-                                            {{ $sem['name'] ?? '' }}
+                                            {{ $sem['year'] ?? '' }}
                                         </td>
                                     @endif
                                     <td class="border border-black text-center py-[1.5px] px-1">
@@ -500,7 +500,7 @@
                                     @if($idx === 0)
                                         <td rowspan="{{ $rowCount }}"
                                             class="border border-black text-center font-bold align-middle">
-                                            {{ $sem['gpa'] ?? '' }}
+                                            {{ $sem['year_cgp'] ?? '' }}
                                         </td>
                                     @endif
                                 </tr>

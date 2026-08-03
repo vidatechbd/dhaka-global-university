@@ -126,13 +126,13 @@
                     </div>
                 </div>
 
-                <!-- Academic Semesters List (Summary) -->
+                <!-- Academic Years List (Summary) -->
                 <div class="mt-8">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-2 mb-4">
-                        <h3 class="text-sm font-bold text-slate-800">Academic Semesters & Subjects Breakdown</h3>
+                        <h3 class="text-sm font-bold text-slate-800">Academic Years & Subjects Breakdown</h3>
                         <button type="button" onclick="openSemesterModal()" class="text-xs bg-[#e0edf7] text-primary hover:bg-[#d0e2f2] px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1 shadow-sm border border-[#0a3a60]/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                            Add Semester
+                            Add Year
                         </button>
                     </div>
                     <div id="semester-summary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -204,12 +204,12 @@
                         <table class="w-full border-collapse border border-black text-[10px] mb-3 print-border" style="line-height:1.15;">
                             <thead>
                                 <tr class="bg-gray-50">
-                                    <th class="border border-black py-1 px-1 font-bold text-center w-14">SEMESTER</th>
+                                    <th class="border border-black py-1 px-1 font-bold text-center w-14">YEAR</th>
                                     <th class="border border-black py-1 px-1 font-bold text-center w-20">COURSE CODE</th>
                                     <th class="border border-black py-1 px-2 font-bold text-left">COURSE TITLE</th>
                                     <th class="border border-black py-1 px-1 font-bold text-center w-14">CREDIT</th>
                                     <th class="border border-black py-1 px-1 font-bold text-center w-14">GRADE</th>
-                                    <th class="border border-black py-1 px-1 font-bold text-center w-16">GPA</th>
+                                    <th class="border border-black py-1 px-1 font-bold text-center w-16">YEAR CGP</th>
                                 </tr>
                             </thead>
                             <tbody id="transcript-table-body">
@@ -272,7 +272,7 @@
                 <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
                     <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Add New Semester
+                        Add New Year
                     </h3>
                     <button type="button" onclick="closeSemesterModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-100 transition">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -282,11 +282,11 @@
                 <div class="p-6 overflow-y-auto flex-1 bg-white text-slate-800">
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Semester Name (e.g. 1ST)</label>
-                            <input type="text" id="sem-name-input" placeholder="1ST" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-1 focus:ring-primary font-serif uppercase text-xs">
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Year (e.g. 1ST YEAR)</label>
+                            <input type="text" id="sem-name-input" placeholder="1ST YEAR" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-1 focus:ring-primary font-serif uppercase text-xs">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Semester GPA</label>
+                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Year CGP</label>
                             <input type="number" step="0.01" id="sem-gpa-input" placeholder="4.00" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs">
                         </div>
                     </div>
@@ -317,8 +317,8 @@
         <script>
             let stateSemesters = [
                 {
-                    name: '1ST',
-                    gpa: '4.00',
+                    year: '1ST YEAR',
+                    year_cgp: '4.00',
                     courses: [
                         { code: '21011', title: 'Engineering Drawing', credit: '2', grade: 'A+' },
                         { code: '25911', title: 'Mathematics-I', credit: '4', grade: 'A+' },
@@ -329,8 +329,8 @@
                     ]
                 },
                 {
-                    name: '2ND',
-                    gpa: '3.90',
+                    year: '2ND YEAR',
+                    year_cgp: '3.90',
                     courses: [
                         { code: '26711', title: 'Basic Electricity', credit: '4', grade: 'A' },
                         { code: '21012', title: 'Engineering Drawing-II', credit: '2', grade: 'A+' },
@@ -377,7 +377,7 @@
                     const cardHTML = `
                         <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-4 relative group text-slate-800">
                             <div class="flex justify-between items-start mb-2">
-                                <h4 class="font-bold text-primary text-xs">${sem.name} Semester (GPA: ${sem.gpa})</h4>
+                                <h4 class="font-bold text-primary text-xs">${sem.year} (CGP: ${sem.year_cgp})</h4>
                                 <button type="button" onclick="removeSemester(${semIdx})" class="text-rose-500 hover:text-rose-600 transition no-print" title="Remove">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
@@ -401,12 +401,12 @@
                         if (index === 0) {
                             trHTML = `
                                 <tr>
-                                    <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.name}</td>
+                                    <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.year}</td>
                                     <td class="border border-black text-center" style="padding:1.5px 4px;">${course.code}</td>
                                     <td class="border border-black" style="padding:1.5px 8px;">${course.title}</td>
                                     <td class="border border-black text-center" style="padding:1.5px 4px;">${course.credit}</td>
                                     <td class="border border-black text-center font-bold" style="padding:1.5px 4px;">${course.grade}</td>
-                                    <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.gpa}</td>
+                                    <td rowspan="${rowCount}" class="border border-black text-center font-bold align-middle" style="padding:1.5px 4px;">${sem.year_cgp}</td>
                                 </tr>
                             `;
                         } else {
@@ -426,7 +426,7 @@
             }
 
             function removeSemester(index) {
-                if (confirm('Are you sure you want to remove this semester?')) {
+                if (confirm('Are you sure you want to remove this year?')) {
                     stateSemesters.splice(index, 1);
                     renderSemesters();
                 }
@@ -518,8 +518,8 @@
                 });
 
                 stateSemesters.push({
-                    name: semName,
-                    gpa: semGPA,
+                    year: semName,
+                    year_cgp: semGPA,
                     courses: coursesData
                 });
 

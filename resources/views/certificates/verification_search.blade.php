@@ -82,7 +82,7 @@
                         name="roll" 
                         id="roll" 
                         value="{{ old('roll') }}" 
-                        placeholder="e.g. 46437" 
+                        {{-- placeholder="e.g. 46437"  --}}
                         class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 outline-none transition duration-200 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary text-xs font-semibold shadow-sm"
                         required
                     >
@@ -99,7 +99,7 @@
                         name="reg_no" 
                         id="reg_no" 
                         value="{{ old('reg_no') }}" 
-                        placeholder="e.g. 1502046437" 
+                        {{-- placeholder="e.g. 1502046437"  --}}
                         class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 outline-none transition duration-200 focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary text-xs font-semibold shadow-sm"
                         required
                     >

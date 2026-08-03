@@ -82,12 +82,23 @@ test('teacher can issue marksheet to active student', function () {
     $student = User::factory()->create(['status' => 'active']);
     $student->assignRole('Student');
 
+    $semestersData = [
+        [
+            'year' => '1ST YEAR',
+            'year_cgp' => '3.85',
+            'courses' => [
+                ['code' => 'CSE101', 'title' => 'Introduction to Computer Science', 'credit' => '3', 'grade' => 'A'],
+            ],
+        ],
+    ];
+
     $response = $this->actingAs($teacher)
         ->post(route('marksheets.store'), [
             'student_id' => $student->id,
             'student_name' => $student->name,
             'title' => 'BSc Computer Science',
             'description' => 'First Class Honors',
+            'semesters' => json_encode($semestersData),
         ]);
 
     $response->assertRedirect();
@@ -97,6 +108,19 @@ test('teacher can issue marksheet to active student', function () {
         'title' => 'BSc Computer Science',
         'created_by' => $teacher->id,
     ]);
+
+    $marksheet = Marksheet::where('student_id', $student->id)->first();
+    $this->assertNotNull($marksheet->semesters);
+    expect($marksheet->semesters[0]['year'])->toBe('1ST YEAR');
+    expect($marksheet->semesters[0]['year_cgp'])->toBe('3.85');
+
+    // Verify it renders correctly on show view
+    $showResponse = $this->actingAs($student)->get(route('marksheets.show', $marksheet));
+    $showResponse->assertStatus(200);
+    $showResponse->assertSee('YEAR');
+    $showResponse->assertSee('YEAR CGP');
+    $showResponse->assertSee('1ST YEAR');
+    $showResponse->assertSee('3.85');
 });
 
 test('teacher can issue marksheet without student record (custom name)', function () {
