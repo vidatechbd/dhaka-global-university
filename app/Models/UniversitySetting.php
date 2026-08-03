@@ -14,6 +14,7 @@ class UniversitySetting extends Model
     protected $fillable = [
         'name',
         'address',
+        'established_year',
         'contacts',
         'social_medias',
         'logo',

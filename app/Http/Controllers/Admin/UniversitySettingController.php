@@ -60,7 +60,10 @@ class UniversitySettingController extends Controller
             'meta_keywords' => ['nullable', 'string', 'max:500'],
             'meta_author' => ['nullable', 'string', 'max:255'],
             'favicon' => ['nullable', 'file', 'mimes:ico,png,jpg,jpeg,gif,webp', 'max:1024'],
+            'established_year' => ['nullable', 'string', 'max:10'],
         ]);
+
+        // established_year is saved directly to its own column — no contacts merging needed
 
         if ($request->hasFile('logo')) {
             if ($setting->logo && File::exists(public_path($setting->logo))) {

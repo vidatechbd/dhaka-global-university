@@ -207,13 +207,10 @@
                                 @else
                                     <div class="w-14 h-14 bg-[#072740] text-white rounded-lg flex items-center justify-center font-bold text-xl">FU</div>
                                 @endif
-                                @php
-                                    $estdYear = collect($setting->contacts ?? [])->firstWhere('type', 'Established')['value']
-                                                ?? collect($setting->contacts ?? [])->firstWhere('type', 'Estd')['value']
-                                                ?? (str_contains(strtolower($uniName), 'feni') ? '2012' : null);
-                                @endphp
-                                @if($estdYear)
-                                    <span class="text-[10px] font-bold mt-1 text-slate-700">Estd: {{ $estdYear }}</span>
+                                @if($setting->established_year)
+                                    <span style="display:inline-block; margin-top:5px; padding: 2px 8px; border: 1.2px solid #072740; border-radius: 20px; font-size: 9px; font-weight: 700; color: #072740; letter-spacing: 0.8px; background: rgba(7,39,64,0.06);">
+                                        EST. {{ $setting->established_year }}
+                                    </span>
                                 @endif
                             </div>
                             

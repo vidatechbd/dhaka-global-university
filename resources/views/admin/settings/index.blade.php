@@ -25,6 +25,12 @@
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
+                <div class="mb-6">
+                    <x-input-label for="established_year" :value="__('Established Year')" />
+                    <x-text-input id="established_year" class="block mt-1.5 w-full text-xs" type="text" name="established_year" :value="old('established_year', $setting->established_year)" />
+                    <x-input-error :messages="$errors->get('established_year')" class="mt-2" />
+                </div>
+
                 <!-- Row 1: Logo, Favicon, Certificate Signature -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div>
@@ -108,7 +114,7 @@
 
                 <div class="mt-6">
                     <x-input-label for="address" :value="__('Physical Address')" />
-                    <textarea id="address" name="address" rows="3" class="mt-1.5 block w-full border-slate-300 focus:border-primary focus:ring-primary rounded-lg shadow-sm text-xs">{{ old('address', $setting->address) }}</textarea>
+                    <textarea id="address" name="address" rows="3" class="mt-1.5 block w-full border border-slate-300 focus:border-primary focus:ring-primary rounded-lg shadow-sm text-xs p-3 bg-white outline-none">{{ old('address', $setting->address) }}</textarea>
                     <x-input-error :messages="$errors->get('address')" class="mt-2" />
                 </div>
             </x-admin.card>
