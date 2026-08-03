@@ -155,7 +155,7 @@
 <body class="bg-[#F0E8EE] min-h-screen flex flex-col items-center justify-center p-6 text-black">
     
     <!-- Top toolbar & Action Buttons -->
-    <div class="flex items-center gap-4 mb-6 no-print max-w-[210mm] w-full justify-between">
+    {{-- <div class="flex items-center gap-4 mb-6 no-print max-w-[210mm] w-full justify-between">
         <div class="flex items-center gap-2">
             <span class="bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</span>
             <span class="text-slate-800 text-sm font-semibold">Verified Academic Document (Official Layout)</span>
@@ -163,7 +163,7 @@
         
         <div class="flex items-center gap-3">
             <button onclick="window.print()"
-                    class="bg-[#008A43] hover:bg-[#006f35] text-white px-5 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-md text-xs cursor-pointer">
+                    class="bg-[#072740] hover:bg-[#051c2e] text-white px-5 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-md text-xs cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -171,7 +171,7 @@
                 Print / Save PDF
             </button>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Multi-page stack container -->
     <div class="flex flex-col gap-8 no-print:w-[210mm]">
@@ -191,7 +191,7 @@
                                 $acronym .= strtoupper(substr($w, 0, 1));
                             }
                         @endphp
-                        <span style="font-size: 140px; font-weight: 900; color: #008A43; transform: rotate(-30deg); letter-spacing: -2px;">{{ $acronym ?: 'FU' }}</span>
+                        <span style="font-size: 140px; font-weight: 900; color: #072740; transform: rotate(-30deg); letter-spacing: -2px;">{{ $acronym ?: 'FU' }}</span>
                     @endif
                 </div>
 
@@ -199,13 +199,13 @@
                 <div class="relative z-10 flex flex-col justify-between h-full">
                     <div>
                         {{-- University Header Banner --}}
-                        <div class="flex items-center justify-between pb-2 mb-4" style="border-bottom: 5px double #008A43;">
+                        <div class="flex items-center justify-between pb-2 mb-4" style="border-bottom: 5px double #072740;">
                             <!-- Logo and Estd -->
                             <div class="flex flex-col items-center w-28">
                                 @if($logoPath)
                                     <img src="{{ $logoPath }}" alt="FU Logo" class="h-16 w-auto object-contain">
                                 @else
-                                    <div class="w-14 h-14 bg-[#008A43] text-white rounded-lg flex items-center justify-center font-bold text-xl">FU</div>
+                                    <div class="w-14 h-14 bg-[#072740] text-white rounded-lg flex items-center justify-center font-bold text-xl">FU</div>
                                 @endif
                                 @if(str_contains(strtolower($uniName), 'feni'))
                                     <span class="text-[10px] font-bold mt-1 text-slate-700">Estd: 2012</span>
@@ -214,7 +214,7 @@
                             
                             <!-- Middle: University Branding -->
                             <div class="flex-1 text-center pr-4">
-                                <h1 class="text-[34px] font-bold text-[#008A43] leading-none mb-1 uppercase" style="letter-spacing: 0.5px;">
+                                <h1 class="text-[34px] font-bold text-[#072740] leading-none mb-1 uppercase" style="letter-spacing: 0.5px;">
                                     {{ $uniName }}
                                 </h1>
                                 <p class="text-[12px] font-bold text-slate-800 leading-tight mb-0.5">{{ $uniAddress }}</p>
@@ -362,7 +362,7 @@
                                     <div class="flex">
                                         <span class="w-32 font-bold">CGPA</span>
                                         <span class="w-4 font-bold">:</span>
-                                        <span class="font-bold text-[#008A43] text-sm">{{ $finalCGPA }}</span>
+                                        <span class="font-bold text-[#072740] text-sm">{{ $finalCGPA }}</span>
                                     </div>
                                     <div class="flex">
                                         <span class="w-32 font-bold">Date of Issue</span>

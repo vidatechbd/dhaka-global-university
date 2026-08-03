@@ -35,7 +35,7 @@
             </a> --}}
             
              <a href="{{ route('marksheets.verification.form2') }}" class="hover:text-white transition flex items-center gap-1 font-bold text-secondary">
-                <i class="ph ph-file-text"></i> Marksheet Verification 2
+                <i class="ph ph-file-text"></i> Marksheet Verification
             </a>
             
             @auth
