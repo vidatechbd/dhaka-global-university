@@ -255,9 +255,14 @@
                                         <span class="font-bold flex-1">{{ $marksheet->exam_roll ?? '—' }}</span>
                                     </div>
                                     <div class="flex">
-                                        <span class="w-20 font-bold">Batch</span>
+                                        <span class="w-20 font-bold">Reg. No</span>
                                         <span class="w-4 font-bold">:</span>
-                                        <span class="font-bold flex-1">{{ $marksheet->session ?? '15 th' }}</span>
+                                        <span class="font-bold flex-1">{{ $marksheet->reg_no ?? '—' }}</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="w-20 font-bold">Session</span>
+                                        <span class="w-4 font-bold">:</span>
+                                        <span class="font-bold flex-1">{{ $marksheet->session ?? '—' }}</span>
                                     </div>
                                 </div>
 

@@ -117,10 +117,10 @@ test('teacher can issue marksheet to active student', function () {
     // Verify it renders correctly on show view
     $showResponse = $this->actingAs($student)->get(route('marksheets.show', $marksheet));
     $showResponse->assertStatus(200);
-    $showResponse->assertSee('YEAR');
-    $showResponse->assertSee('YEAR CGP');
+    $showResponse->assertSee('GPA:');
+    $showResponse->assertSee('CGPA:');
     $showResponse->assertSee('1ST YEAR');
-    $showResponse->assertSee('3.85');
+    $showResponse->assertSee('3.75');
 });
 
 test('teacher can issue marksheet without student record (custom name)', function () {

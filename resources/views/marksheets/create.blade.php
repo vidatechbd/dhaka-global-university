@@ -106,8 +106,13 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration No - Session</label>
-                        <input type="number" name="reg_no" value="" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Registration No</label>
+                        <input type="text" name="reg_no" value="" oninput="updateTranscriptPreview()" id="input-reg" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Session</label>
+                        <input type="text" name="session" value="" oninput="updateTranscriptPreview()" id="input-session" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
@@ -194,7 +199,8 @@
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Mother's Name</div><div class="w-4 font-bold">:</div><div id="preview-mother" class="font-bold uppercase">RAHENA AKTER</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Name of Course</div><div class="w-4 font-bold">:</div><div id="preview-course" class="font-bold">Diploma Programme</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Exam. Roll</div><div class="w-4 font-bold">:</div><div id="preview-roll" class="font-bold">46437</div></div>
-                            <div class="flex mb-[1px]"><div class="w-48 font-bold">Registration No - Session</div><div class="w-4 font-bold">:</div><div id="preview-reg" class="font-bold">48236683 - 2021-2022</div></div>
+                            <div class="flex mb-[1px]"><div class="w-48 font-bold">Registration No</div><div class="w-4 font-bold">:</div><div id="preview-reg" class="font-bold">48236683</div></div>
+                            <div class="flex mb-[1px]"><div class="w-48 font-bold">Session</div><div class="w-4 font-bold">:</div><div id="preview-session" class="font-bold">2021-2022</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Subject/Department Name</div><div class="w-4 font-bold">:</div><div id="preview-dept" class="font-bold">Computer Science and Engineering</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Credit (Completed/Total)</div><div class="w-4 font-bold">:</div><div id="preview-credit" class="font-bold">216/216</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Result</div><div class="w-4 font-bold">:</div><div id="preview-result" class="font-bold">3.96 Out Of 4.00</div></div>
@@ -360,6 +366,7 @@
                 document.getElementById('preview-course').textContent = document.getElementById('input-course').value || '';
                 document.getElementById('preview-roll').textContent = document.getElementById('input-roll').value || '';
                 document.getElementById('preview-reg').textContent = document.getElementById('input-reg').value || '';
+                document.getElementById('preview-session').textContent = document.getElementById('input-session').value || '';
                 document.getElementById('preview-dept').textContent = document.getElementById('input-dept').value || '';
                 document.getElementById('preview-credit').textContent = document.getElementById('input-credit').value || '';
                 document.getElementById('preview-result').textContent = document.getElementById('input-result').value || '';
