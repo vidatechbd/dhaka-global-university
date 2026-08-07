@@ -276,7 +276,7 @@
         <div id="semester-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 no-print">
             <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="semester-modal-content">
                 <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
-                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2" id="modal-title">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         Add New Year
                     </h3>
@@ -346,6 +346,9 @@
                 }
             ];
 
+            // Added: Track if we are editing an existing semester
+            let editingIndex = -1;
+
             document.addEventListener('DOMContentLoaded', () => {
                 addCourseRow();
                 renderSemesters();
@@ -385,9 +388,14 @@
                         <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-4 relative group text-slate-800">
                             <div class="flex justify-between items-start mb-2">
                                 <h4 class="font-bold text-primary text-xs">${sem.year} (CGP: ${sem.year_cgp})</h4>
-                                <button type="button" onclick="removeSemester(${semIdx})" class="text-rose-500 hover:text-rose-600 transition no-print" title="Remove">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </button>
+                                <div class="flex gap-2 no-print">
+                                    <button type="button" onclick="editSemester(${semIdx})" class="text-amber-500 hover:text-amber-600 transition" title="Edit">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                    </button>
+                                    <button type="button" onclick="removeSemester(${semIdx})" class="text-rose-500 hover:text-rose-600 transition" title="Remove">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </div>
                             </div>
                             <ul class="text-[11px] text-slate-500 space-y-1">
                                 ${liHTML}
@@ -439,7 +447,35 @@
                 }
             }
 
-            function openSemesterModal() {
+            // Function to trigger edit
+            function editSemester(index) {
+                editingIndex = index;
+                const sem = stateSemesters[index];
+                
+                // Set modal inputs
+                document.getElementById('modal-title').innerHTML = `<svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Year`;
+                document.getElementById('sem-name-input').value = sem.year;
+                document.getElementById('sem-gpa-input').value = sem.year_cgp;
+                
+                // Clear and refill courses
+                document.getElementById('course-rows-container').innerHTML = '';
+                sem.courses.forEach(course => {
+                    addCourseRow(course);
+                });
+                
+                openSemesterModal(true);
+            }
+
+            function openSemesterModal(isEdit = false) {
+                if(!isEdit) {
+                    editingIndex = -1;
+                    document.getElementById('modal-title').innerHTML = `<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg> Add New Year`;
+                    document.getElementById('sem-name-input').value = '';
+                    document.getElementById('sem-gpa-input').value = '';
+                    document.getElementById('course-rows-container').innerHTML = '';
+                    addCourseRow();
+                }
+
                 const modal = document.getElementById('semester-modal');
                 const content = document.getElementById('semester-modal-content');
                 modal.classList.remove('hidden');
@@ -461,38 +497,38 @@
                 }, 300);
             }
 
-            // Courses management in modal
-            function addCourseRow() {
+            // Courses management in modal - Modified to accept existing data
+            function addCourseRow(data = null) {
                 const container = document.getElementById('course-rows-container');
                 const rowId = Date.now() + Math.random();
                 const rowHTML = `
                     <div class="grid grid-cols-12 gap-2 items-end bg-slate-50 p-2 rounded border border-slate-200 course-input-row" id="course-${rowId}">
                         <div class="col-span-3">
                             <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Code</label>
-                            <input type="text" class="course-code w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="e.g. 28591">
+                            <input type="text" class="course-code w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="e.g. 28591" value="${data ? data.code : ''}">
                         </div>
                         <div class="col-span-5">
                             <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Title</label>
-                            <input type="text" class="course-title w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="Course Title">
+                            <input type="text" class="course-title w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="Course Title" value="${data ? data.title : ''}">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Cr.</label>
-                            <input type="number" class="course-credit w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="4">
+                            <input type="number" class="course-credit w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold" placeholder="4" value="${data ? data.credit : ''}">
                         </div>
                         <div class="col-span-2 flex gap-1 items-end">
                             <div class="flex-1">
                                 <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Grade</label>
                                 <select class="course-grade w-full bg-white border border-slate-300 rounded px-1 py-1 text-xs text-slate-800 outline-none focus:border-primary font-semibold">
-                                    <option value="A+" class="bg-white">A+</option>
-                                    <option value="A" class="bg-white">A</option>
-                                    <option value="A-" class="bg-white">A-</option>
-                                    <option value="B+" class="bg-white">B+</option>
-                                    <option value="B" class="bg-white">B</option>
-                                    <option value="B-" class="bg-white">B-</option>
-                                    <option value="C+" class="bg-white">C+</option>
-                                    <option value="C" class="bg-white">C</option>
-                                    <option value="D" class="bg-white">D</option>
-                                    <option value="F" class="bg-white">F</option>
+                                    <option value="A+" ${data && data.grade === 'A+' ? 'selected' : ''}>A+</option>
+                                    <option value="A" ${data && data.grade === 'A' ? 'selected' : ''}>A</option>
+                                    <option value="A-" ${data && data.grade === 'A-' ? 'selected' : ''}>A-</option>
+                                    <option value="B+" ${data && data.grade === 'B+' ? 'selected' : ''}>B+</option>
+                                    <option value="B" ${data && data.grade === 'B' ? 'selected' : ''}>B</option>
+                                    <option value="B-" ${data && data.grade === 'B-' ? 'selected' : ''}>B-</option>
+                                    <option value="C+" ${data && data.grade === 'C+' ? 'selected' : ''}>C+</option>
+                                    <option value="C" ${data && data.grade === 'C' ? 'selected' : ''}>C</option>
+                                    <option value="D" ${data && data.grade === 'D' ? 'selected' : ''}>D</option>
+                                    <option value="F" ${data && data.grade === 'F' ? 'selected' : ''}>F</option>
                                 </select>
                             </div>
                             <button type="button" onclick="document.getElementById('course-${rowId}').remove()" class="p-1.5 text-rose-500 hover:bg-rose-50 rounded transition-colors" title="Remove">
@@ -524,18 +560,20 @@
                     });
                 });
 
-                stateSemesters.push({
+                const semesterData = {
                     year: semName,
                     year_cgp: semGPA,
                     courses: coursesData
-                });
+                };
+
+                // Logic updated: If editingIndex is >= 0, update existing. Else push new.
+                if (editingIndex > -1) {
+                    stateSemesters[editingIndex] = semesterData;
+                } else {
+                    stateSemesters.push(semesterData);
+                }
 
                 renderSemesters();
-
-                document.getElementById('sem-name-input').value = '';
-                document.getElementById('sem-gpa-input').value = '';
-                document.getElementById('course-rows-container').innerHTML = '';
-                addCourseRow();
                 closeSemesterModal();
             }
         </script>
