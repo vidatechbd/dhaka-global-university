@@ -127,7 +127,17 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Final Result / CGPA</label>
-                        <input type="text" name="result" placeholder="3.96 Out Of 4.00" value="" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-white border border-slate-300 text-[#d97d10] rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold">
+                        <input type="text" name="result" placeholder="3.96 Out Of 4.00" value="{{ old('result') }}" oninput="updateTranscriptPreview()" id="input-result" class="w-full bg-white border border-slate-300 text-[#d97d10] rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Date of Issue</label>
+                        <input type="date" name="date_of_issue" value="{{ old('date_of_issue', now()->format('Y-m-d')) }}" oninput="updateTranscriptPreview()" id="input-date-of-issue" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Result Published</label>
+                        <input type="date" name="result_published" value="{{ old('result_published', now()->format('Y-m-d')) }}" oninput="updateTranscriptPreview()" id="input-result-published" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
                 </div>
 
@@ -204,6 +214,8 @@
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Subject/Department Name</div><div class="w-4 font-bold">:</div><div id="preview-dept" class="font-bold">Computer Science and Engineering</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Credit (Completed/Total)</div><div class="w-4 font-bold">:</div><div id="preview-credit" class="font-bold">216/216</div></div>
                             <div class="flex mb-[1px]"><div class="w-48 font-bold">Result</div><div class="w-4 font-bold">:</div><div id="preview-result" class="font-bold">3.96 Out Of 4.00</div></div>
+                            <div class="flex mb-[1px]"><div class="w-48 font-bold">Date of Issue</div><div class="w-4 font-bold">:</div><div id="preview-date-of-issue" class="font-bold">{{ now()->format('d M Y') }}</div></div>
+                            <div class="flex mb-[1px]"><div class="w-48 font-bold">Result Published</div><div class="w-4 font-bold">:</div><div id="preview-result-published" class="font-bold">{{ now()->format('d M Y') }}</div></div>
                         </div>
 
                         {{-- Grades Table --}}
@@ -373,6 +385,25 @@
                 document.getElementById('preview-dept').textContent = document.getElementById('input-dept').value || '';
                 document.getElementById('preview-credit').textContent = document.getElementById('input-credit').value || '';
                 document.getElementById('preview-result').textContent = document.getElementById('input-result').value || '';
+                document.getElementById('preview-date-of-issue').textContent = formatPreviewDate(document.getElementById('input-date-of-issue').value);
+                document.getElementById('preview-result-published').textContent = formatPreviewDate(document.getElementById('input-result-published').value);
+            }
+
+            function formatPreviewDate(value) {
+                if (!value) {
+                    return '';
+                }
+
+                const parsed = new Date(value);
+                if (isNaN(parsed.getTime())) {
+                    return value;
+                }
+
+                return parsed.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                });
             }
 
             function renderSemesters() {

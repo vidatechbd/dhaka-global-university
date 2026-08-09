@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'credit_completed',
     'credit_total',
     'result',
+    'date_of_issue',
+    'result_published',
     'semesters',
 ])]
 class Marksheet extends Model
@@ -35,6 +37,8 @@ class Marksheet extends Model
     {
         return [
             'semesters' => 'array',
+            'date_of_issue' => 'date',
+            'result_published' => 'date',
         ];
     }
 

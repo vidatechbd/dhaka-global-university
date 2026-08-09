@@ -67,7 +67,7 @@
     $requiredCredits = $marksheet->credit_total ?: 153;
     $creditsCompleted = $marksheet->credit_completed ?: $totalCreditsSum;
     $finalCGPA = $marksheet->result ?: (count($calculatedSemesters) > 0 ? end($calculatedSemesters)['cgpa'] : '0.00');
-    $dateOfIssue = $marksheet->created_at ? $marksheet->created_at->format('d M Y') : date('d M Y');
+    $dateOfIssue = $marksheet->date_of_issue ? $marksheet->date_of_issue->format('d M Y') : "";
 
     // Page-based chunking logic
     $totalSemesters = count($calculatedSemesters);
@@ -307,9 +307,9 @@
                                         {{ $sem['year'] }}
                                     </h4>
                                     
-                                    <table class="w-full border-collapse border border-black text-[9px] bg-white">
+                                    <table class="w-full border-collapse border border-black text-[9px] bg-transparent">
                                         <thead>
-                                            <tr class="bg-slate-50 text-[9px] border-b border-black font-bold">
+                                            <tr class="bg-transparent text-[9px] border-b border-black font-bold">
                                                 <th class="border-r border-black py-0.5 px-1 text-center w-[15%]">Course Code</th>
                                                 <th class="border-r border-black py-0.5 px-2 text-left">Course Title</th>
                                                 <th class="border-r border-black py-0.5 px-1 text-center w-[10%]">Cr. Hr</th>
@@ -339,7 +339,7 @@
                                     </table>
 
                                     <!-- Semester GPA / CGPA Bar -->
-                                    <div class="flex justify-end text-[10px] font-bold border-l border-r border-b border-black py-0.5 px-3 bg-slate-50/50">
+                                    <div class="flex justify-end text-[10px] font-bold border-l border-r border-b border-black py-0.5 px-3 bg-transparent">
                                         <div class="flex gap-8">
                                             <span>GPA: {{ $sem['gpa'] }}</span>
                                             <span>CGPA: {{ $sem['cgpa'] }}</span>
@@ -375,6 +375,11 @@
                                         <span class="w-32 font-bold">Date of Issue</span>
                                         <span class="w-4 font-bold">:</span>
                                         <span class="font-bold">{{ $dateOfIssue }}</span>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="w-32 font-bold">Result Published</span>
+                                        <span class="w-4 font-bold">:</span>
+                                        <span class="font-bold">{{ $marksheet->result_published ? $marksheet->result_published->format('d M Y') : '' }}</span>
                                     </div>
                                 @endif
                             </div>

@@ -65,6 +65,8 @@ class MarksheetController extends Controller
             'credit_completed' => 'nullable|string|max:255',
             'credit_total' => 'nullable|string|max:255',
             'result' => 'nullable|string|max:255',
+            'date_of_issue' => 'nullable|date',
+            'result_published' => 'nullable|date',
             'semesters' => 'nullable',
         ]);
 
@@ -78,6 +80,9 @@ class MarksheetController extends Controller
         if (is_string($request->semesters)) {
             $validated['semesters'] = json_decode($request->semesters, true);
         }
+
+        $validated['date_of_issue'] = $request->input('date_of_issue') ?: now()->format('Y-m-d');
+        $validated['result_published'] = $request->input('result_published') ?: now()->format('Y-m-d');
 
         $validated['created_by'] = auth()->id();
 
