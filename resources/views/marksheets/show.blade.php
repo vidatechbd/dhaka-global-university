@@ -187,7 +187,7 @@
 
                         {{-- Centered Watermark --}}
                         <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none"
-                            style="opacity: 0.05;">
+                            style="opacity: 0.15;">
                             @if($logoPath)
                                 <img src="{{ $logoPath }}" alt="Watermark" class="w-[450px] h-auto">
                             @else
@@ -570,7 +570,7 @@
 
                     {{-- Centered Watermark --}}
                     <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none"
-                        style="opacity: 0.05;">
+                        style="opacity: 0.15;">
                         @if($logoPath)
                             <img src="{{ $logoPath }}" alt="Watermark" class="w-[450px] h-auto">
                         @else

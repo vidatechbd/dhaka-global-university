@@ -180,7 +180,7 @@
                  style="width: 210mm; height: 297mm; padding: 10mm 15mm; box-sizing: border-box;">
                 
                 {{-- Centered Watermark --}}
-                <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity: 0.05;">
+                <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity: 0.15;">
                     @if($logoPath)
                         <img src="{{ $logoPath }}" alt="Watermark" class="w-[450px] h-auto">
                     @else

@@ -164,7 +164,7 @@
                  style="width:210mm; min-height:297mm; padding:10mm 15mm; font-family:'Times New Roman',Times,serif; box-sizing:border-box;">
 
                 {{-- Watermark --}}
-                <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity:0.08;">
+                <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity: 0.15;">
                     @if($previewLogo)
                         <img src="{{ $previewLogo }}" alt="Watermark" style="width:500px;height:auto;">
                     @else

@@ -128,7 +128,7 @@
                 width: 240px;
                 height: 240px;
                 object-fit: contain;
-                opacity: 0.07;
+                opacity: 0.15;
                 filter: grayscale(100%);
                 pointer-events: none;
             }
@@ -494,7 +494,7 @@
                 width: 240px;
                 height: 240px;
                 object-fit: contain;
-                opacity: 0.07;
+                opacity: 0.15;
                 filter: grayscale(100%);
                 pointer-events: none;
             }
