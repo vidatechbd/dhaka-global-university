@@ -33,39 +33,51 @@
 
                 <!-- Row 1: Logo, Favicon, Certificate Signature -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div>
+                    <div x-data="{ preview: null, removeOld: false }">
                         <x-input-label for="logo" :value="__('University Logo (WebP Compressed)')" />
-                        @if($setting->logo)
-                            <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->logo) }}" alt="Logo" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                <span class="text-xs text-slate-400">Current Logo</span>
-                            </div>
-                        @endif
-                        <input id="logo" type="file" name="logo" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                        <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->logo ? 'true' : 'false' }} && !removeOld)" {!! $setting->logo ? '' : 'style="display: none;"' !!}>
+                            <img :src="preview ? preview : '{{ $setting->logo ? asset($setting->logo) : '' }}'" alt="Logo" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                            @if($setting->logo)
+                            <button type="button" @click="removeOld = true; preview = null; $refs.logoInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                <i class="ph-bold ph-trash text-sm"></i>
+                            </button>
+                            <span class="text-xs text-slate-400" x-show="!preview">Current Logo</span>
+                            @endif
+                        </div>
+                        <input type="hidden" name="remove_logo" :value="removeOld ? 1 : 0">
+                        <input x-ref="logoInput" id="logo" type="file" name="logo" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                         <x-input-error :messages="$errors->get('logo')" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div x-data="{ preview: null, removeOld: false }">
                         <x-input-label for="favicon" :value="__('Favicon (ICO or PNG)')" />
-                        @if($setting->favicon)
-                            <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->favicon) }}" alt="Favicon" class="w-8 h-8 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                <span class="text-xs text-slate-400">Current Favicon</span>
-                            </div>
-                        @endif
-                        <input id="favicon" type="file" name="favicon" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*,.ico">
+                        <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->favicon ? 'true' : 'false' }} && !removeOld)" {!! $setting->favicon ? '' : 'style="display: none;"' !!}>
+                            <img :src="preview ? preview : '{{ $setting->favicon ? asset($setting->favicon) : '' }}'" alt="Favicon" class="w-8 h-8 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                            @if($setting->favicon)
+                            <button type="button" @click="removeOld = true; preview = null; $refs.faviconInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                <i class="ph-bold ph-trash text-sm"></i>
+                            </button>
+                            <span class="text-xs text-slate-400" x-show="!preview">Current Favicon</span>
+                            @endif
+                        </div>
+                        <input type="hidden" name="remove_favicon" :value="removeOld ? 1 : 0">
+                        <input x-ref="faviconInput" id="favicon" type="file" name="favicon" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*,.ico">
                         <x-input-error :messages="$errors->get('favicon')" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div x-data="{ preview: null, removeOld: false }">
                         <x-input-label for="controller_of_examinations" :value="__('Controller of Examinations (PNG)')" />
-                        @if($setting->controller_of_examinations)
-                            <div class="mt-2 mb-2 flex items-center gap-3">
-                                <img src="{{ asset($setting->controller_of_examinations) }}" alt="Controller of Examinations" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                <span class="text-xs text-slate-400">Current Signature</span>
-                            </div>
-                        @endif
-                        <input id="controller_of_examinations" type="file" name="controller_of_examinations" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                        <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->controller_of_examinations ? 'true' : 'false' }} && !removeOld)" {!! $setting->controller_of_examinations ? '' : 'style="display: none;"' !!}>
+                            <img :src="preview ? preview : '{{ $setting->controller_of_examinations ? asset($setting->controller_of_examinations) : '' }}'" alt="Controller of Examinations" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                            @if($setting->controller_of_examinations)
+                            <button type="button" @click="removeOld = true; preview = null; $refs.coeInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                <i class="ph-bold ph-trash text-sm"></i>
+                            </button>
+                            <span class="text-xs text-slate-400" x-show="!preview">Current Signature</span>
+                            @endif
+                        </div>
+                        <input type="hidden" name="remove_controller_of_examinations" :value="removeOld ? 1 : 0">
+                        <input x-ref="coeInput" id="controller_of_examinations" type="file" name="controller_of_examinations" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                         <x-input-error :messages="$errors->get('controller_of_examinations')" class="mt-2" />
                     </div>
                 </div>
@@ -74,39 +86,51 @@
                 <div class="border-t border-slate-100 pt-6 mt-6 mb-6">
                     <h4 class="font-bold text-slate-800 text-sm mb-4">Marksheet Signatures</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
+                        <div x-data="{ preview: null, removeOld: false }">
                             <x-input-label for="marksheet_prepared_by" :value="__('Prepared By Signature (PNG)')" />
-                            @if($setting->marksheet_prepared_by)
-                                <div class="mt-2 mb-2 flex items-center gap-3">
-                                    <img src="{{ asset($setting->marksheet_prepared_by) }}" alt="Prepared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                    <span class="text-xs text-slate-400">Current</span>
-                                </div>
-                            @endif
-                            <input id="marksheet_prepared_by" type="file" name="marksheet_prepared_by" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->marksheet_prepared_by ? 'true' : 'false' }} && !removeOld)" {!! $setting->marksheet_prepared_by ? '' : 'style="display: none;"' !!}>
+                                <img :src="preview ? preview : '{{ $setting->marksheet_prepared_by ? asset($setting->marksheet_prepared_by) : '' }}'" alt="Prepared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                @if($setting->marksheet_prepared_by)
+                                <button type="button" @click="removeOld = true; preview = null; $refs.prepByInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                    <i class="ph-bold ph-trash text-sm"></i>
+                                </button>
+                                <span class="text-xs text-slate-400" x-show="!preview">Current</span>
+                                @endif
+                            </div>
+                            <input type="hidden" name="remove_marksheet_prepared_by" :value="removeOld ? 1 : 0">
+                            <input x-ref="prepByInput" id="marksheet_prepared_by" type="file" name="marksheet_prepared_by" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                             <x-input-error :messages="$errors->get('marksheet_prepared_by')" class="mt-2" />
                         </div>
 
-                        <div>
+                        <div x-data="{ preview: null, removeOld: false }">
                             <x-input-label for="marksheet_compared_by" :value="__('Compared By Signature (PNG)')" />
-                            @if($setting->marksheet_compared_by)
-                                <div class="mt-2 mb-2 flex items-center gap-3">
-                                    <img src="{{ asset($setting->marksheet_compared_by) }}" alt="Compared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                    <span class="text-xs text-slate-400">Current</span>
-                                </div>
-                            @endif
-                            <input id="marksheet_compared_by" type="file" name="marksheet_compared_by" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->marksheet_compared_by ? 'true' : 'false' }} && !removeOld)" {!! $setting->marksheet_compared_by ? '' : 'style="display: none;"' !!}>
+                                <img :src="preview ? preview : '{{ $setting->marksheet_compared_by ? asset($setting->marksheet_compared_by) : '' }}'" alt="Compared By Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                @if($setting->marksheet_compared_by)
+                                <button type="button" @click="removeOld = true; preview = null; $refs.compByInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                    <i class="ph-bold ph-trash text-sm"></i>
+                                </button>
+                                <span class="text-xs text-slate-400" x-show="!preview">Current</span>
+                                @endif
+                            </div>
+                            <input type="hidden" name="remove_marksheet_compared_by" :value="removeOld ? 1 : 0">
+                            <input x-ref="compByInput" id="marksheet_compared_by" type="file" name="marksheet_compared_by" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                             <x-input-error :messages="$errors->get('marksheet_compared_by')" class="mt-2" />
                         </div>
 
-                        <div>
+                        <div x-data="{ preview: null, removeOld: false }">
                             <x-input-label for="marksheet_controller_signature" :value="__('Controller Signature (PNG)')" />
-                            @if($setting->marksheet_controller_signature)
-                                <div class="mt-2 mb-2 flex items-center gap-3">
-                                    <img src="{{ asset($setting->marksheet_controller_signature) }}" alt="Controller Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
-                                    <span class="text-xs text-slate-400">Current</span>
-                                </div>
-                            @endif
-                            <input id="marksheet_controller_signature" type="file" name="marksheet_controller_signature" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
+                            <div class="mt-2 mb-2 flex items-center gap-3" x-show="preview || ({{ $setting->marksheet_controller_signature ? 'true' : 'false' }} && !removeOld)" {!! $setting->marksheet_controller_signature ? '' : 'style="display: none;"' !!}>
+                                <img :src="preview ? preview : '{{ $setting->marksheet_controller_signature ? asset($setting->marksheet_controller_signature) : '' }}'" alt="Controller Signature" class="h-12 object-contain p-1 border border-slate-200 rounded-lg bg-white">
+                                @if($setting->marksheet_controller_signature)
+                                <button type="button" @click="removeOld = true; preview = null; $refs.ctrlSigInput.value = '';" x-show="!preview" class="p-1.5 text-rose-500 hover:text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors" title="Delete old image">
+                                    <i class="ph-bold ph-trash text-sm"></i>
+                                </button>
+                                <span class="text-xs text-slate-400" x-show="!preview">Current</span>
+                                @endif
+                            </div>
+                            <input type="hidden" name="remove_marksheet_controller_signature" :value="removeOld ? 1 : 0">
+                            <input x-ref="ctrlSigInput" id="marksheet_controller_signature" type="file" name="marksheet_controller_signature" @change="if($event.target.files.length) { preview = URL.createObjectURL($event.target.files[0]); removeOld = false; } else { preview = null; }" class="mt-1.5 block w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-primary focus:ring-primary shadow-sm bg-white" accept="image/*">
                             <x-input-error :messages="$errors->get('marksheet_controller_signature')" class="mt-2" />
                         </div>
                     </div>

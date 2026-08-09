@@ -61,9 +61,22 @@ class UniversitySettingController extends Controller
             'meta_author' => ['nullable', 'string', 'max:255'],
             'favicon' => ['nullable', 'file', 'mimes:ico,png,jpg,jpeg,gif,webp', 'max:1024'],
             'established_year' => ['nullable', 'string', 'max:10'],
+            'remove_logo' => ['nullable', 'boolean'],
+            'remove_controller_of_examinations' => ['nullable', 'boolean'],
+            'remove_marksheet_prepared_by' => ['nullable', 'boolean'],
+            'remove_marksheet_compared_by' => ['nullable', 'boolean'],
+            'remove_marksheet_controller_signature' => ['nullable', 'boolean'],
+            'remove_favicon' => ['nullable', 'boolean'],
         ]);
 
         // established_year is saved directly to its own column — no contacts merging needed
+
+        if ($request->boolean('remove_logo')) {
+            if ($setting->logo && File::exists(public_path($setting->logo))) {
+                File::delete(public_path($setting->logo));
+            }
+            $validated['logo'] = null;
+        }
 
         if ($request->hasFile('logo')) {
             if ($setting->logo && File::exists(public_path($setting->logo))) {
@@ -89,6 +102,13 @@ class UniversitySettingController extends Controller
                 $file->move($targetDir, $filename);
                 $validated['logo'] = 'uploads/settings/'.$filename;
             }
+        }
+
+        if ($request->boolean('remove_controller_of_examinations')) {
+            if ($setting->controller_of_examinations && File::exists(public_path($setting->controller_of_examinations))) {
+                File::delete(public_path($setting->controller_of_examinations));
+            }
+            $validated['controller_of_examinations'] = null;
         }
 
         if ($request->hasFile('controller_of_examinations')) {
@@ -117,6 +137,13 @@ class UniversitySettingController extends Controller
             }
         }
 
+        if ($request->boolean('remove_marksheet_prepared_by')) {
+            if ($setting->marksheet_prepared_by && File::exists(public_path($setting->marksheet_prepared_by))) {
+                File::delete(public_path($setting->marksheet_prepared_by));
+            }
+            $validated['marksheet_prepared_by'] = null;
+        }
+
         if ($request->hasFile('marksheet_prepared_by')) {
             if ($setting->marksheet_prepared_by && File::exists(public_path($setting->marksheet_prepared_by))) {
                 File::delete(public_path($setting->marksheet_prepared_by));
@@ -141,6 +168,13 @@ class UniversitySettingController extends Controller
                 $file->move($targetDir, $filename);
                 $validated['marksheet_prepared_by'] = 'uploads/settings/'.$filename;
             }
+        }
+
+        if ($request->boolean('remove_marksheet_compared_by')) {
+            if ($setting->marksheet_compared_by && File::exists(public_path($setting->marksheet_compared_by))) {
+                File::delete(public_path($setting->marksheet_compared_by));
+            }
+            $validated['marksheet_compared_by'] = null;
         }
 
         if ($request->hasFile('marksheet_compared_by')) {
@@ -169,6 +203,13 @@ class UniversitySettingController extends Controller
             }
         }
 
+        if ($request->boolean('remove_marksheet_controller_signature')) {
+            if ($setting->marksheet_controller_signature && File::exists(public_path($setting->marksheet_controller_signature))) {
+                File::delete(public_path($setting->marksheet_controller_signature));
+            }
+            $validated['marksheet_controller_signature'] = null;
+        }
+
         if ($request->hasFile('marksheet_controller_signature')) {
             if ($setting->marksheet_controller_signature && File::exists(public_path($setting->marksheet_controller_signature))) {
                 File::delete(public_path($setting->marksheet_controller_signature));
@@ -193,6 +234,13 @@ class UniversitySettingController extends Controller
                 $file->move($targetDir, $filename);
                 $validated['marksheet_controller_signature'] = 'uploads/settings/'.$filename;
             }
+        }
+
+        if ($request->boolean('remove_favicon')) {
+            if ($setting->favicon && File::exists(public_path($setting->favicon))) {
+                File::delete(public_path($setting->favicon));
+            }
+            $validated['favicon'] = null;
         }
 
         if ($request->hasFile('favicon')) {
