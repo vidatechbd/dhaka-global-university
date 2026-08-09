@@ -220,18 +220,18 @@
                             class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                             <option value="">-- Custom (No Student Record) --</option>
                             @foreach ($students as $student)
-                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-white">
+                                <option value="{{ $student->id }}" data-name="{{ $student->name }}" class="bg-white" @selected(old('student_id') == $student->id)>
                                     {{ $student->name }} ({{ $student->email }})</option>
                             @endforeach
                         </select>
-                        <input type="hidden" name="student_id" id="student_id" value="">
+                        <input type="hidden" name="student_id" id="student_id" value="{{ old('student_id') }}">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Student's
                             Name</label>
                         <input type="text" name="name" id="input-name" oninput="updatePreview()"
-                            value="Jack Nicholson"
+                            value="{{ old('name', 'Jack Nicholson') }}"
                             class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-bold"
                             required>
                     </div>
@@ -272,6 +272,24 @@
                         <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Out of
                             Scale</label>
                         <input type="text" name="out_of" id="input-outof" oninput="updatePreview()" value="4.00"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Date of
+                            Issue</label>
+                        <input type="date" name="date_of_issue" id="input-date-of-issue" oninput="updatePreview()"
+                            value="{{ old('date_of_issue', now()->format('Y-m-d')) }}"
+                            class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
+                            required>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Result
+                            Published</label>
+                        <input type="date" name="result_published" id="input-result-published" oninput="updatePreview()"
+                            value="{{ old('result_published', now()->format('Y-m-d')) }}"
                             class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold"
                             required>
                     </div>
@@ -335,13 +353,23 @@
                             <div class="mt-4 flex flex-col justify-end">
 
                                 <!-- Middle Footer row -->
-                                <div class="flex justify-between items-end px-4 md:px-12 mb-3">
+                                <div class="flex justify-between items-end px-4 md:px-12 mb-3 gap-4">
 
-                                    <!-- Left: QR Code -->
-                                    <div class="w-20 h-20 bg-white border border-black p-1">
-                                        <div
-                                            class="w-full h-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-center">
-                                            QR CODE</div>
+                                    <div class="flex items-center gap-4">
+                                        <!-- Left: QR Code -->
+                                        <div class="w-20 h-20 bg-white border border-black p-1">
+                                            <div
+                                                class="w-full h-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-center">
+                                                QR CODE</div>
+                                        </div>
+
+                                        <!-- Date summary -->
+                                        <div class="text-sans-small text-[10px] leading-tight text-black">
+                                            <p class="font-bold uppercase tracking-wide mb-1">Date of Issue</p>
+                                            <p id="preview-date-of-issue" class="mb-3">{{ now()->format('d F Y') }}</p>
+                                            <p class="font-bold uppercase tracking-wide mb-1">Result Published</p>
+                                            <p id="preview-result-published">{{ now()->format('d F Y') }}</p>
+                                        </div>
                                     </div>
 
                                     <!-- Right: Signature -->
@@ -402,6 +430,25 @@
                 .toUpperCase();
             document.getElementById('preview-cgpa').innerText = document.getElementById('input-cgpa').value || '—';
             document.getElementById('preview-outof').innerText = document.getElementById('input-outof').value || '—';
+            document.getElementById('preview-date-of-issue').innerText = formatDateInput(document.getElementById('input-date-of-issue').value);
+            document.getElementById('preview-result-published').innerText = formatDateInput(document.getElementById('input-result-published').value);
+        }
+
+        function formatDateInput(value) {
+            if (!value) {
+                return '—';
+            }
+
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return value;
+            }
+
+            return date.toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
         }
     </script>
 </x-dynamic-component>

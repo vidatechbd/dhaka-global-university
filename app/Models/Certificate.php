@@ -14,10 +14,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'subject',
     'cgpa',
     'out_of',
+    'date_of_issue',
+    'result_published',
     'created_by',
 ])]
 class Certificate extends Model
 {
+    protected $casts = [
+        'date_of_issue' => 'date',
+        'result_published' => 'date',
+    ];
+
     /**
      * Get the student that owns the certificate.
      */

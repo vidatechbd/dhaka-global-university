@@ -58,6 +58,8 @@ class CertificateController extends Controller
             'subject' => 'required|string|max:255',
             'cgpa' => 'required|string|max:255',
             'out_of' => 'required|string|max:255',
+            'date_of_issue' => 'required|date',
+            'result_published' => 'required|date',
         ]);
 
         $validated['created_by'] = auth()->id();

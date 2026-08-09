@@ -299,12 +299,28 @@
                             <div class="mt-4 flex flex-col justify-end">
 
                                 <!-- Middle Footer row -->
-                                <div class="flex justify-between items-end px-4 md:px-12 mb-3">
+                                <div class="flex justify-between items-end px-4 md:px-12 mb-3 gap-4">
 
-                                    <!-- Left: QR Code -->
-                                    <div class="w-20 h-20 bg-white border border-black p-1">
-                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}"
-                                            alt="QR Code" class="w-full h-full">
+                                    <div class="flex items-center gap-4">
+                                        <!-- Left: QR Code -->
+                                        <div class="w-20 h-20 bg-white border border-black p-1">
+                                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}"
+                                                alt="QR Code" class="w-full h-full">
+                                        </div>
+
+                                        @if($certificate->date_of_issue || $certificate->result_published)
+                                            <div class="text-sans-small text-[10px] leading-tight text-black">
+                                                @if($certificate->date_of_issue)
+                                                    <p class="font-bold uppercase tracking-wide mb-1">Date of Issue</p>
+                                                    <p class="mb-3">{{ $certificate->date_of_issue->format('d F Y') }}</p>
+                                                @endif
+
+                                                @if($certificate->result_published)
+                                                    <p class="font-bold uppercase tracking-wide mb-1">Result Published</p>
+                                                    <p>{{ $certificate->result_published->format('d F Y') }}</p>
+                                                @endif
+                                            </div>
+                                        @endif
                                     </div>
 
                                     <!-- Right: Signature -->
@@ -673,13 +689,29 @@
                         <div class="mt-4 flex flex-col justify-end">
 
                             <!-- Middle Footer row -->
-                            <div class="flex justify-between items-end px-4 md:px-12 mb-3">
+                            <div class="flex justify-between items-end px-4 md:px-12 mb-3 gap-4">
 
-                                <!-- Left: QR Code -->
-                                <div class="w-20 h-20 bg-white border border-black p-1">
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}"
-                                        alt="QR Code" class="w-full h-full">
-                                </div>
+                                    <div class="flex items-center gap-4">
+                                        <!-- Left: QR Code -->
+                                        <div class="w-20 h-20 bg-white border border-black p-1">
+                                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ urlencode(route('certificates.verify', $certificate)) }}"
+                                                alt="QR Code" class="w-full h-full">
+                                        </div>
+
+                                        @if($certificate->date_of_issue || $certificate->result_published)
+                                            <div class="text-sans-small text-[10px] leading-tight text-black">
+                                                @if($certificate->date_of_issue)
+                                                    <p class="font-bold uppercase tracking-wide mb-1">Date of Issue</p>
+                                                    <p class="mb-3">{{ $certificate->date_of_issue->format('d F Y') }}</p>
+                                                @endif
+
+                                                @if($certificate->result_published)
+                                                    <p class="font-bold uppercase tracking-wide mb-1">Result Published</p>
+                                                    <p>{{ $certificate->result_published->format('d F Y') }}</p>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
 
                                 <!-- Right: Signature -->
                                 <div class="flex flex-col items-center mr-4">

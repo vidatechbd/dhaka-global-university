@@ -66,7 +66,7 @@ test('principal can create teacher account', function () {
             'name' => 'Jane Smith',
             'email' => 'jane@teacher.com',
             'password' => 'Password123!',
-            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
         ]);
 
     $response->assertRedirect();
@@ -209,6 +209,8 @@ test('teacher can issue certificate to active student', function () {
             'subject' => 'Bachelor of Science in Computer Science',
             'cgpa' => '3.96',
             'out_of' => '4.00',
+            'date_of_issue' => '2026-08-01',
+            'result_published' => '2026-08-05',
         ]);
 
     $response->assertRedirect();
@@ -218,6 +220,8 @@ test('teacher can issue certificate to active student', function () {
         'roll' => '46437',
         'reg_no' => '1502046437',
         'created_by' => $teacher->id,
+        'date_of_issue' => '2026-08-01',
+        'result_published' => '2026-08-05',
     ]);
 });
 
@@ -249,6 +253,8 @@ test('anyone can verify a certificate via public link', function () {
         'subject' => 'Bachelor of Science in Computer Science',
         'cgpa' => '3.96',
         'out_of' => '4.00',
+        'date_of_issue' => '2026-08-01',
+        'result_published' => '2026-08-05',
         'created_by' => $student->id,
     ]);
 
@@ -271,6 +277,31 @@ test('anyone can verify a certificate via public link', function () {
     $response = $this->get(route('certificates.verify', $certificate));
     $response->assertStatus(200);
     $response->assertSee('Verified Academic Certificate');
+});
+
+test('certificate show page displays date of issue and result published', function () {
+    $student = User::factory()->create(['status' => 'active']);
+    $student->assignRole('Student');
+
+    $certificate = Certificate::create([
+        'student_id' => $student->id,
+        'name' => 'Jack Nicholson',
+        'roll' => '46437',
+        'reg_no' => '1502046437',
+        'subject' => 'Bachelor of Science in Computer Science',
+        'cgpa' => '3.96',
+        'out_of' => '4.00',
+        'date_of_issue' => '2026-08-01',
+        'result_published' => '2026-08-05',
+        'created_by' => $student->id,
+    ]);
+
+    $response = $this->get(route('certificates.show', $certificate));
+    $response->assertStatus(200);
+    $response->assertSee('Date of Issue');
+    $response->assertSee('Result Published');
+    $response->assertSee('01 August 2026');
+    $response->assertSee('05 August 2026');
 });
 
 test('anyone can search and verify marksheet via public lookup', function () {
