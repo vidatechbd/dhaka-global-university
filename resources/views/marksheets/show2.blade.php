@@ -123,7 +123,17 @@
         body {
             font-family: 'Times New Roman', Times, serif;
         }
-        
+
+        /* Page size & zero margins.
+           MUST be top-level (not nested inside @media print), otherwise some
+           browsers ignore it and apply default margins, which shrinks the
+           printable area and makes every fixed-height page overflow,
+           producing a trailing blank page. */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
         /* Printable exact layout */
         @media print {
             /* Reset layout wrappers that cause clipping in print/PDF */
@@ -149,9 +159,9 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 296mm !important; /* Cap at 296mm to fit A4 print sheets exactly */
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                height: 290mm !important; /* Slack under A4 (297mm) even with @page margin 0 */
+                min-height: 0 !important;
+                overflow: hidden !important;
                 margin: 0 !important;
                 padding: 10mm 15mm !important;
                 box-shadow: none !important;
@@ -202,7 +212,7 @@
     <div class="flex flex-col gap-8 no-print:w-[210mm]">
         @foreach($pages as $page)
             <div class="print-page bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between {{ !$page['is_last'] ? 'page-break' : '' }}"
-                 style="width: 210mm; height: 296mm; padding: 10mm 15mm; box-sizing: border-box;">
+                 style="width: 210mm; height: 290mm; padding: 10mm 15mm; box-sizing: border-box;">
                 
                 {{-- Centered Watermark --}}
                 <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity: 0.15;">
