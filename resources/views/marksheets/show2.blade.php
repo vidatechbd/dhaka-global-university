@@ -147,9 +147,10 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 297mm !important;
+                height: 296.5mm !important; /* Slightly less than 297mm to prevent rounding errors causing blank pages */
                 page-break-after: always !important;
                 page-break-inside: avoid !important;
+                break-inside: avoid !important;
                 margin: 0 !important;
                 padding: 10mm 15mm !important;
                 box-shadow: none !important;
@@ -158,6 +159,7 @@
             }
             .print-page:last-child {
                 page-break-after: avoid !important;
+                break-after: avoid !important;
             }
             .print-page * { visibility: visible !important; }
             @page { size: A4 portrait; margin: 0; }
