@@ -149,6 +149,7 @@
                 width: 210mm !important;
                 height: 297mm !important;
                 page-break-after: always !important;
+                page-break-inside: avoid !important;
                 margin: 0 !important;
                 padding: 10mm 15mm !important;
                 box-shadow: none !important;
@@ -160,6 +161,12 @@
             }
             .print-page * { visibility: visible !important; }
             @page { size: A4 portrait; margin: 0; }
+            
+            /* Remove gap between pages in print preview */
+            div.flex.flex-col.gap-8 {
+                gap: 0 !important;
+                display: block !important;
+            }
         }
     </style>
 </head>
