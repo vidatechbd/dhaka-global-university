@@ -139,6 +139,8 @@
                 padding: 0 !important;
                 background: white !important;
                 overflow: visible !important;
+                display: block !important;
+                height: auto !important;
             }
             body * { visibility: hidden; }
             .no-print { display: none !important; }
@@ -147,7 +149,7 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 296mm !important; /* Cap height to fit A4 perfectly without rounding overflow */
+                height: 297mm !important; /* Set back to standard A4 height now that wrappers are blocked */
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
                 margin: 0 !important;
@@ -167,6 +169,8 @@
             div.flex.flex-col.gap-8 {
                 gap: 0 !important;
                 display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
         }
     </style>
