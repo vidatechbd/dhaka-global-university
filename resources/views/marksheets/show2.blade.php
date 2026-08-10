@@ -126,6 +126,14 @@
         
         /* Printable exact layout */
         @media print {
+            /* Reset layout wrappers that cause clipping in print/PDF */
+            body, html, main, section, .flex-1, .overflow-y-auto, .overflow-hidden {
+                height: auto !important;
+                min-height: 0 !important;
+                overflow: visible !important;
+                max-height: none !important;
+            }
+
             body, html {
                 margin: 0 !important;
                 padding: 0 !important;
@@ -146,6 +154,9 @@
                 box-shadow: none !important;
                 border: none !important;
                 box-sizing: border-box !important;
+            }
+            .print-page:last-child {
+                page-break-after: avoid !important;
             }
             .print-page * { visibility: visible !important; }
             @page { size: A4 portrait; margin: 0; }
@@ -235,10 +246,10 @@
                                 </h2>
                             </div>
 
-                            <!-- Two-column profile and grading system -->
-                            <div class="flex justify-between items-start gap-4 mb-4">
+                            <!-- Profile, QR code, and grading system layout -->
+                            <div class="flex justify-between items-center gap-4 mb-4">
                                 <!-- Student Info Profile (Left) -->
-                                <div class="w-[60%] text-[12px] leading-[1.4] space-y-1.5 pt-1">
+                                <div class="{{ count($pages) > 1 ? 'w-[43%]' : 'w-[60%]' }} text-[12px] leading-[1.4] space-y-1.5 pt-1">
                                     <div class="flex">
                                         <span class="w-20 font-bold">Name</span>
                                         <span class="w-4 font-bold">:</span>
@@ -266,8 +277,17 @@
                                     </div>
                                 </div>
 
+                                @if(count($pages) > 1)
+                                    <!-- QR Code (Middle) -->
+                                    <div class="w-[14%] flex flex-col items-center justify-center text-center">
+                                        <img src="//api.qrserver.com/v1/create-qr-code/?size=80x80&data={{ urlencode(route('marksheets.verify2', $marksheet)) }}"
+                                            alt="QR Code" class="w-16 h-16 border border-gray-300 p-0.5 bg-white mx-auto">
+                                        <p class="text-[6px] font-bold mt-0.5 text-gray-500">SCAN TO VERIFY</p>
+                                    </div>
+                                @endif
+
                                 <!-- Grading System (Right) -->
-                                <div class="w-[38%] border border-black p-1 bg-white shadow-sm">
+                                <div class="{{ count($pages) > 1 ? 'w-[43%]' : 'w-[38%]' }} border border-black p-1 bg-white shadow-sm">
                                     <h3 class="text-[9px] font-bold text-center border-b border-black pb-0.5 mb-0.5">Grading System</h3>
                                     <table class="w-full text-[8px] border-collapse leading-none">
                                         <thead>
