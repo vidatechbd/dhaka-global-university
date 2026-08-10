@@ -147,8 +147,7 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 296.5mm !important; /* Slightly less than 297mm to prevent rounding errors causing blank pages */
-                page-break-after: always !important;
+                height: 296mm !important; /* Cap height to fit A4 perfectly without rounding overflow */
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
                 margin: 0 !important;
@@ -157,9 +156,9 @@
                 border: none !important;
                 box-sizing: border-box !important;
             }
-            .print-page:last-child {
-                page-break-after: avoid !important;
-                break-after: avoid !important;
+            .page-break {
+                page-break-after: always !important;
+                break-after: page !important;
             }
             .print-page * { visibility: visible !important; }
             @page { size: A4 portrait; margin: 0; }
@@ -196,7 +195,7 @@
     <!-- Multi-page stack container -->
     <div class="flex flex-col gap-8 no-print:w-[210mm]">
         @foreach($pages as $page)
-            <div class="print-page bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between"
+            <div class="print-page bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between {{ !$page['is_last'] ? 'page-break' : '' }}"
                  style="width: 210mm; height: 297mm; padding: 10mm 15mm; box-sizing: border-box;">
                 
                 {{-- Centered Watermark --}}
