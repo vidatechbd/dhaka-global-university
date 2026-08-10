@@ -149,7 +149,7 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 100vh !important; /* Fit the print page height exactly, regardless of printer margins */
+                height: 296mm !important; /* Cap at 296mm to fit A4 print sheets exactly */
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
                 margin: 0 !important;
@@ -171,6 +171,8 @@
                 display: block !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                height: auto !important;
+                min-height: 0 !important;
             }
         }
     </style>
@@ -200,7 +202,7 @@
     <div class="flex flex-col gap-8 no-print:w-[210mm]">
         @foreach($pages as $page)
             <div class="print-page bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between {{ !$page['is_last'] ? 'page-break' : '' }}"
-                 style="width: 210mm; height: 297mm; padding: 10mm 15mm; box-sizing: border-box;">
+                 style="width: 210mm; height: 296mm; padding: 10mm 15mm; box-sizing: border-box;">
                 
                 {{-- Centered Watermark --}}
                 <div class="absolute inset-0 z-0 flex justify-center items-center pointer-events-none" style="opacity: 0.15;">
