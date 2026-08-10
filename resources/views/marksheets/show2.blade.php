@@ -149,7 +149,7 @@
                 visibility: visible !important;
                 position: relative !important;
                 width: 210mm !important;
-                height: 297mm !important; /* Set back to standard A4 height now that wrappers are blocked */
+                height: 100vh !important; /* Fit the print page height exactly, regardless of printer margins */
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
                 margin: 0 !important;
