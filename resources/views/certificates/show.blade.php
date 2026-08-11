@@ -187,6 +187,11 @@
             }
 
             @media print {
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
                 body>*:not(#printable-certificate-container) {
                     display: none !important;
                 }
@@ -569,6 +574,11 @@
             }
 
             @media print {
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                }
+
                 body>*:not(#printable-certificate-container) {
                     display: none !important;
                 }
