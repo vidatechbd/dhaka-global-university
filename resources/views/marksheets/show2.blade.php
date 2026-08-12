@@ -73,7 +73,7 @@
     $totalSemesters = count($calculatedSemesters);
     $pages = [];
     
-    if ($totalSemesters <= 3) {
+    if ($totalSemesters <= 5) {
         // Fits on a single page
         $pages[] = [
             'semesters' => $calculatedSemesters,
@@ -82,17 +82,17 @@
             'page_no' => 1
         ];
     } else {
-        // Page 1 gets first 3 semesters
+        // Page 1 gets first 5 semesters
         $pages[] = [
-            'semesters' => array_slice($calculatedSemesters, 0, 3),
+            'semesters' => array_slice($calculatedSemesters, 0, 5),
             'is_first' => true,
             'is_last' => false,
             'page_no' => 1
         ];
         
         // Remaining semesters go to page 2 (and onwards if more chunks)
-        $remaining = array_slice($calculatedSemesters, 3);
-        $chunks = array_chunk($remaining, 4); // 4 semesters per page for subsequent pages
+        $remaining = array_slice($calculatedSemesters, 5);
+        $chunks = array_chunk($remaining, 6); // 6 semesters per page for subsequent pages since there is no profile/grading system header
         foreach ($chunks as $idx => $chunk) {
             $pages[] = [
                 'semesters' => $chunk,
@@ -184,6 +184,171 @@
                 height: auto !important;
                 min-height: 0 !important;
             }
+        /* Compact Layout styles */
+        .compact-page {
+            padding: 6mm 10mm !important;
+        }
+        @media print {
+            .print-page.compact-page {
+                padding: 6mm 10mm !important;
+            }
+        }
+        
+        .compact-page div[style*="border-bottom: 5px double"] {
+            border-bottom: 4px double #072740 !important;
+            padding-bottom: 0.375rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .compact-page div[style*="border-bottom: 5px double"] .w-28 {
+            width: 6rem !important;
+        }
+        .compact-page div[style*="border-bottom: 5px double"] img {
+            height: 3.5rem !important;
+        }
+        .compact-page div[style*="border-bottom: 5px double"] span {
+            margin-top: 3px !important;
+            font-size: 8px !important;
+        }
+        .compact-page div[style*="border-bottom: 5px double"] h1 {
+            font-size: 28px !important;
+            margin-bottom: 0px !important;
+        }
+        .compact-page div[style*="border-bottom: 5px double"] p {
+            font-size: 11px !important;
+            margin-bottom: 0px !important;
+        }
+        .compact-page div[style*="border-bottom: 5px double"] p + p {
+            font-size: 10px !important;
+        }
+        
+        .compact-page .text-center.mb-4 {
+            margin-bottom: 0.5rem !important;
+        }
+        .compact-page h2.text-\[16px\] {
+            font-size: 14px !important;
+            padding-bottom: 0.125rem !important;
+        }
+        
+        .compact-page .flex.justify-between.items-center.gap-4.mb-4 {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .compact-page .student-profile-text,
+        .compact-page .w-\[43\%\].text-\[12px\],
+        .compact-page .w-\[60\%\].text-\[12px\] {
+            font-size: 10.5px !important;
+            line-height: 1.3 !important;
+            padding-top: 0.125rem !important;
+        }
+        .compact-page .student-profile-text .flex,
+        .compact-page .w-\[43\%\].text-\[12px\] .flex,
+        .compact-page .w-\[60\%\].text-\[12px\] .flex {
+            margin-bottom: 0.125rem !important;
+        }
+        .compact-page .student-profile-text span.w-20,
+        .compact-page .w-\[43\%\].text-\[12px\] span.w-20,
+        .compact-page .w-\[60\%\].text-\[12px\] span.w-20 {
+            width: 4rem !important;
+        }
+        
+        .compact-page .w-\[14\%\] img {
+            width: 3.5rem !important;
+            height: 3.5rem !important;
+        }
+        .compact-page .w-\[14\%\] p {
+            font-size: 5px !important;
+        }
+        
+        .compact-page .grading-system-card,
+        .compact-page .border.border-black.p-1.bg-white {
+            padding: 0.125rem !important;
+        }
+        .compact-page .border.border-black.p-1.bg-white h3 {
+            font-size: 8px !important;
+            padding-bottom: 0.125rem !important;
+            margin-bottom: 0.125rem !important;
+        }
+        .compact-page .border.border-black.p-1.bg-white table {
+            font-size: 7px !important;
+        }
+        .compact-page .border.border-black.p-1.bg-white table td,
+        .compact-page .border.border-black.p-1.bg-white table th {
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+        }
+        
+        .compact-page .text-center.mb-3 {
+            margin-bottom: 0.375rem !important;
+        }
+        .compact-page h3.text-\[14px\] {
+            font-size: 11.5px !important;
+        }
+        
+        .compact-page .space-y-4 {
+            gap: 0.5rem !important; /* space-y-2 */
+        }
+        .compact-page .space-y-4 > div {
+            margin-top: 0px !important;
+            margin-bottom: 0.375rem !important;
+        }
+        .compact-page .space-y-4 h4 {
+            font-size: 9px !important;
+            margin-bottom: 0.125rem !important;
+        }
+        .compact-page .space-y-4 table {
+            font-size: 8px !important;
+        }
+        .compact-page .space-y-4 table td,
+        .compact-page .space-y-4 table th {
+            padding-top: 0.125rem !important;
+            padding-bottom: 0.125rem !important;
+        }
+        .compact-page .space-y-4 .flex.justify-end {
+            font-size: 8.5px !important;
+            padding-top: 0.125rem !important;
+            padding-bottom: 0.125rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
+        }
+        
+        .compact-page .mt-4 {
+            margin-top: 0.25rem !important;
+        }
+        .compact-page .mt-4 .flex.justify-between.items-end {
+            padding-bottom: 0.125rem !important;
+        }
+        .compact-page .mt-4 .w-\[50\%\] {
+            font-size: 9.5px !important;
+            line-height: 1.2 !important;
+            width: 45% !important;
+        }
+        .compact-page .mt-4 .w-\[50\%\] span.w-32 {
+            width: 6rem !important;
+        }
+        .compact-page .mt-4 .w-auto .flex-col img {
+            width: 3rem !important;
+            height: 3rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+        .compact-page .mt-4 .w-auto .flex-col p {
+            font-size: 5px !important;
+        }
+        .compact-page .mt-4 .w-auto.text-center.flex.flex-col {
+            font-size: 9px !important;
+        }
+        .compact-page .mt-4 .w-auto.text-center.flex.flex-col .h-10 {
+            height: 1.75rem !important; /* h-7 */
+            margin-bottom: 0.125rem !important;
+        }
+        .compact-page .mt-4 .w-auto.text-center.flex.flex-col span.border-dashed {
+            padding: 0.25rem !important;
+        }
+        .compact-page .text-\[9px\].text-slate-500 {
+            font-size: 8px !important;
+        }
+        .compact-page .text-\[9px\].text-slate-500 span.text-\[10px\] {
+            font-size: 8.5px !important;
         }
     </style>
 </head>
@@ -208,10 +373,15 @@
         </div>
     </div> --}}
 
+    @php
+        $semesterCountOnFirstPage = count($pages[0]['semesters']);
+        $isCompact = $semesterCountOnFirstPage >= 4;
+    @endphp
+
     <!-- Multi-page stack container -->
     <div class="flex flex-col gap-8 no-print:w-[210mm]">
         @foreach($pages as $page)
-            <div class="print-page bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between {{ !$page['is_last'] ? 'page-break' : '' }}"
+            <div class="print-page {{ $isCompact ? 'compact-page' : '' }} bg-white relative shadow-2xl overflow-hidden flex flex-col justify-between {{ !$page['is_last'] ? 'page-break' : '' }}"
                  style="width: 210mm; height: 290mm; padding: 10mm 15mm; box-sizing: border-box;">
                 
                 {{-- Centered Watermark --}}
