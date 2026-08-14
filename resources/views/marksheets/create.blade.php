@@ -335,79 +335,89 @@
         <script>
             let stateSemesters = [
                 {
-                    year: '1ST YEAR',
-                    year_cgp: '4.00',
+                    year: '1ST SEMESTER',
+                    year_cgp: '3.68',
                     courses: [
-                        { code: '21011', title: 'Engineering Drawing', credit: '2', grade: 'A+' },
-                        { code: '25911', title: 'Mathematics-I', credit: '4', grade: 'A+' },
-                        { code: '21711', title: 'Bangla-1', credit: '3', grade: 'A+' },
-                        { code: '21712', title: 'English-1', credit: '3', grade: 'A+' },
-                        { code: '25912', title: 'Physics-I', credit: '4', grade: 'A+' },
-                        { code: '28511', title: 'Computer Office Application', credit: '3', grade: 'A+' }
+                        { code: '21011', title: 'ENGINEERING DRAWING', credit: '3.00', grade: 'A' },
+                        { code: '25911', title: 'MATHEMATICS-I', credit: '4.00', grade: 'A+' },
+                        { code: '21711', title: 'BANGLA-1', credit: '4.00', grade: 'A-' },
+                        { code: '21712', title: 'ENGLISH-1', credit: '3.00', grade: 'A+' },
+                        { code: '25912', title: 'PHYSICS-I', credit: '4.00', grade: 'B' },
+                        { code: '28511', title: 'COMPUTER OFFICE APPLICATION', credit: '3.00', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '2ND YEAR',
-                    year_cgp: '3.90',
+                    year: '2ND SEMESTER',
+                    year_cgp: '3.68',
                     courses: [
-                        { code: '26711', title: 'Basic Electricity', credit: '4', grade: 'A' },
-                        { code: '21012', title: 'Engineering Drawing-II', credit: '2', grade: 'A+' },
-                        { code: '21722', title: 'English-II', credit: '3', grade: 'A+' },
-                        { code: '25812', title: 'Physical Education & Life Skills Development', credit: '2', grade: 'A' }
+                        { code: '26711', title: 'BASIC ELECTRICITY', credit: '4.00', grade: 'A' },
+                        { code: '21012', title: 'ENGINEERING DRAWING-II', credit: '4.00', grade: 'B+' },
+                        { code: '21722', title: 'ENGLISH-II', credit: '4.00', grade: 'A+' },
+                        { code: '25812', title: 'PHYSICAL EDUCATION & LIFE SKILLS DEVELOPMENT', credit: '2.00', grade: 'A' }
                     ]
                 },
                 {
-                    year: '3RD YEAR',
-                    year_cgp: '3.85',
+                    year: '3RD SEMESTER',
+                    year_cgp: '3.64',
                     courses: [
-                        { code: '26631', title: 'Social Science', credit: '2', grade: 'A-' },
-                        { code: '28531', title: 'Web Development', credit: '3', grade: 'A+' },
-                        { code: '28532', title: 'Database Management System', credit: '4', grade: 'A' }
+                        { code: '25922', title: 'PHYSICS-II', credit: '4.00', grade: 'A-' },
+                        { code: '25931', title: 'MATHEMATICS-III', credit: '4.00', grade: 'A' },
+                        { code: '28532', title: 'COMPUTER GRAPHICS DESIGN-II', credit: '4.00', grade: 'B' },
+                        { code: '28533', title: 'IT SUPPORT SERVICES', credit: '4.00', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '4TH YEAR',
-                    year_cgp: '3.80',
+                    year: '4TH SEMESTER',
+                    year_cgp: '3.65',
                     courses: [
-                        { code: '28541', title: 'Object Oriented Programming', credit: '3', grade: 'A' },
-                        { code: '28542', title: 'Data Structure & Algorithm', credit: '4', grade: 'A+' },
-                        { code: '25841', title: 'Business Communication', credit: '2', grade: 'A' }
+                        { code: '28541', title: 'JAVA PROGRAMMING', credit: '4.00', grade: 'B+' },
+                        { code: '28542', title: 'DATA STRUCTURE & ALGORITHM', credit: '4.00', grade: 'A-' },
+                        { code: '28543', title: 'COMPUTER PERIPHERALS & INTERFACING', credit: '4.00', grade: 'A+' },
+                        { code: '28544', title: 'DATA STRUCTURE & ALGORITHM', credit: '4.00', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '5TH YEAR',
-                    year_cgp: '3.95',
+                    year: '5TH SEMESTER',
+                    year_cgp: '3.70',
                     courses: [
-                        { code: '28551', title: 'Software Engineering', credit: '3', grade: 'A+' },
-                        { code: '28552', title: 'Computer Network', credit: '4', grade: 'A+' },
-                        { code: '28553', title: 'Operating System', credit: '3', grade: 'A' }
+                        { code: '28551', title: 'APPLICATION DEVELOPMENT USING JAVA', credit: '4.00', grade: 'A+' },
+                        { code: '28552', title: 'WEB DESIGN & DEVELOPMENT-II', credit: '4.00', grade: 'A+' },
+                        { code: '28553', title: 'COMPUTER ARCHITECTURE & MICROPROCESSOR', credit: '4.00', grade: 'A-' },
+                        { code: '28554', title: 'DATA COMMUNICATION', credit: '4.01', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '6TH YEAR',
-                    year_cgp: '3.90',
+                    year: '6TH SEMESTER',
+                    year_cgp: '3.70',
                     courses: [
-                        { code: '28561', title: 'Web Technology', credit: '3', grade: 'A+' },
-                        { code: '28562', title: 'Microprocessor & Interfacing', credit: '4', grade: 'A' },
-                        { code: '28563', title: 'System Analysis & Design', credit: '3', grade: 'A+' }
+                        { code: '25851', title: 'PRINCIPLES OF MARKETING', credit: '3.00', grade: 'A+' },
+                        { code: '25852', title: 'INDUSTRIAL MANAGEMENT', credit: '2.00', grade: 'B+' },
+                        { code: '25856', title: 'PROJECT WORK-I', credit: '4.00', grade: 'A-' },
+                        { code: '28561', title: 'DATABASE MANAGEMENT SYSTEM', credit: '2.00', grade: 'A' },
+                        { code: '28562', title: 'COMPUTER NETWORKING', credit: '3.00', grade: 'A+' },
+                        { code: '28563', title: 'SENSOR & IOT SYSTEM', credit: '3.00', grade: 'A-' },
+                        { code: '28564', title: 'MICROCONTROLLER BASED SYSTEM DESIGN & DEVELOPMENT', credit: '4.00', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '7TH YEAR',
-                    year_cgp: '4.00',
+                    year: '7TH SEMESTER',
+                    year_cgp: '3.73',
                     courses: [
-                        { code: '28571', title: 'Artificial Intelligence', credit: '3', grade: 'A+' },
-                        { code: '28572', title: 'Network Security', credit: '3', grade: 'A+' },
-                        { code: '28573', title: 'Project & Thesis I', credit: '2', grade: 'A+' }
+                        { code: '25853', title: 'INNOVATION & ENTREPRENEURSHIP', credit: '3.00', grade: 'A-' },
+                        { code: '28571', title: 'DIGITAL MARKETING TECHNIQUE', credit: '4.00', grade: 'A' },
+                        { code: '28572', title: 'NETWORK ADMINISTRATION & SERVICES', credit: '4.00', grade: 'A+' },
+                        { code: '28573', title: 'CYBER SECURITY & ETHICS', credit: '2.00', grade: 'B+' },
+                        { code: '28574', title: 'APPS DEVELOPMENT PROJECT', credit: '3.00', grade: 'A+' },
+                        { code: '28575', title: 'MULTIMEDIA & ANIMATION', credit: '4.00', grade: 'A+' },
+                        { code: '28576', title: 'PROJECT WORK-II', credit: '3.00', grade: 'A+' }
                     ]
                 },
                 {
-                    year: '8TH YEAR',
-                    year_cgp: '4.00',
+                    year: '8TH SEMESTER',
+                    year_cgp: '3.71',
                     courses: [
-                        { code: '28581', title: 'Machine Learning', credit: '3', grade: 'A+' },
-                        { code: '28582', title: 'Cloud Computing', credit: '3', grade: 'A+' },
-                        { code: '28583', title: 'Project & Thesis II', credit: '4', grade: 'A+' }
+                        { code: '28581', title: 'INDUSTRIAL ATTACHMENT', credit: '8.00', grade: 'A-' },
+                        { code: '28582', title: 'PROJECT PRESENTATION', credit: '7.00', grade: 'A' }
                     ]
                 }
             ];

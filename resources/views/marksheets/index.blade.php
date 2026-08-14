@@ -10,7 +10,7 @@
             </h2>
         </x-slot>
 
-        <div class="py-6 max-w-7xl mx-auto">
+        <div class="py-6 container mx-auto">
             <div class="bg-white border border-slate-200 overflow-hidden shadow-sm sm:rounded-2xl p-6">
                 <h3 class="text-lg font-bold text-[#0f172a] mb-4">{{ __('My Issued Marksheets') }}</h3>
                 <div class="overflow-x-auto border border-slate-200 rounded-xl">
@@ -135,7 +135,7 @@
                             <tr class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold tracking-wider">
                                 <th class="px-6 py-4 text-center" style="width: 48px;">#</th>
                                 <th class="px-6 py-4">{{ __('Student Name') }}</th>
-                                {{-- <th class="px-6 py-4">{{ __('Title') }}</th> --}}
+                                <th class="px-6 py-4">{{ __('Title') }}</th>
                                 <th class="px-6 py-4">{{ __('Department') }}</th>
                                 <th class="px-6 py-4 text-center">{{ __('Exam Roll') }}</th>
                                 <th class="px-6 py-4 text-center">{{ __('Result') }}</th>
@@ -149,8 +149,9 @@
                                 <tr class="hover:bg-slate-50/60 transition">
                                     <td class="px-6 py-4 text-center text-slate-400 font-medium" data-label="#">{{ $index + 1 }}
                                     </td>
-                                    {{-- <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{
-                                        $marksheet->student->name ?? $marksheet->student_name }}</td> --}}
+                                    <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">
+                                        {{ $marksheet->student_name ?? ($marksheet->student?->name ?? 'N/A') }}
+                                    </td>
                                     <td class="px-6 py-4 font-semibold text-slate-700" data-label="Title">
                                         {{ $marksheet->title }}</td>
                                     <td class="px-6 py-4 font-semibold text-slate-500" data-label="Department">
