@@ -355,6 +355,60 @@
                         { code: '21722', title: 'English-II', credit: '3', grade: 'A+' },
                         { code: '25812', title: 'Physical Education & Life Skills Development', credit: '2', grade: 'A' }
                     ]
+                },
+                {
+                    year: '3RD YEAR',
+                    year_cgp: '3.85',
+                    courses: [
+                        { code: '26631', title: 'Social Science', credit: '2', grade: 'A-' },
+                        { code: '28531', title: 'Web Development', credit: '3', grade: 'A+' },
+                        { code: '28532', title: 'Database Management System', credit: '4', grade: 'A' }
+                    ]
+                },
+                {
+                    year: '4TH YEAR',
+                    year_cgp: '3.80',
+                    courses: [
+                        { code: '28541', title: 'Object Oriented Programming', credit: '3', grade: 'A' },
+                        { code: '28542', title: 'Data Structure & Algorithm', credit: '4', grade: 'A+' },
+                        { code: '25841', title: 'Business Communication', credit: '2', grade: 'A' }
+                    ]
+                },
+                {
+                    year: '5TH YEAR',
+                    year_cgp: '3.95',
+                    courses: [
+                        { code: '28551', title: 'Software Engineering', credit: '3', grade: 'A+' },
+                        { code: '28552', title: 'Computer Network', credit: '4', grade: 'A+' },
+                        { code: '28553', title: 'Operating System', credit: '3', grade: 'A' }
+                    ]
+                },
+                {
+                    year: '6TH YEAR',
+                    year_cgp: '3.90',
+                    courses: [
+                        { code: '28561', title: 'Web Technology', credit: '3', grade: 'A+' },
+                        { code: '28562', title: 'Microprocessor & Interfacing', credit: '4', grade: 'A' },
+                        { code: '28563', title: 'System Analysis & Design', credit: '3', grade: 'A+' }
+                    ]
+                },
+                {
+                    year: '7TH YEAR',
+                    year_cgp: '4.00',
+                    courses: [
+                        { code: '28571', title: 'Artificial Intelligence', credit: '3', grade: 'A+' },
+                        { code: '28572', title: 'Network Security', credit: '3', grade: 'A+' },
+                        { code: '28573', title: 'Project & Thesis I', credit: '2', grade: 'A+' }
+                    ]
+                },
+                {
+                    year: '8TH YEAR',
+                    year_cgp: '4.00',
+                    courses: [
+                        { code: '28581', title: 'Machine Learning', credit: '3', grade: 'A+' },
+                        { code: '28582', title: 'Cloud Computing', credit: '3', grade: 'A+' },
+                        { code: '28583', title: 'Project & Thesis II', credit: '4', grade: 'A+' }
+                    ]
                 }
             ];
 
