@@ -31,6 +31,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-slate-500">{{ $marksheet->created_at->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right font-medium space-x-3">
                                         <a href="{{ route('marksheets.show', $marksheet) }}" class="text-[#0a3a60] hover:text-[#072740] font-bold">{{ __('View') }}</a>
+                                        
                                         <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank" class="text-[#d97d10] hover:text-[#f7941d] font-bold inline-flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -128,6 +129,9 @@
                                             </a>
                                             <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank" class="inline-flex items-center justify-center p-2 bg-[#fde9d0] hover:bg-[#fad9a8] text-[#d97d10] rounded-lg transition" title="Download PDF">
                                                 <i class="ph-bold ph-download-simple text-xs"></i>
+                                            </a>
+                                            <a href="{{ route('marksheets.edit', $marksheet) }}" class="inline-flex items-center justify-center p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg transition" title="Edit Marksheet">
+                                                <i class="ph-bold ph-pencil text-xs"></i>
                                             </a>
                                             <form action="{{ route('marksheets.destroy', $marksheet) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this marksheet?')">
                                                 @csrf

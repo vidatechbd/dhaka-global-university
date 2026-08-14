@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Marksheets
-    Route::resource('marksheets', MarksheetController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+    Route::resource('marksheets', MarksheetController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
     // Certificates
     Route::resource('certificates', CertificateController::class)->only(['index', 'create', 'store', 'show', 'destroy']);

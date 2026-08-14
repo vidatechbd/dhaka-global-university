@@ -107,6 +107,68 @@ class MarksheetController extends Controller
         return view('marksheets.show', compact('marksheet', 'setting'));
     }
 
+    public function edit(Marksheet $marksheet)
+    {
+        if (! auth()->user()->can('create marksheet')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $setting = UniversitySetting::first() ?? new UniversitySetting([
+            'name' => 'Dhaka Global University',
+            'address' => 'Purbachal Model Town, Uttara, Dhaka, Bangladesh',
+            'contacts' => [['type' => 'Email', 'value' => 'contact@dhakaglobal.university']],
+        ]);
+
+        $students = User::role('Student')->where('status', 'active')->get();
+
+        return view('marksheets.edit', compact('marksheet', 'students', 'setting'));
+    }
+
+    public function update(Request $request, Marksheet $marksheet)
+    {
+        if (! auth()->user()->can('create marksheet')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'student_id' => 'nullable|exists:users,id',
+            'student_name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'department' => 'nullable|string|max:255',
+            'father_name' => 'nullable|string|max:255',
+            'mother_name' => 'nullable|string|max:255',
+            'course_name' => 'nullable|string|max:255',
+            'exam_roll' => 'nullable|string|max:255',
+            'reg_no' => 'nullable|string|max:255',
+            'session' => 'nullable|string|max:255',
+            'credit_completed' => 'nullable|string|max:255',
+            'credit_total' => 'nullable|string|max:255',
+            'result' => 'nullable|string|max:255',
+            'date_of_issue' => 'nullable|date',
+            'result_published' => 'nullable|date',
+            'semesters' => 'nullable',
+        ]);
+
+        if ($request->student_id) {
+            $student = User::findOrFail($request->student_id);
+            if (! $student->hasRole('Student') || $student->status !== 'active') {
+                return redirect()->back()->with('error', 'Invalid student selected.');
+            }
+        }
+
+        if (is_string($request->semesters)) {
+            $validated['semesters'] = json_decode($request->semesters, true);
+        }
+
+        $validated['date_of_issue'] = $request->input('date_of_issue') ?: now()->format('Y-m-d');
+        $validated['result_published'] = $request->input('result_published') ?: now()->format('Y-m-d');
+
+        $marksheet->update($validated);
+
+        return redirect()->route('marksheets.index')->with('success', 'Academic transcript/marksheet updated successfully.');
+    }
+
     public function verify(Request $request, Marksheet $marksheet)
     {
         $setting = UniversitySetting::first() ?? new UniversitySetting([
