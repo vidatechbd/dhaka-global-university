@@ -26,15 +26,20 @@
                         <tbody class="divide-y divide-slate-100 text-slate-700 text-sm">
                             @forelse($marksheets as $marksheet)
                                 <tr class="hover:bg-slate-50 transition">
-                                    <td class="px-6 py-4 whitespace-nowrap font-semibold text-[#0f172a]">{{ $marksheet->title }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap font-semibold text-[#0f172a]">{{ $marksheet->title }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-slate-500">{{ $marksheet->creator->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-slate-500">{{ $marksheet->created_at->format('M d, Y') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-slate-500">
+                                        {{ $marksheet->created_at->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right font-medium space-x-3">
-                                        <a href="{{ route('marksheets.show', $marksheet) }}" class="text-[#0a3a60] hover:text-[#072740] font-bold">{{ __('View') }}</a>
-                                        
-                                        <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank" class="text-[#d97d10] hover:text-[#f7941d] font-bold inline-flex items-center gap-1">
+                                        <a href="{{ route('marksheets.show', $marksheet) }}"
+                                            class="text-[#0a3a60] hover:text-[#072740] font-bold">{{ __('View') }}</a>
+
+                                        <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank"
+                                            class="text-[#d97d10] hover:text-[#f7941d] font-bold inline-flex items-center gap-1">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                                             </svg>
                                             {{ __('Download') }}
                                         </a>
@@ -42,7 +47,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">{{ __('No marksheets found.') }}</td>
+                                    <td colspan="4" class="px-6 py-8 text-center text-slate-500 italic">
+                                        {{ __('No marksheets found.') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -54,9 +60,23 @@
         <!-- Admin / Teacher Full Width Marksheet & Transcript Page -->
         <style>
             @media print {
-                body * { visibility: hidden; }
-                #sidebar, header, #form-section, .no-print, nav { display: none !important; }
-                #marksheet-section, #marksheet-section * { visibility: visible; }
+                body * {
+                    visibility: hidden;
+                }
+
+                #sidebar,
+                header,
+                #form-section,
+                .no-print,
+                nav {
+                    display: none !important;
+                }
+
+                #marksheet-section,
+                #marksheet-section * {
+                    visibility: visible;
+                }
+
                 #marksheet-section {
                     position: absolute;
                     left: 0;
@@ -67,26 +87,39 @@
                     box-shadow: none;
                     border: none;
                 }
-                body { background-color: white; }
-                @page { size: A4 portrait; margin: 15mm; }
-                .print-border { border-color: #000 !important; }
+
+                body {
+                    background-color: white;
+                }
+
+                @page {
+                    size: A4 portrait;
+                    margin: 15mm;
+                }
+
+                .print-border {
+                    border-color: #000 !important;
+                }
             }
         </style>
 
         <div class="flex flex-col gap-6 w-full">
             @if(session('success'))
-                <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-semibold rounded-r-lg shadow-sm">
+                <div
+                    class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-semibold rounded-r-lg shadow-sm">
                     {{ session('success') }}
                 </div>
             @endif
             @if(session('error'))
-                <div class="p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-700 text-xs font-semibold rounded-r-lg shadow-sm">
+                <div
+                    class="p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-700 text-xs font-semibold rounded-r-lg shadow-sm">
                     {{ session('error') }}
                 </div>
             @endif
 
             <!-- Generated Marksheets List Table (Full Width) -->
-            <x-admin.card title="All Generated Marksheets" subtitle="Every academic transcript generated on the portal." icon="ph-bold ph-student">
+            <x-admin.card title="All Generated Marksheets" subtitle="Every academic transcript generated on the portal."
+                icon="ph-bold ph-student">
                 <x-slot name="actions">
                     <div class="flex flex-wrap items-center gap-2">
                         <x-admin.btn href="{{ route('marksheets.create') }}" variant="primary" size="sm">
@@ -102,41 +135,65 @@
                             <tr class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold tracking-wider">
                                 <th class="px-6 py-4 text-center" style="width: 48px;">#</th>
                                 <th class="px-6 py-4">{{ __('Student Name') }}</th>
-                                <th class="px-6 py-4">{{ __('Title') }}</th>
+                                {{-- <th class="px-6 py-4">{{ __('Title') }}</th> --}}
                                 <th class="px-6 py-4">{{ __('Department') }}</th>
                                 <th class="px-6 py-4 text-center">{{ __('Exam Roll') }}</th>
                                 <th class="px-6 py-4 text-center">{{ __('Result') }}</th>
                                 <th class="px-6 py-4 text-center">{{ __('Status') }}</th>
+                                <th class="px-6 py-4 text-center">{{ __('Updated') }}</th>
                                 <th class="px-6 py-4 text-right">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-xs text-slate-600">
                             @forelse($marksheets as $index => $marksheet)
                                 <tr class="hover:bg-slate-50/60 transition">
-                                    <td class="px-6 py-4 text-center text-slate-400 font-medium" data-label="#">{{ $index + 1 }}</td>
-                                    <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{ $marksheet->student->name ?? $marksheet->student_name }}</td>
-                                    <td class="px-6 py-4 font-semibold text-slate-700" data-label="Title">{{ $marksheet->title }}</td>
-                                    <td class="px-6 py-4 font-semibold text-slate-500" data-label="Department">{{ $marksheet->department ?: 'CSE' }}</td>
-                                    <td class="px-6 py-4 text-center font-mono text-slate-500" data-label="Exam Roll">{{ $marksheet->exam_roll ?: (46437 + $index) }}</td>
-                                    <td class="px-6 py-4 text-center font-bold text-slate-800" data-label="Result">{{ $marksheet->result ?: '3.96' }}</td>
+                                    <td class="px-6 py-4 text-center text-slate-400 font-medium" data-label="#">{{ $index + 1 }}
+                                    </td>
+                                    {{-- <td class="px-6 py-4 font-bold text-slate-800" data-label="Student Name">{{
+                                        $marksheet->student->name ?? $marksheet->student_name }}</td> --}}
+                                    <td class="px-6 py-4 font-semibold text-slate-700" data-label="Title">
+                                        {{ $marksheet->title }}</td>
+                                    <td class="px-6 py-4 font-semibold text-slate-500" data-label="Department">
+                                        {{ $marksheet->department ?: 'CSE' }}</td>
+                                    <td class="px-6 py-4 text-center font-mono text-slate-500" data-label="Exam Roll">
+                                        {{ $marksheet->exam_roll ?: (46437 + $index) }}</td>
+                                    <td class="px-6 py-4 text-center font-bold text-slate-800" data-label="Result">
+                                        {{ $marksheet->result ?: '3.96' }}</td>
                                     <td class="px-6 py-4 text-center" data-label="Status">
                                         <x-admin.badge color="navy">Generated</x-admin.badge>
                                     </td>
+                                    <td class="px-6 py-4 text-center whitespace-nowrap" data-label="Updated">
+                                        @if($marksheet->created_at->eq($marksheet->updated_at))
+                                            <x-admin.badge color="amber">No</x-admin.badge>
+                                        @else
+                                            <x-admin.badge color="green">{{ $marksheet->updated_at->diffForHumans() }}</x-admin.badge>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 text-right whitespace-nowrap" data-label="">
                                         <div class="inline-flex items-center gap-1.5 justify-end">
-                                            <a href="{{ route('marksheets.show', $marksheet) }}" class="inline-flex items-center justify-center p-2 bg-[#e0edf7] hover:bg-[#d0e2f2] text-primary rounded-lg transition" title="View Transcript">
+                                            <a href="{{ route('marksheets.show', $marksheet) }}"
+                                                class="inline-flex items-center justify-center p-2 bg-[#e0edf7] hover:bg-[#d0e2f2] text-primary rounded-lg transition"
+                                                title="View Transcript">
                                                 <i class="ph-bold ph-eye text-xs"></i>
                                             </a>
-                                            <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank" class="inline-flex items-center justify-center p-2 bg-[#fde9d0] hover:bg-[#fad9a8] text-[#d97d10] rounded-lg transition" title="Download PDF">
+                                            <a href="{{ route('marksheets.show', $marksheet) }}?print=true" target="_blank"
+                                                class="inline-flex items-center justify-center p-2 bg-[#fde9d0] hover:bg-[#fad9a8] text-[#d97d10] rounded-lg transition"
+                                                title="Download PDF">
                                                 <i class="ph-bold ph-download-simple text-xs"></i>
                                             </a>
-                                            <a href="{{ route('marksheets.edit', $marksheet) }}" class="inline-flex items-center justify-center p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg transition" title="Edit Marksheet">
+                                            <a href="{{ route('marksheets.edit', $marksheet) }}"
+                                                class="inline-flex items-center justify-center p-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg transition"
+                                                title="Edit Marksheet">
                                                 <i class="ph-bold ph-pencil text-xs"></i>
                                             </a>
-                                            <form action="{{ route('marksheets.destroy', $marksheet) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this marksheet?')">
+                                            <form action="{{ route('marksheets.destroy', $marksheet) }}" method="POST"
+                                                class="inline"
+                                                onsubmit="return confirm('Are you sure you want to delete this marksheet?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center justify-center p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition" title="Delete Marksheet">
+                                                <button type="submit"
+                                                    class="inline-flex items-center justify-center p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition"
+                                                    title="Delete Marksheet">
                                                     <i class="ph-bold ph-trash text-xs"></i>
                                                 </button>
                                             </form>
@@ -147,11 +204,14 @@
                                 <tr>
                                     <td colspan="8" data-label="" class="px-6 py-14 text-center">
                                         <div class="flex flex-col items-center justify-center gap-2">
-                                            <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                                            <div
+                                                class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
                                                 <i class="ph-bold ph-student text-2xl"></i>
                                             </div>
-                                            <span class="text-sm font-medium text-slate-500">{{ __('No marksheets generated yet.') }}</span>
-                                            <x-admin.btn href="{{ route('marksheets.create') }}" variant="primary" size="sm" class="mt-1">
+                                            <span
+                                                class="text-sm font-medium text-slate-500">{{ __('No marksheets generated yet.') }}</span>
+                                            <x-admin.btn href="{{ route('marksheets.create') }}" variant="primary" size="sm"
+                                                class="mt-1">
                                                 Generate your first marksheet
                                             </x-admin.btn>
                                         </div>
