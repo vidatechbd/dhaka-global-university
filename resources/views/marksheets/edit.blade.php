@@ -127,7 +127,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Credits Completed</label>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Required Credits</label>
                         <input type="text" name="credit_total" value="{{ old('credit_total', $marksheet->credit_total) }}" oninput="updateTranscriptPreview()" id="input-credit-total" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 

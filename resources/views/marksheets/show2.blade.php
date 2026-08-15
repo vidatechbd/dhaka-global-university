@@ -63,9 +63,9 @@
         ];
     }
 
-    // Overall summary fallbacks
-    $requiredCredits = $marksheet->credit_total ?: 153;
-    $creditsCompleted = $marksheet->credit_completed ?: $totalCreditsSum;
+    // Overall summary values
+    $requiredCredits = $marksheet->credit_total;
+    $creditsCompleted = $marksheet->credit_completed;
     $finalCGPA = $marksheet->result ?: (count($calculatedSemesters) > 0 ? end($calculatedSemesters)['cgpa'] : '0.00');
     $dateOfIssue = $marksheet->date_of_issue ? $marksheet->date_of_issue->format('d M Y') : "";
 
@@ -570,16 +570,20 @@
                             <!-- Left Block: Final GPA/CGPA summary (Last Page Only) -->
                             <div class="w-[50%] text-[11px] leading-[1.3] space-y-0.5">
                                 @if($page['is_last'])
-                                    <div class="flex">
-                                        <span class="w-32 font-bold">Required Credits</span>
-                                        <span class="w-4 font-bold">:</span>
-                                        <span class="font-bold">{{ $requiredCredits }}</span>
-                                    </div>
-                                    <div class="flex">
-                                        <span class="w-32 font-bold">Credits Completed</span>
-                                        <span class="w-4 font-bold">:</span>
-                                        <span class="font-bold">{{ $creditsCompleted }}</span>
-                                    </div>
+                                    @if($requiredCredits !== null && $requiredCredits !== '')
+                                        <div class="flex">
+                                            <span class="w-32 font-bold">Required Credits</span>
+                                            <span class="w-4 font-bold">:</span>
+                                            <span class="font-bold">{{ $requiredCredits }}</span>
+                                        </div>
+                                    @endif
+                                    @if($creditsCompleted !== null && $creditsCompleted !== '')
+                                        <div class="flex">
+                                            <span class="w-32 font-bold">Credits Completed</span>
+                                            <span class="w-4 font-bold">:</span>
+                                            <span class="font-bold">{{ $creditsCompleted }}</span>
+                                        </div>
+                                    @endif
                                     <div class="flex">
                                         <span class="w-32 font-bold">CGPA</span>
                                         <span class="w-4 font-bold">:</span>
