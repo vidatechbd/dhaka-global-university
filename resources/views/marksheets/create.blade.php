@@ -121,8 +121,13 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Credit (Completed/Total)</label>
-                        <input type="text" name="credit_completed" value="" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Credits Completed</label>
+                        <input type="text" name="credit_completed" value="{{ old('credit_completed') }}" oninput="updateTranscriptPreview()" id="input-credit" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-1">Required Credits</label>
+                        <input type="text" name="credit_total" value="{{ old('credit_total') }}" oninput="updateTranscriptPreview()" id="input-credit-total" class="w-full bg-white border border-slate-300 text-slate-800 rounded-lg px-4 py-2.5 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-xs font-semibold">
                     </div>
 
                     <div>
@@ -447,7 +452,9 @@
                 document.getElementById('preview-reg').textContent = document.getElementById('input-reg').value || '';
                 document.getElementById('preview-session').textContent = document.getElementById('input-session').value || '';
                 document.getElementById('preview-dept').textContent = document.getElementById('input-dept').value || '';
-                document.getElementById('preview-credit').textContent = document.getElementById('input-credit').value || '';
+                const compVal = document.getElementById('input-credit').value || '';
+                const totVal = document.getElementById('input-credit-total').value || '';
+                document.getElementById('preview-credit').textContent = compVal + (totVal ? '/' + totVal : '');
                 document.getElementById('preview-result').textContent = document.getElementById('input-result').value || '';
                 document.getElementById('preview-date-of-issue').textContent = formatPreviewDate(document.getElementById('input-date-of-issue').value);
                 document.getElementById('preview-result-published').textContent = formatPreviewDate(document.getElementById('input-result-published').value);
