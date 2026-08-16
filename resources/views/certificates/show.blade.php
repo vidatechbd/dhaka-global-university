@@ -169,9 +169,8 @@
             }
 
             .fill-in-line {
-                display: inline-block;
                 border-bottom: 2px solid #000;
-                padding: 0 6px;
+                padding: 0 2px;
                 font-weight: 900;
             }
 
@@ -288,14 +287,14 @@
                                     <p class="text-krinah text-[26px] leading-[2.3] m-0 uppercase">
                                         HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
                                         OF {{ strtoupper($certificate->subject) }}<span
-                                            class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
-                                            class="fill-in-line text-base/none font-mono text-[23px !important]">{{ $certificate->roll }}</span><span class="text-base/none font-mono">.</span>
+                                            class="font-sans">.</span> BEARING ROLL NO IS <span
+                                            class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->roll }}</span><span class="font-sans">.</span>
                                         HE SECURED
                                         CGPA <span
-                                            class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->cgpa }}</span> ON
+                                            class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->cgpa }}</span> ON
                                         A SCALE OF <span
-                                            class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->out_of }}</span><span
-                                            class="text-base/none font-mono">.</span>
+                                            class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->out_of }}</span><span
+                                            class="font-sans">.</span>
                                     </p>
                                 </div>
                             </section>
@@ -556,9 +555,8 @@
             }
 
             .fill-in-line {
-                display: inline-block;
                 border-bottom: 2px solid #000;
-                padding: 0 6px;
+                padding: 0 2px;
                 font-weight: 900;
             }
 
@@ -683,14 +681,14 @@
                                 <p class="text-krinah text-[26px] leading-[2.3] m-0 uppercase">
                                     HAS FULFILLED ALL REQUIREMENTS FOR THE DEGREE
                                     OF {{ strtoupper($certificate->subject) }}<span
-                                        class="text-base/none font-mono">.</span> BEARING ROLL NO IS <span
-                                        class="fill-in-line text-base/none font-mono text-[23px !important]">{{ $certificate->roll }}</span><span class="text-base/none font-mono">.</span>
+                                        class="font-sans">.</span> BEARING ROLL NO IS <span
+                                        class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->roll }}</span><span class="font-sans">.</span>
                                     HE SECURED
                                     CGPA <span
-                                        class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->cgpa }}</span> ON
+                                        class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->cgpa }}</span> ON
                                     A SCALE OF <span
-                                        class="fill-in-line text-base/none font-mono text-[23px]">{{ $certificate->out_of }}</span><span
-                                        class="text-base/none font-mono">.</span>
+                                        class="fill-in-line font-sans font-extrabold text-[21px]">{{ $certificate->out_of }}</span><span
+                                        class="font-sans">.</span>
                                 </p>
                             </div>
                         </section>
